@@ -150,8 +150,8 @@
   .about-image {
     overflow: hidden;
     border-radius: $border-radius-lg;
-    max-width: 350px;
-    margin: 0 auto; 
+    max-width: 350px; // <-- This is the change to make the image smaller
+    margin: 0 auto; // Center the image container within the grid column
 
     &-inner {
       position: relative;
@@ -167,7 +167,7 @@
           left: 0;
           height: 0.625rem;
           width: 2.5rem;
-          animation: ledgerleftright 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          animation: ledgerleftright 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
           background-image: linear-gradient(to right, transparent, $green);
         }
 
@@ -176,7 +176,7 @@
           right: 0;
           height: 0.625rem;
           width: 2.5rem;
-          animation: ledgerrightleft 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          animation: ledgerrightleft 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
           background-image: linear-gradient(to right, $green, transparent);
         }
 
@@ -185,7 +185,7 @@
           top: auto;
           height: 2.5rem;
           width: 0.625rem;
-          animation: ledgerbottomtop 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          animation: ledgerbottomtop 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
           background-image: linear-gradient(to top, transparent, $green);
         }
 
@@ -194,7 +194,7 @@
           top: auto;
           height: 2.5rem;
           width: 0.625rem;
-          animation: ledgertopbottom 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+          animation: ledgertopbottom 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
           background-image: linear-gradient(to bottom, transparent, $green);
         }
       }
