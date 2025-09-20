@@ -1,7 +1,7 @@
 // Main SCSS entry point
-// Import order is important - abstracts first, then base, then components
+// Import order is important - @use rules must come first
 
-// 1. Abstracts (variables, mixins, functions)
+// 1. Abstracts (variables, mixins, functions) - MUST BE FIRST
 @use 'abstracts';
 
 // 2. Base styles (reset, typography, global styles)
@@ -12,3 +12,6 @@
 
 // 4. Components
 @use 'components';
+
+// 5. Tailwind CSS (imported last to override when needed)
+@import './tailwind.css';

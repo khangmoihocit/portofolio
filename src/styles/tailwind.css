@@ -1,0 +1,150 @@
+/* Tailwind CSS directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Tailwind components để tích hợp với SCSS */
+@layer components {
+  /* Button variants sử dụng Tailwind */
+  .btn-tailwind {
+    @apply px-6 py-3 rounded-sm font-semibold uppercase tracking-wide transition-all duration-300 relative overflow-hidden;
+  }
+  
+  .btn-primary-tw {
+    @apply bg-green-custom text-navy hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-custom focus:ring-offset-2;
+  }
+  
+  .btn-secondary-tw {
+    @apply bg-transparent text-white-custom border-2 border-green-custom hover:bg-green-custom hover:text-navy;
+  }
+  
+  .btn-outline-tw {
+    @apply bg-transparent text-green-custom border-2 border-green-custom hover:bg-green-custom hover:text-navy;
+  }
+
+  /* Card components */
+  .card-tw {
+    @apply bg-navy/80 backdrop-blur-sm border border-slate/20 rounded-lg p-6 transition-all duration-300 hover:border-green-custom/50 hover:shadow-lg hover:shadow-green-custom/10;
+  }
+
+  /* Container utility */
+  .container-tw {
+    @apply max-w-7xl mx-auto px-4 tablet:px-6 desktop:px-8;
+  }
+
+  /* Text utilities */
+  .text-gradient {
+    @apply bg-gradient-to-r from-green-custom to-light-slate bg-clip-text text-transparent;
+  }
+
+  /* Glassmorphism effect */
+  .glass-effect {
+    @apply bg-white-custom/10 backdrop-blur-md border border-white-custom/20 shadow-xl;
+  }
+
+  /* Hover animations */
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-2;
+  }
+
+  .hover-scale {
+    @apply transition-transform duration-300 hover:scale-105;
+  }
+
+  /* Loading spinner */
+  .spinner {
+    @apply animate-spin rounded-full border-2 border-slate border-t-green-custom;
+  }
+
+  /* Floating action button */
+  .fab {
+    @apply fixed bottom-8 right-8 w-14 h-14 bg-green-custom text-navy rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center hover:scale-110 z-modal;
+  }
+
+  /* Notification styles */
+  .notification {
+    @apply fixed top-4 right-4 p-4 rounded-lg shadow-lg z-tooltip transition-all duration-500 transform;
+  }
+
+  .notification-success {
+    @apply bg-green-custom/90 text-navy backdrop-blur-sm;
+  }
+
+  .notification-error {
+    @apply bg-red-500/90 text-white backdrop-blur-sm;
+  }
+
+  .notification-info {
+    @apply bg-blue-500/90 text-white backdrop-blur-sm;
+  }
+
+  /* Form styles */
+  .input-tw {
+    @apply w-full px-4 py-3 bg-navy/50 border border-slate/30 rounded-lg text-white-custom placeholder-slate focus:outline-none focus:border-green-custom focus:ring-1 focus:ring-green-custom transition-all duration-300;
+  }
+
+  .textarea-tw {
+    @apply w-full px-4 py-3 bg-navy/50 border border-slate/30 rounded-lg text-white-custom placeholder-slate focus:outline-none focus:border-green-custom focus:ring-1 focus:ring-green-custom transition-all duration-300 resize-none;
+  }
+
+  /* Section spacing */
+  .section-padding {
+    @apply py-20 tablet:py-16 mobile:py-12;
+  }
+
+  /* Animated underline */
+  .animated-underline {
+    @apply relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-green-custom after:transition-all after:duration-300 hover:after:w-full;
+  }
+}
+
+/* Custom utilities */
+@layer utilities {
+  /* Scrollbar styling */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.slate') theme('colors.navy');
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: theme('colors.navy');
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: theme('colors.slate');
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.light-slate');
+  }
+
+  /* Text selection */
+  .selection-green {
+    selection-bg: theme('colors.green-custom');
+    selection-color: theme('colors.navy');
+  }
+
+  /* Hide scrollbar */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Clip path utilities */
+  .clip-triangle {
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+
+  .clip-arrow {
+    clip-path: polygon(40% 0%, 40% 20%, 100% 20%, 100% 80%, 40% 80%, 40% 100%, 0% 50%);
+  }
+}
