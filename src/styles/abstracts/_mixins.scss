@@ -1,0 +1,147 @@
+@use 'variables' as *;
+
+// Responsive Breakpoints
+@mixin mobile {
+  @media (max-width: #{$breakpoint-mobile}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: #{$breakpoint-tablet}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$breakpoint-desktop}) {
+    @content;
+  }
+}
+
+@mixin large {
+  @media (min-width: #{$breakpoint-large}) {
+    @content;
+  }
+}
+
+// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center {
+  @include flex-column;
+  align-items: center;
+  justify-content: center;
+}
+
+// Button mixins
+@mixin button-reset {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+@mixin button-base {
+  @include button-reset;
+  font-family: $font-family-primary;
+  font-weight: $font-weight-semibold;
+  border-radius: $border-radius-sm;
+  transition: all $transition-medium;
+  outline: none;
+  
+  &:focus {
+    outline: 2px solid $green;
+    outline-offset: 2px;
+  }
+}
+
+// Slide animation mixin
+@mixin slide-from-top {
+  transform: translateY(-100%);
+  transition: transform $transition-medium;
+  
+  &.active {
+    transform: translateY(0);
+  }
+}
+
+@mixin slide-from-bottom {
+  transform: translateY(100%);
+  transition: transform $transition-medium;
+  
+  &.active {
+    transform: translateY(0);
+  }
+}
+
+// Text styles
+@mixin heading-primary {
+  color: $white;
+  font-weight: $font-weight-bold;
+  line-height: 1.2;
+}
+
+@mixin text-primary {
+  color: $white;
+  font-weight: $font-weight-medium;
+}
+
+@mixin text-secondary {
+  color: $light-slate;
+  font-weight: $font-weight-normal;
+}
+
+@mixin text-muted {
+  color: $slate;
+  font-weight: $font-weight-normal;
+}
+
+// Container
+@mixin container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+  
+  @include tablet {
+    padding: 0 $spacing-lg;
+  }
+  
+  @include desktop {
+    padding: 0 $spacing-xl;
+  }
+}
+
+// Hover effects
+@mixin hover-lift {
+  transition: transform $transition-fast;
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+@mixin hover-scale {
+  transition: transform $transition-fast;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}

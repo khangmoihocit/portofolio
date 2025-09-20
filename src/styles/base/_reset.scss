@@ -1,0 +1,125 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-family-primary;
+  background-color: $navy;
+  color: $slate;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  @include heading-primary;
+  margin-bottom: $spacing-md;
+}
+
+h1 {
+  font-size: $font-size-xxlarge;
+  
+  @include tablet {
+    font-size: $font-size-xlarge;
+  }
+}
+
+h2 {
+  font-size: $font-size-xlarge;
+  
+  @include tablet {
+    font-size: $font-size-large;
+  }
+}
+
+h3 {
+  font-size: $font-size-large;
+}
+
+h4 {
+  font-size: $font-size-medium;
+}
+
+p {
+  margin-bottom: $spacing-md;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color $transition-fast;
+  
+  &:hover {
+    color: $green;
+  }
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button {
+  @include button-reset;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+// Selection styles
+::selection {
+  background-color: $green;
+  color: $navy;
+}
+
+::-moz-selection {
+  background-color: $green;
+  color: $navy;
+}
+
+// Scrollbar styles
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: $navy;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $slate;
+  border-radius: 4px;
+  
+  &:hover {
+    background: $light-slate;
+  }
+}
+
+// Focus outline
+:focus {
+  outline: 2px solid $green;
+  outline-offset: 2px;
+}
+
+// Remove focus outline for mouse users
+:focus:not(:focus-visible) {
+  outline: none;
+}

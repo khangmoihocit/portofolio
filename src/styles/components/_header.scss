@@ -1,0 +1,191 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+@use 'sass:color';
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 50px;
+  height: 100px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  transition: all $transition-fast;
+
+  @include tablet {
+    padding: 0 $spacing-lg;
+    height: 80px;
+  }
+
+  @include mobile {
+    padding: 0 $spacing-md;
+    height: 70px;
+  }
+
+  &--scrolled {
+    background-color: rgba(15, 23, 42, 0.95);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  &__logo {
+    font-size: 28px;
+    font-weight: $font-weight-bold;
+    color: $green;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    @include tablet {
+      font-size: 24px;
+    }
+
+    @include mobile {
+      font-size: 20px;
+    }
+
+    &:hover {
+      color: color.scale($green, $lightness: 10%);
+    }
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+
+    @include tablet {
+      gap: $spacing-lg;
+    }
+
+    @include mobile {
+      display: none; // Hide on mobile, add mobile menu later
+    }
+  }
+
+  &__nav-link {
+    position: relative;
+    font-size: 15px;
+    cursor: pointer;
+    color: $light-slate;
+    padding-bottom: 5px;
+    text-decoration: none;
+    transition: color $transition-fast;
+
+    @include tablet {
+      font-size: 14px;
+    }
+
+    &__number {
+      color: $green;
+      margin-right: 5px;
+      font-weight: $font-weight-medium;
+    }
+
+    /* Gạch chân bên dưới */
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: $green;
+      transition: width $transition-fast;
+    }
+
+    /* Khi hover hoặc active */
+    &:hover,
+    &.active {
+      color: $green;
+
+      &::after {
+        width: 100%;
+      }
+    }
+
+    &:focus {
+      outline: 2px solid $green;
+      outline-offset: 4px;
+    }
+  }
+
+  // Mobile menu toggle (for future implementation)
+  &__mobile-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    padding: $spacing-sm;
+
+    @include mobile {
+      display: flex;
+    }
+
+    &__bar {
+      width: 25px;
+      height: 2px;
+      background-color: $light-slate;
+      transition: all $transition-fast;
+
+      &:nth-child(1) {
+        transform-origin: top left;
+      }
+
+      &:nth-child(3) {
+        transform-origin: bottom left;
+      }
+    }
+
+    &--open {
+      .header__mobile-toggle__bar {
+        &:nth-child(1) {
+          transform: rotate(45deg) translate(0, -1px);
+        }
+
+        &:nth-child(2) {
+          opacity: 0;
+        }
+
+        &:nth-child(3) {
+          transform: rotate(-45deg) translate(0, 1px);
+        }
+      }
+    }
+  }
+
+  // Mobile menu (for future implementation)
+  &__mobile-menu {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background-color: rgba(15, 23, 42, 0.98);
+    backdrop-filter: blur(20px);
+    padding: $spacing-xl $spacing-md;
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all $transition-medium;
+
+    &--open {
+      transform: translateY(0);
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .header__nav {
+      flex-direction: column;
+      gap: $spacing-lg;
+      align-items: flex-start;
+    }
+
+    .header__nav-link {
+      font-size: $font-size-medium;
+      padding: $spacing-sm 0;
+    }
+  }
+}

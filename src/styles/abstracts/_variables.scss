@@ -1,0 +1,52 @@
+// Color Variables
+$navy: #0F172A;       // Nền tối
+$light-slate: #BFBECB; // Màu chữ phụ
+$slate: #a0a0a0;      // Màu chữ thường
+$white: #E6F1FF;      // Màu chữ chính
+$green: #72E2AE;      // Màu accent
+
+// Font Variables
+$font-family-primary: 'Radio Canada', sans-serif;
+
+// Font Sizes
+$font-size-small: 14px;
+$font-size-base: 16px;
+$font-size-medium: 18px;
+$font-size-large: 24px;
+$font-size-xlarge: 32px;
+$font-size-xxlarge: 48px;
+
+// Font Weights
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-xxl: 48px;
+
+// Border Radius
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+
+// Breakpoints
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+$breakpoint-large: 1200px;
+
+// Transitions
+$transition-fast: 0.2s ease-in-out;
+$transition-medium: 0.4s ease-in-out;
+$transition-slow: 0.6s ease-in-out;
+
+// Z-index
+$z-index-dropdown: 100;
+$z-index-modal: 1000;
+$z-index-tooltip: 2000;

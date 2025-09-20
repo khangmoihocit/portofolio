@@ -1,0 +1,14 @@
+// Main SCSS entry point
+// Import order is important - abstracts first, then base, then components
+
+// 1. Abstracts (variables, mixins, functions)
+@use 'abstracts';
+
+// 2. Base styles (reset, typography, global styles)
+@use 'base';
+
+// 3. Layout styles
+@use 'layout';
+
+// 4. Components
+@use 'components';
