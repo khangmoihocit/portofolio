@@ -3,7 +3,7 @@ import React from 'react';
 import Header from './components/Header/Header';
 import Hero from './components/Hero/Hero';
 // Import các component khác ở đây khi bạn tạo chúng
-// import About from './components/About/About';
+import About from './components/About/About';
 // import Services from './components/Services/Services';
 // import Portfolio from './components/Portfolio/Portfolio';
 // import Contact from './components/Contact/Contact';
@@ -15,7 +15,7 @@ function App() {
       <Header />
       <main className="main-container">
         <Hero />
-        {/* <About /> */}
+        <About />
         {/* <Services /> */}
         {/* <Portfolio /> */}
         {/* <Contact /> */}

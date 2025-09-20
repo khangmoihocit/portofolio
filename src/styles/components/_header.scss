@@ -8,7 +8,7 @@
   align-items: center;
   padding: 0 50px;
   height: 100px;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -16,6 +16,8 @@
   backdrop-filter: blur(10px);
   z-index: 1000;
   transition: all $transition-fast;
+
+ 
 
   @include tablet {
     padding: 0 $spacing-lg;
@@ -188,4 +190,18 @@
       padding: $spacing-sm 0;
     }
   }
+}
+
+ .fixedHeader {
+    position: fixed;
+    top: -83px;
+    z-index: 99;
+
+    // background-color: #ffffffe6;
+    box-shadow: 2px 0 12px 0 rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+
+    transform: translateY(83px);
+    transition: transform 0.7s ease;
 }
