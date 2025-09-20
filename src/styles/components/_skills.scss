@@ -1,5 +1,6 @@
 @use '../abstracts/variables' as *;
 @use '../abstracts/mixins' as *;
+@use 'sass:color';
 
 // Keyframe cho animation của thanh progress
 @keyframes progress-animation {
@@ -99,8 +100,8 @@
   }
 
   .card {
-    background-color: lighten($navy, 5%);
-    border: 1px solid lighten($navy, 10%);
+    background-color: color.adjust($navy, $lightness: 5%);
+    border: 1px solid color.adjust($navy, $lightness: 10%);
     border-radius: $border-radius-lg;
     transition: all $transition-medium;
   }
