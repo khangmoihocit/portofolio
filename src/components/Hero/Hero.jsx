@@ -56,8 +56,8 @@ const Hero = () => {
             className="hero__animated-text"
             sequence={[
               'Khang.', 1000, 
-              'a frontend developer.', 1000,
-              'a backend developer.', 1000
+              'a backend developer.', 1000,
+              'a frontend developer.', 1000
             ]}
             wrapper="span"
             speed={300}
@@ -67,8 +67,8 @@ const Hero = () => {
         </h1>
         
         <p className="hero__subtitle">
-          I am a frontend web developer. I can provide clean code and pixel perfect design. 
-          I also make website more & more interactive with web animations.
+         I am a backend web developer, specializing in building robust, scalable, and secure server-side applications. 
+         I focus on writing clean, efficient code and designing optimized databases to ensure high performance and reliability
         </p>
         
         <div className="hero__social-links">
