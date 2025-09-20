@@ -86,7 +86,7 @@ const portfolioData = [
     }
 ];
 
-const filterCategories = ['All', 'UI/UX Design', 'HTML & CSS', 'React JS', 'Node JS'];
+const filterCategories = ['All', 'HTML & CSS', 'React JS', 'C# .NET', 'Spring boot'];
 
 const PortfolioItem = ({ item, index }) => {
     const ref = useRef(null);

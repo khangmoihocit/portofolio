@@ -18,23 +18,23 @@ const IconWork = () => (
 const educationData = [
     {
         id: 1,
-        period: '2008 - 2010',
+        period: '2023 - 2026',
         title: 'Higher School Graduation',
-        institution: 'Abc College.',
+        institution: 'HaNoi Open University.',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur donec gravida ullamcorper cum id. Sit viverra donec in ornare euismod.'
     },
     {
         id: 2,
-        period: '2010 - 2014',
+        period: '2023 - 2028',
         title: 'Bachelor of Sciences',
-        institution: 'Def University.',
+        institution: 'HaNoi Open University.',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur donec gravida ullamcorper cum id. Sit viverra donec in ornare euismod.'
     },
     {
         id: 3,
-        period: '2014 - 2016',
+        period: '0 - 0',
         title: 'Masters of Sciences',
-        institution: 'Def University.',
+        institution: 'University.',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur donec gravida ullamcorper cum id. Sit viverra donec in ornare euismod.'
     }
 ];
@@ -43,23 +43,23 @@ const educationData = [
 const experienceData = [
     {
         id: 1,
-        period: '2015 - 2017',
-        title: 'UI/UX Designer',
-        company: 'Abc Company.',
+        period: '0 - 0',
+        title: 'Cloud',
+        company: 'Company x.',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur donec gravida ullamcorper cum id. Sit viverra donec in ornare euismod.'
     },
     {
         id: 2,
-        period: '2017 - 2019',
+        period: '0 - 0',
         title: 'Front-end Developer',
-        company: 'Def Company.',
+        company: 'Company x.',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur donec gravida ullamcorper cum id. Sit viverra donec in ornare euismod.'
     },
     {
         id: 3,
-        period: '2019 - Present',
+        period: '0 - 0',
         title: 'Back-end Developer',
-        company: 'Ghi Company.',
+        company: 'Company x.',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur donec gravida ullamcorper cum id. Sit viverra donec in ornare euismod.'
     }
 ];
