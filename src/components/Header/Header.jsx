@@ -53,6 +53,7 @@ const Header = () => {
                         to={item.id}
                         spy={true}
                         smooth={true}
+                        offset={-120}
                         duration={200}
                         activeClass='active'
                         className='header__nav-link'
@@ -99,6 +100,7 @@ const Header = () => {
                             to={item.id}
                             spy={true}
                             smooth={true}
+                            offset={-120}
                             duration={500}
                             activeClass='active'
                             className='header__nav-link'
