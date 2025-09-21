@@ -15,6 +15,16 @@ const Header = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
+    const handleHireMeClick = () => {
+        const contactElement = document.getElementById('contact');
+        if (contactElement) {
+            contactElement.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+    };
+
     const navigationItems = [
         { id: 'hero', number: '01', label: 'HOME' },
         { id: 'about', number: '02', label: 'ABOUT' },
@@ -55,7 +65,7 @@ const Header = () => {
                 ))}
             </nav>
 
-            <Button>HIRE ME</Button>
+            <Button onClick={handleHireMeClick}>HIRE ME</Button>
 
             {/* Mobile menu toggle */}
             <div
@@ -101,6 +111,12 @@ const Header = () => {
                         </ScrollLink>
                     ))}
                 </nav>
+                <div className="header__mobile-menu__button">
+                    <Button onClick={() => {
+                        handleHireMeClick();
+                        setIsMobileMenuOpen(false);
+                    }}>HIRE ME</Button>
+                </div>
             </div>
         </header>
     );

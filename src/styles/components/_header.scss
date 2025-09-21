@@ -66,6 +66,13 @@
         }
     }
 
+    // Button styling for header
+    .button {
+        @include mobile {
+            display: none; // Hide button on mobile, show in mobile menu
+        }
+    }
+
     &__nav-link {
         position: relative;
         font-size: 15px;
@@ -170,6 +177,7 @@
         opacity: 0;
         visibility: hidden;
         transition: all $transition-medium;
+        z-index: 999;
 
         &--open {
             transform: translateY(0);
@@ -178,6 +186,7 @@
         }
 
         .header__nav {
+            display: flex !important; // Override mobile display: none
             flex-direction: column;
             gap: $spacing-lg;
             align-items: flex-start;
@@ -186,6 +195,17 @@
         .header__nav-link {
             font-size: $font-size-medium;
             padding: $spacing-sm 0;
+            width: 100%;
+        }
+
+        &__button {
+            margin-top: $spacing-lg;
+            
+            .button {
+                display: inline-block !important; // Override mobile hide
+                width: 100%;
+                text-align: center;
+            }
         }
     }
 }
@@ -193,14 +213,24 @@
 .fixedHeader {
     position: fixed;
     top: -83px;
-    z-index: 99;
+    z-index: 1000; // Ensure it's above other content
     border-bottom: 1px solid #ffffff49;
-
-    // background-color: #ffffffe6;
     box-shadow: 2px 0 12px 0 rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-
     transform: translateY(83px);
     transition: transform 0.7s ease;
+
+    // Mobile menu positioning for fixed header
+    .header__mobile-menu {
+        top: 70px; // Adjust for fixed header height
+
+        @include tablet {
+            top: 80px;
+        }
+
+        @include mobile {
+            top: 70px;
+        }
+    }
 }
