@@ -1,18 +1,23 @@
 import React, { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Button from '../common/Button';
+import ecommerce from '../../assets/images/ecommerce.png';
+import minimart from '../../assets/images/minimart.png';
+import { FaGithub} from 'react-icons/fa';
 
 // SVG Icons as React Components
 const IconImage = () => (
+    // <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+    //     <path d="M2.9918 21C2.44405 21 2 20.5551 2 20.0066V3.9934C2 3.44476 2.45531 3 2.9918 3H21.0082C21.556 3 22 3.44495 22 3.9934V20.0066C22 20.5552 21.5447 21 21.0082 21H2.9918ZM20 15V5H4V19L14 9L20 15ZM20 17.8284L14 11.8284L6.82843 19H20V17.8284ZM8 11C6.89543 11 6 10.1046 6 9C6 7.89543 6.89543 7 8 7C9.10457 7 10 7.89543 10 9C10 10.1046 9.10457 11 8 11Z"></path>
+    // </svg>
     <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-        <path d="M2.9918 21C2.44405 21 2 20.5551 2 20.0066V3.9934C2 3.44476 2.45531 3 2.9918 3H21.0082C21.556 3 22 3.44495 22 3.9934V20.0066C22 20.5552 21.5447 21 21.0082 21H2.9918ZM20 15V5H4V19L14 9L20 15ZM20 17.8284L14 11.8284L6.82843 19H20V17.8284ZM8 11C6.89543 11 6 10.1046 6 9C6 7.89543 6.89543 7 8 7C9.10457 7 10 7.89543 10 9C10 10.1046 9.10457 11 8 11Z"></path>
+        <path d="M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V11H19L18.9999 6.413L11.2071 14.2071L9.79289 12.7929L17.5849 5H13V3H21Z"></path>
     </svg>
 );
 
 const IconExternal = () => (
-    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V11H19L18.9999 6.413L11.2071 14.2071L9.79289 12.7929L17.5849 5H13V3H21Z"></path>
-    </svg>
+    
+    <FaGithub />
 );
 
 const IconPlay = () => (
@@ -24,65 +29,68 @@ const IconPlay = () => (
 const portfolioData = [
     {
         id: 1,
-        title: 'Candle',
+        title: 'E-Commerce',
         description: 'Creative Candle Light',
-        image: 'https://images.unsplash.com/photo-1602874801006-55c0c76c1fbc?w=550&h=384&fit=crop&crop=center',
-        category: 'UI/UX Design',
+        image: ecommerce,
+        category: 'React JS',
         hasPreview: true,
         hasExternal: true,
-        externalUrl: 'https://dribbble.com'
+        externalUrl: 'https://github.com/khangmoihocit/E-commerse_reactjs.git',
+        previewUrl: 'https://ecommerse-clothing.vercel.app/'
     },
     {
         id: 2,
-        title: 'Paint',
-        description: 'Creative wall painting',
-        image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=550&h=384&fit=crop&crop=center',
-        category: 'UI/UX Design',
+        title: 'Mini Mart',
+        description: 'for frontend',
+        image: minimart,
+        category: 'React JS',
         hasPreview: false,
         hasExternal: true,
-        externalUrl: 'https://dribbble.com'
+        externalUrl: 'https://github.com/khangmoihocit/mini-mart-frontend.git',
+        previewUrl: '#'
     },
     {
         id: 3,
-        title: 'UI/UX Sample',
-        description: 'UI/UX Sample design mockup',
-        image: 'https://images.unsplash.com/photo-1555421689-491a97ff2040?w=550&h=384&fit=crop&crop=center',
-        category: 'UI/UX Design',
-        hasPreview: true,
+        title: 'Mini Mart',
+        description: 'for backend',
+        image: minimart,
+        category: 'Spring boot',
+        hasPreview: false,
         hasPlay: true,
         hasExternal: true,
-        externalUrl: 'https://dribbble.com'
+        externalUrl: 'https://github.com/khangmoihocit/mini-mart-backend.git',
+        previewUrl: '#'
     },
     {
         id: 4,
-        title: 'Packet',
+        title: 'Portfolio',
         description: 'Packet design mockup',
         image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=550&h=384&fit=crop&crop=center',
         category: 'HTML & CSS',
-        hasPreview: true,
+        hasPreview: false,
         hasExternal: true,
-        externalUrl: 'https://dribbble.com'
+        externalUrl: '#'
     },
     {
         id: 5,
-        title: 'Packet',
+        title: 'None',
         description: 'Another packet design mockup',
         image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=550&h=384&fit=crop&crop=center',
         category: 'React JS',
-        hasPreview: true,
+        hasPreview: false,
         hasPlay: true,
         hasExternal: true,
-        externalUrl: 'https://dribbble.com'
+        externalUrl: '#'
     },
     {
         id: 6,
-        title: 'Cream',
+        title: 'None',
         description: 'Creative cream box design',
         image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=550&h=384&fit=crop&crop=center',
         category: 'Node JS',
         hasPreview: false,
         hasExternal: true,
-        externalUrl: 'https://dribbble.com'
+        externalUrl: '#'
     }
 ];
 
@@ -111,9 +119,9 @@ const PortfolioItem = ({ item, index }) => {
                     </div>
                     <div className="portfolio-overlay">
                         {item.hasPreview && (
-                            <button className="portfolio-btn" aria-label="Preview">
+                            <a href={item.previewUrl} target="_blank" className="portfolio-btn" aria-label="Preview">
                                 <IconImage />
-                            </button>
+                            </a>
                         )}
                         {item.hasPlay && (
                             <button className="portfolio-btn" aria-label="Play">

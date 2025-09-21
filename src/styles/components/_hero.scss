@@ -24,6 +24,15 @@
   }
 }
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .hero {
   min-height: 100vh;
   @include flex-column-center;
@@ -45,25 +54,67 @@
     justify-content: center;
   }
 
-  &__profile-image {
-    width: 150px;
-    height: 150px;
+  &__image-wrapper {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__image-container {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
     border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid $green;
-    transition: transform $transition-medium;
+
+    @include tablet {
+      margin-bottom: $spacing-lg;
+    }
+
+    @include mobile {
+      margin-bottom: $spacing-md;
+    }
+  }
+
+  &__image-animation {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    height: 100%;
+    width: 100%;
+    animation: spin 3s linear infinite;
+    border-radius: 50%;
+    background: linear-gradient(to top right, $green, transparent);
+  }
+
+  &__image-holder {
+    position: relative;
+    z-index: 20;
+    display: inline-block;
+    height: 150px;
+    width: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    border: 6px solid rgba($green, 0.1);
+    align-items: center;
 
     @include tablet {
       width: 120px;
       height: 120px;
-      margin-bottom: $spacing-lg;
     }
 
     @include mobile {
       width: 100px;
       height: 100px;
-      margin-bottom: $spacing-md;
     }
+  }
+
+  &__profile-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    transition: transform $transition-medium;
 
     &:hover {
       transform: scale(1.05);

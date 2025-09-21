@@ -42,12 +42,17 @@ const Hero = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
       >
-        <div style={{marginBottom: '30px', display: 'flex', justifyContent:'center'}}>
-          <img 
-          src={profilePic} 
-          alt="Khang - Frontend Developer" 
-          className="hero__profile-image"
-        />
+        <div className="hero__image-wrapper">
+          <div className="hero__image-container">
+            <span className="hero__image-animation"></span>
+            <div className="hero__image-holder">
+              <img 
+                src={profilePic} 
+                alt="Khang - Frontend Developer" 
+                className="hero__profile-image"
+              />
+            </div>
+          </div>
         </div>
         
         <h1 className="hero__title">
