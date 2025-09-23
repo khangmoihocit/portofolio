@@ -84,7 +84,7 @@
     width: 100%;
     animation: spin 3s linear infinite;
     border-radius: 50%;
-    background: linear-gradient(to top right, $green, transparent);
+    background: linear-gradient(to top right, var(--color-green), transparent);
   }
 
   &__image-holder {
@@ -95,7 +95,7 @@
     width: 150px;
     overflow: hidden;
     border-radius: 50%;
-    border: 5px solid rgba($green, 0.1);
+    border: 5px solid rgba(var(--color-green-rgb), 0.1);
     align-items: center;
 
     @include tablet {
@@ -194,7 +194,7 @@
     }
 
     &:focus {
-      outline: 2px solid $green;
+      outline: 2px solid var(--color-green);
       outline-offset: 2px;
     }
 
@@ -226,15 +226,10 @@
       }
 
       &--default {
-        background-color: rgba(22, 32, 51, 0.8);
+        background-color: var(--color-navy);
         
         svg {
           color: var(--color-light-slate);
-        }
-        
-        // Dark theme
-        :root.dark-theme & {
-          background-color: #162033;
         }
       }
 
