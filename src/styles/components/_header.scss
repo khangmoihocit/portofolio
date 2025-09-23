@@ -12,10 +12,17 @@
     top: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(15, 23, 42, 0.85);
+    background-color: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(10px);
     z-index: 1000;
     transition: all $transition-fast;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    // Dark theme styles
+    :root.dark-theme & {
+        background-color: rgba(15, 23, 42, 0.95);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
     @include tablet {
         padding: 0 $spacing-lg;
@@ -28,8 +35,13 @@
     }
 
     &--scrolled {
-        background-color: rgba(15, 23, 42, 0.95);
-        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+        background-color: rgba(255, 255, 255, 0.98);
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        
+        :root.dark-theme & {
+            background-color: rgba(15, 23, 42, 0.98);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+        }
     }
 
     &__logo {
@@ -85,7 +97,7 @@
         position: relative;
         font-size: 15px;
         cursor: pointer;
-        color: $light-slate;
+        color: var(--color-slate);
         padding-bottom: 5px;
         text-decoration: none;
         transition: color $transition-fast;
@@ -95,7 +107,7 @@
         }
 
         &__number {
-            color: $green;
+            color: var(--color-green);
             margin-right: 5px;
             font-weight: $font-weight-medium;
         }
@@ -108,14 +120,14 @@
             left: 0;
             width: 0;
             height: 2px;
-            background-color: $green;
+            background-color: var(--color-green);
             transition: width $transition-fast;
         }
 
         /* Khi hover hoặc active */
         &:hover,
         &.active {
-            color: $green;
+            color: var(--color-green);
 
             &::after {
                 width: 100%;
@@ -123,7 +135,7 @@
         }
 
         &:focus {
-            outline: 2px solid $green;
+            outline: 2px solid var(--color-green);
             outline-offset: 4px;
         }
     }
@@ -143,7 +155,7 @@
         &__bar {
             width: 25px;
             height: 2px;
-            background-color: $light-slate;
+            background-color: var(--color-slate);
             transition: all $transition-fast;
 
             &:nth-child(1) {
@@ -172,13 +184,13 @@
         }
     }
 
-    // Mobile menu (for future implementation)
+    // Mobile menu
     &__mobile-menu {
         position: fixed;
         top: 70px;
         left: 0;
         right: 0;
-        background-color: rgba(15, 23, 42, 0.98);
+        background-color: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(20px);
         padding: $spacing-xl $spacing-md;
         transform: translateY(-100%);
@@ -186,6 +198,13 @@
         visibility: hidden;
         transition: all $transition-medium;
         z-index: 999;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+        // Dark theme styles
+        :root.dark-theme & {
+            background-color: rgba(15, 23, 42, 0.98);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
         &--open {
             transform: translateY(0);
@@ -231,13 +250,19 @@
 .fixedHeader {
     position: fixed;
     top: -83px;
-    z-index: 1000; // Ensure it's above other content
-    border-bottom: 1px solid #ffffff49;
-    box-shadow: 2px 0 12px 0 rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 2px 0 12px 0 rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     transform: translateY(83px);
     transition: transform 0.7s ease;
+
+    // Dark theme styles
+    :root.dark-theme & {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 2px 0 12px 0 rgba(0, 0, 0, 0.3);
+    }
 
     // Mobile menu positioning for fixed header
     .header__mobile-menu {

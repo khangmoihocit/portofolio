@@ -29,6 +29,7 @@
       z-index: 10;
       margin-bottom: 0.5rem;
       text-transform: uppercase;
+      color: var(--color-white);
     }
 
     .title-anim {
@@ -39,7 +40,7 @@
       width: 8rem;
       overflow: hidden;
       border-radius: 9999px;
-      background-color: rgba($green, 0.2);
+      background-color: rgba(var(--color-green-rgb), 0.2);
 
       span {
         position: absolute;
@@ -50,7 +51,7 @@
         width: 0.375rem;
         animation: lefttoright 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         border-radius: 9999px;
-        background-color: $green;
+        background-color: var(--color-green);
       }
     }
 
@@ -64,7 +65,7 @@
       font-size: 6rem;
       font-weight: 700;
       text-transform: uppercase;
-      color: $white;
+      color: var(--color-white);
       opacity: 0.05;
       will-change: transform;
     }
@@ -100,8 +101,8 @@
   }
 
   .card {
-    background-color: color.adjust($navy, $lightness: 5%);
-    border: 1px solid color.adjust($navy, $lightness: 10%);
+    background-color: var(--color-navy);
+    border: 1px solid rgba(var(--color-white-rgb), 0.1);
     border-radius: $border-radius-lg;
     transition: all $transition-medium;
   }
@@ -119,14 +120,14 @@
       position: relative;
       margin-bottom: 0.5rem;
       display: inline-block;
-      color: $green;
+      color: var(--color-green);
       
       .circle {
         transform: rotate(-90deg);
       }
       
       .circlebg {
-        stroke: rgba($green, 0.2);
+        stroke: rgba(var(--color-green-rgb), 0.2);
         fill: none;
       }
 
@@ -142,14 +143,14 @@
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        color: $white;
+        color: var(--color-white);
         font-size: $font-size-large;
         font-weight: $font-weight-medium;
       }
     }
     
     h5 {
-      color: $light-slate;
+      color: var(--color-light-slate);
       font-weight: $font-weight-medium;
     }
   }
@@ -157,11 +158,11 @@
   .progress {
     margin-bottom: 1.5rem;
     h5 {
-      color: $white;
+      color: var(--color-white);
       font-weight: $font-weight-medium;
       margin-bottom: $spacing-sm;
       span {
-        color: $green;
+        color: var(--color-green);
       }
     }
     .progress-bar {
@@ -169,7 +170,7 @@
       height: 1rem;
       width: 100%;
       border-radius: 9999px;
-      background-color: rgba($green, 0.2);
+      background-color: rgba(var(--color-green-rgb), 0.2);
       overflow: hidden;
 
       .progress-progress {
@@ -178,7 +179,7 @@
         top: 0;
         height: 100%;
         border-radius: 9999px;
-        background-color: $green;
+        background-color: var(--color-green);
         animation: progress-animation 1.5s ease-out forwards;
       }
     }

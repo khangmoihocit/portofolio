@@ -3,7 +3,7 @@
 
 .portfolio-section {
   padding: 6rem 0;
-  background: linear-gradient(135deg, $navy 0%, color.adjust($navy, $lightness: 3%) 100%);
+  background: var(--color-navy);
 
   @include tablet {
     padding: 7rem 0;
@@ -23,7 +23,7 @@
       text-transform: uppercase;
       font-size: 2.5rem;
       font-weight: 700;
-      color: $white;
+      color: var(--color-white);
       letter-spacing: 0.05em;
 
       @include tablet {
@@ -43,7 +43,7 @@
       width: 8rem;
       overflow: hidden;
       border-radius: 9999px;
-      background-color: rgba($green, 0.2);
+      background-color: rgba(var(--color-green-rgb), 0.2);
       margin-bottom: 1rem;
 
       span {
@@ -55,7 +55,7 @@
         width: 0.375rem;
         animation: slideLeftToRight 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
         border-radius: 9999px;
-        background-color: $green;
+        background-color: var(--color-green);
       }
     }
 
@@ -69,7 +69,7 @@
       font-size: 9rem;
       font-weight: 700;
       text-transform: uppercase;
-      color: $white;
+      color: var(--color-white);
       opacity: 0.05;
       user-select: none;
 
@@ -106,12 +106,12 @@
       // Override button styles for filters
       &.button--outline {
         border-color: rgba($green, 0.3);
-        color: $light-slate;
+        color: var(--color-light-slate);
         
         &:hover {
           background: rgba($green, 0.1);
           border-color: rgba($green, 0.5);
-          color: $white;
+          color: var(--color-white);
         }
       }
     }
@@ -147,9 +147,9 @@
 
   .portfolio-card {
     position: relative;
-    background: rgba($navy, 0.8);
+    background: var(--color-navy);
     backdrop-filter: blur(4px);
-    border: 1px solid rgba($slate, 0.2);
+    border: 1px solid rgba(var(--color-light-slate-rgb), 0.2);
     border-radius: 0.5rem;
     padding: 1.5rem;
     transition: all 0.3s ease;
@@ -163,10 +163,10 @@
     }
 
     &:hover {
-      border-color: rgba($green, 0.5);
+      border-color: rgba(var(--color-green-rgb), 0.5);
       box-shadow: 
-        0 10px 25px rgba($green, 0.1),
-        0 20px 50px rgba(#000, 0.3);
+        0 10px 25px rgba(var(--color-green-rgb), 0.1),
+        0 20px 50px rgba(0, 0, 0, 0.3);
       transform: translateY(-0.5rem);
 
       .portfolio-image img {
@@ -200,7 +200,7 @@
       height: 100%;
       object-fit: cover;
       transition: all 0.5s ease;
-      background: linear-gradient(135deg, $slate 0%, $light-slate 100%);
+      background: linear-gradient(135deg, var(--color-slate) 0%, var(--color-light-slate) 100%);
     }
   }
 
@@ -210,7 +210,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba($navy, 0.8);
+    background: rgba(var(--color-navy-rgb), 0.8);
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
@@ -228,8 +228,8 @@
     justify-content: center;
     width: 2.5rem;
     height: 2.5rem;
-    background: $green;
-    color: $navy;
+    background: var(--color-green);
+    color: var(--color-navy);
     border: none;
     border-radius: 50%;
     font-size: 1.125rem;
@@ -239,12 +239,12 @@
     outline: none;
 
     &:hover {
-      background: color.adjust($green, $lightness: 10%);
+      background: var(--color-green);
       transform: scale(1.1);
     }
 
     &:focus {
-      outline: 2px solid rgba($green, 0.5);
+      outline: 2px solid rgba(var(--color-green-rgb), 0.5);
       outline-offset: 2px;
     }
 
@@ -259,7 +259,7 @@
     padding-top: 1rem;
 
     h5 {
-      color: $white;
+      color: var(--color-white);
       font-size: 1.25rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
@@ -271,7 +271,7 @@
     }
 
     p {
-      color: $light-slate;
+      color: var(--color-light-slate);
       font-size: 0.9rem;
       line-height: 1.5;
       margin: 0;
@@ -363,7 +363,7 @@
       border-color: rgba($white, 0.3);
       
       &:hover {
-        border-color: $green;
+        border-color: var(--color-green);
       }
     }
     
@@ -373,13 +373,13 @@
       &.active {
         background: $white;
         color: $navy;
-        border-color: $white;
+        border-color: var(--color-white);
       }
     }
     
     .portfolio-content {
       h5 {
-        color: $white;
+        color: var(--color-white);
       }
       
       p {

@@ -13,7 +13,8 @@ const Theme = () => {
         if (savedTheme) {
             setIsDarkMode(savedTheme === 'dark');
         } else {
-            setIsDarkMode(prefersDark);
+            // Default to light mode
+            setIsDarkMode(false);
         }
     }, []);
 

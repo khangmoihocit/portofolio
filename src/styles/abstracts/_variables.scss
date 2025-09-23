@@ -1,34 +1,52 @@
-// Color Variables - Light Theme (Default)
-$navy: #0F172A;       // Nền tối
-$light-slate: #BFBECB; // Màu chữ phụ
-$slate: #a0a0a0;      // Màu chữ thường
-$white: #E6F1FF;      // Màu chữ chính
-$green: #72E2AE;
-$color-error: #2bad14;      // Màu accent
+// Light Theme Colors (Default)
+$light-navy: #ffffff;        // Nền sáng
+$light-light-slate: #64748b; // Màu chữ phụ
+$light-slate: #475569;       // Màu chữ thường  
+$light-white: #1e293b;       // Màu chữ chính (tối)
+$light-green: #10b981;       // Màu accent
 
-// Dark Theme Colors
-$dark-navy: #000000;
-$dark-light-slate: #64748b;
-$dark-slate: #475569;
-$dark-white: #f1f5f9;
-$dark-green: #10b981;
+// Dark Theme Colors (theme tối như ban đầu)
+$dark-navy: #0F172A;         // Nền tối
+$dark-light-slate: #BFBECB;  // Màu chữ phụ
+$dark-slate: #a0a0a0;        // Màu chữ thường
+$dark-white: #E6F1FF;        // Màu chữ chính
+$dark-green: #72E2AE;        // Màu accent
+
+// Main color variables - Light theme làm mặc định
+$navy: $light-navy;
+$light-slate: $light-light-slate;
+$slate: $light-slate;
+$white: $light-white;
+$green: $light-green;
+$color-error: #ef4444;
 
 // CSS Custom Properties for theme switching
 :root {
-  --color-navy: #{$navy};
-  --color-light-slate: #{$light-slate};
-  --color-slate: #{$slate};
-  --color-white: #{$white};
-  --color-green: #{$green};
+  --color-navy: #{$light-navy};
+  --color-navy-rgb: #{red($light-navy)}, #{green($light-navy)}, #{blue($light-navy)};
+  --color-light-slate: #{$light-light-slate};
+  --color-light-slate-rgb: #{red($light-light-slate)}, #{green($light-light-slate)}, #{blue($light-light-slate)};
+  --color-slate: #{$light-slate};
+  --color-slate-rgb: #{red($light-slate)}, #{green($light-slate)}, #{blue($light-slate)};
+  --color-white: #{$light-white};
+  --color-white-rgb: #{red($light-white)}, #{green($light-white)}, #{blue($light-white)};
+  --color-green: #{$light-green};
+  --color-green-rgb: #{red($light-green)}, #{green($light-green)}, #{blue($light-green)};
   --color-error: #{$color-error};
 }
 
+// Dark theme - sử dụng màu tối ban đầu
 :root.dark-theme {
   --color-navy: #{$dark-navy};
+  --color-navy-rgb: #{red($dark-navy)}, #{green($dark-navy)}, #{blue($dark-navy)};
   --color-light-slate: #{$dark-light-slate};
+  --color-light-slate-rgb: #{red($dark-light-slate)}, #{green($dark-light-slate)}, #{blue($dark-light-slate)};
   --color-slate: #{$dark-slate};
+  --color-slate-rgb: #{red($dark-slate)}, #{green($dark-slate)}, #{blue($dark-slate)};
   --color-white: #{$dark-white};
+  --color-white-rgb: #{red($dark-white)}, #{green($dark-white)}, #{blue($dark-white)};
   --color-green: #{$dark-green};
+  --color-green-rgb: #{red($dark-green)}, #{green($dark-green)}, #{blue($dark-green)};
   --color-error: #{$color-error};
 }
 

@@ -126,7 +126,7 @@
     font-weight: $font-weight-semibold;
     line-height: 1.1;
     margin-bottom: $spacing-md;
-    color: $white;
+    color: var(--color-white);
     min-height: 1.1em;
 
     @include tablet {
@@ -140,7 +140,7 @@
   }
 
   &__animated-text {
-    color: $green;
+    color: var(--color-green);
     font-weight: $font-weight-semibold;
   }
 
@@ -148,7 +148,7 @@
     font-size: $font-size-medium;
     max-width: 950px;
     margin-bottom: 30px;
-    color: $light-slate;
+    color: var(--color-light-slate);
     line-height: 1.5;
 
     @include tablet {
@@ -226,18 +226,23 @@
       }
 
       &--default {
-        background-color: #162033;
+        background-color: rgba(22, 32, 51, 0.8);
         
         svg {
-          color: $light-slate;
+          color: var(--color-light-slate);
+        }
+        
+        // Dark theme
+        :root.dark-theme & {
+          background-color: #162033;
         }
       }
 
       &--hover {
-        background-color: $green;
+        background-color: var(--color-green);
         
         svg {
-          color: $navy;
+          color: var(--color-navy);
         }
       }
     }
@@ -249,7 +254,7 @@
     left: 50%;
     transform: translateX(-50%);
     font-size: $font-size-small;
-    color: $light-slate;
+    color: var(--color-light-slate);
     @include flex-column;
     align-items: center;
     gap: 5px;
