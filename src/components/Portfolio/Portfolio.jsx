@@ -3,6 +3,8 @@ import { motion, useInView } from 'framer-motion';
 import Button from '../common/Button';
 import ecommerce from '../../assets/images/ecommerce.png';
 import minimart from '../../assets/images/minimart.png';
+import portfolio from '../../assets/images/portfolio.png';
+import bookstore from '../../assets/images/bookstore.png';
 import { FaGithub} from 'react-icons/fa';
 
 // SVG Icons as React Components
@@ -64,37 +66,38 @@ const portfolioData = [
     {
         id: 4,
         title: 'Portfolio',
-        description: 'Packet design mockup',
-        image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=550&h=384&fit=crop&crop=center',
-        category: 'HTML & CSS',
-        hasPreview: false,
+        description: '...',
+        image: portfolio,
+        category: 'React JS',
+        hasPreview: true,
         hasExternal: true,
-        externalUrl: '#'
+        externalUrl: 'https://github.com/khangmoihocit/portofolio.git',
+        previewUrl: 'https://portfolio-khangmoihocit.vercel.app/'
     },
     {
         id: 5,
-        title: 'None',
-        description: 'Another packet design mockup',
-        image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=550&h=384&fit=crop&crop=center',
-        category: 'React JS',
+        title: 'Bookstore',
+        description: '...',
+        image: bookstore,
+        category: 'C# .NET',
         hasPreview: false,
-        hasPlay: true,
+        hasPlay: false,
         hasExternal: true,
-        externalUrl: '#'
+        externalUrl: 'https://github.com/khangmoihocit/BookStore-webform.git'
     },
     {
         id: 6,
         title: 'None',
         description: 'Creative cream box design',
         image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=550&h=384&fit=crop&crop=center',
-        category: 'Node JS',
+        category: 'Spring boot',
         hasPreview: false,
         hasExternal: true,
         externalUrl: '#'
     }
 ];
 
-const filterCategories = ['All', 'HTML & CSS', 'React JS', 'C# .NET', 'Spring boot'];
+const filterCategories = ['All', 'Android', 'React JS', 'C# .NET', 'Spring boot'];
 
 const PortfolioItem = ({ item, index }) => {
     const ref = useRef(null);
