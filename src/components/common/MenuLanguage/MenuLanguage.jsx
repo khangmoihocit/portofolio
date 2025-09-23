@@ -14,8 +14,8 @@ const MenuLanguage = () => {
     } = styles;
 
     const [isShowLanguage, setIsShowLanguage] = useState(false);
-    const [typeLanguage, setTypeLanguage] = useState('VN');
-    const [language, setLanguage] = useState({ src: LogoVN, content: 'VN' });
+    const [typeLanguage, setTypeLanguage] = useState('ENG');
+    const [language, setLanguage] = useState({ src: LogoENG, content: 'ENG' });
 
     const dataLanguage = [
         { content: 'Vietnamese (vi-VN', src: LogoVN, value: 'VN' },

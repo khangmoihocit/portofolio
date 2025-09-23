@@ -3,7 +3,7 @@ import { FaSun, FaMoon } from 'react-icons/fa';
 import styles from './styles.module.scss';
 
 const Theme = () => {
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState(true);
 
     // Load theme from localStorage on component mount
     useEffect(() => {
