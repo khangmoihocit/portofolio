@@ -1,0 +1,249 @@
+@use '../../../styles/abstracts/variables' as *;
+@use '../../../styles/abstracts/mixins' as *;
+
+.themeToggle {
+  position: relative;
+  width: 60px;
+  height: 30px;
+  background: linear-gradient(135deg, #1e40af 0%, #60a5fa 100%);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 2px rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 
+      0 6px 16px rgba(0, 0, 0, 0.2),
+      inset 0 1px 3px rgba(255, 255, 255, 0.15);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:focus {
+    outline: 2px solid var(--color-green);
+    outline-offset: 2px;
+  }
+
+  &.dark {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 
+      0 4px 8px rgba(0, 0, 0, 0.3),
+      inset 0 1px 2px rgba(255, 255, 255, 0.05);
+  }
+}
+
+.toggleButton {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 24px;
+  height: 24px;
+  background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 50%;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 
+    0 3px 6px rgba(0, 0, 0, 0.15),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+
+  .themeToggle.dark & {
+    transform: translateX(28px);
+    background: linear-gradient(145deg, #1e293b 0%, #334155 100%);
+    box-shadow: 
+      0 3px 6px rgba(0, 0, 0, 0.25),
+      0 1px 3px rgba(0, 0, 0, 0.15);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    border: 2px solid transparent;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    
+    .themeToggle:hover & {
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: scale(1.1);
+    }
+  }
+}
+
+.icon {
+  width: 14px;
+  height: 14px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: absolute;
+  
+  &.sun {
+    color: #f59e0b;
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+    filter: drop-shadow(0 0 2px rgba(245, 158, 11, 0.3));
+    
+    .themeToggle.dark & {
+      opacity: 0;
+      transform: rotate(180deg) scale(0.3);
+    }
+  }
+  
+  &.moon {
+    color: #e2e8f0;
+    opacity: 0;
+    transform: rotate(-180deg) scale(0.3);
+    filter: drop-shadow(0 0 2px rgba(226, 232, 240, 0.3));
+    
+    .themeToggle.dark & {
+      opacity: 1;
+      transform: rotate(0deg) scale(1);
+    }
+  }
+}
+
+// Stars decoration for dark mode
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  overflow: hidden;
+  
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 50%;
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: 1;
+  }
+  
+  &::before {
+    top: 9px;
+    left: 14px;
+    animation: twinkle 2s infinite;
+  }
+  
+  &::after {
+    top: 17px;
+    right: 10px;
+    animation: twinkle 2s infinite 0.7s;
+  }
+  
+  .themeToggle.dark & {
+    &::before,
+    &::after {
+      opacity: 0.7;
+    }
+  }
+}
+
+// Cloud decoration for light mode
+.clouds {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    opacity: 1;
+    transition: all 0.5s ease;
+  }
+  
+  &::before {
+    width: 8px;
+    height: 4px;
+    top: 12px;
+    right: 8px;
+  }
+  
+  &::after {
+    width: 6px;
+    height: 3px;
+    top: 18px;
+    right: 12px;
+  }
+  
+  .themeToggle.dark & {
+    &::before,
+    &::after {
+      opacity: 0;
+    }
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.3);
+  }
+}
+
+// Responsive design
+@include tablet {
+  .themeToggle {
+    width: 55px;
+    height: 28px;
+  }
+  
+  .toggleButton {
+    width: 22px;
+    height: 22px;
+    
+    .themeToggle.dark & {
+      transform: translateX(25px);
+    }
+  }
+  
+  .icon {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+@include mobile {
+  .themeToggle {
+    width: 50px;
+    height: 25px;
+  }
+  
+  .toggleButton {
+    width: 19px;
+    height: 19px;
+    top: 2px;
+    left: 2px;
+    
+    .themeToggle.dark & {
+      transform: translateX(23px);
+    }
+  }
+  
+  .icon {
+    width: 10px;
+    height: 10px;
+  }
+}

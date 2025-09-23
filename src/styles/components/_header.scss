@@ -66,10 +66,18 @@
         }
     }
 
-    // Button styling for header
-    .button {
+    &__actions {
+        display: flex;
+        align-items: center;
+        gap: $spacing-md;
+
         @include mobile {
-            display: none; // Hide button on mobile, show in mobile menu
+            gap: $spacing-sm;
+            
+            // Hide actions on mobile, show in mobile menu
+            .button {
+                display: none;
+            }
         }
     }
 
@@ -196,6 +204,16 @@
             font-size: $font-size-medium;
             padding: $spacing-sm 0;
             width: 100%;
+        }
+
+        &__actions {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: $spacing-md;
+            margin-top: $spacing-lg;
+            padding: $spacing-md 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         &__button {

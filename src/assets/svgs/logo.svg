@@ -1,0 +1,7 @@
+<svg width="170" height="42" viewBox="0 0 154 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M26 2.5C28.508 1.05658 31.492 1.05658 34 2.5L53.9411 14.25C56.4491 15.6934 58 18.514 58 21.6148V45.1352C58 48.236 56.4491 51.0566 53.9411 52.5L34 64.25C31.492 65.6934 28.508 65.6934 26 64.25L6.05887 52.5C3.55087 51.0566 2 48.236 2 45.1352V21.6148C2 18.514 3.55087 15.6934 6.05887 14.25L26 2.5Z" fill="#0D6EFD"/>
+  
+  <text x="18" y="42" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="white">K</text>
+  
+  <text x="70" y="35" font-family="Arial, sans-serif" font-size="24" font-weight="600" fill="#343a40">Mini Mart</text>
+</svg>

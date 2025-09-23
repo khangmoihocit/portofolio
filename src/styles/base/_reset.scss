@@ -15,12 +15,13 @@ html {
 
 body {
   font-family: $font-family-primary;
-  background-color: $navy;
-  color: $slate;
+  background-color: var(--color-navy);
+  color: var(--color-slate);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -66,7 +67,7 @@ a {
   transition: color $transition-fast;
   
   &:hover {
-    color: $green;
+    color: var(--color-green);
   }
 }
 
@@ -86,13 +87,13 @@ img {
 
 // Selection styles
 ::selection {
-  background-color: $green;
-  color: $navy;
+  background-color: var(--color-green);
+  color: var(--color-navy);
 }
 
 ::-moz-selection {
-  background-color: $green;
-  color: $navy;
+  background-color: var(--color-green);
+  color: var(--color-navy);
 }
 
 // Scrollbar styles
@@ -101,21 +102,21 @@ img {
 }
 
 ::-webkit-scrollbar-track {
-  background: $navy;
+  background: var(--color-navy);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: $slate;
+  background: var(--color-slate);
   border-radius: 4px;
   
   &:hover {
-    background: $light-slate;
+    background: var(--color-light-slate);
   }
 }
 
 // Focus outline
 :focus {
-  outline: 2px solid $green;
+  outline: 2px solid var(--color-green);
   outline-offset: 2px;
 }
 

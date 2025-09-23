@@ -1,0 +1,68 @@
+@use '../../../styles/abstracts/variables' as *;
+@use '../../../styles/abstracts/mixins' as *;
+
+.containerLanguage {
+    position: relative;
+    cursor: pointer;
+
+    .boxLanguage {
+        @include flex_box_custom(center, center, 5px);
+
+        img {
+            width: 20px;
+            height: 20px;
+        }
+
+        p {
+            font-size: 14px;
+            font-weight: 600;
+        }
+    }
+
+    .menuLanguage {
+        position: absolute;
+        left: 10px;
+        top: 20px;
+        box-shadow: 0 4px 24px 0 rgba(20, 25, 38, 0.077);
+        border-radius: 10px;
+        padding: 30px 5px 8px 15px;
+        width: 222px;
+
+        b {
+            font-size: 14px;
+        }
+
+        .wrapLanguage {
+            @include flex_box_custom(center, flex-start, 10px);
+            flex-direction: column;
+
+            margin-top: 5px;
+            margin-left: 10px;
+            font-size: 12px;
+            font-weight: 300;
+        }
+    }
+}
+
+.boxLanguage1 {
+    @include flex_box_custom(flex-start, center, 20px);
+
+    padding-left: 10px;
+    border-radius: 10px;
+    width: calc(100% - 20px);
+
+    &:hover {
+        background-color: #33748116;
+        cursor: pointer;
+    }
+
+    img {
+        width: 20px;
+        height: 20px;
+    }
+
+    p {
+        font-size: 13px;
+        font-weight: 600;
+    }
+}

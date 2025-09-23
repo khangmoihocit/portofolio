@@ -4,6 +4,8 @@ import { Link as ScrollLink } from 'react-scroll';
 import Button from '../common/Button';
 import '../../styles/components/_header.scss';
 import useScrollHandling from '../../hooks/useScrollHandling';
+import MenuLanguage from '../common/MenuLanguage/MenuLanguage';
+import Theme from '../common/Theme';
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -18,7 +20,7 @@ const Header = () => {
     const handleHireMeClick = () => {
         const contactElement = document.getElementById('contact');
         if (contactElement) {
-            contactElement.scrollIntoView({ 
+            contactElement.scrollIntoView({
                 behavior: 'smooth',
                 block: 'start'
             });
@@ -66,7 +68,11 @@ const Header = () => {
                 ))}
             </nav>
 
-            <Button onClick={handleHireMeClick}>HIRE ME</Button>
+            <div className="header__actions">
+                <MenuLanguage />
+                <Theme />
+                <Button onClick={handleHireMeClick}>HIRE ME</Button>
+            </div>
 
             {/* Mobile menu toggle */}
             <div
@@ -113,11 +119,19 @@ const Header = () => {
                         </ScrollLink>
                     ))}
                 </nav>
+                <div className="header__mobile-menu__actions">
+                    <MenuLanguage />
+                    <Theme />
+                </div>
                 <div className="header__mobile-menu__button">
-                    <Button onClick={() => {
-                        handleHireMeClick();
-                        setIsMobileMenuOpen(false);
-                    }}>HIRE ME</Button>
+                    <Button
+                        onClick={() => {
+                            handleHireMeClick();
+                            setIsMobileMenuOpen(false);
+                        }}
+                    >
+                        HIRE ME
+                    </Button>
                 </div>
             </div>
         </header>
