@@ -3,21 +3,21 @@ import { motion, useInView } from 'framer-motion';
 import '../../styles/components/_skills.scss';
 
 const circularSkillsData = [
-    { name: 'UI/UX Design', percentage: 85 },
-    { name: 'Back-end Development', percentage: 95 },
-    { name: 'Front-end Development', percentage: 80 },
-    { name: 'Mobile App Development', percentage: 75 },
+    { name: 'Database', percentage: 60 },
+    { name: 'Back-end Development', percentage: 75 },
+    { name: 'Front-end Development', percentage: 70 },
+    { name: 'Mobile App Development', percentage: 50 },
 ];
 
 const linearSkillsData = [
-    { name: 'Javascript', percentage: 85 },
-    { name: 'Node Js', percentage: 90 },
-    { name: 'React Js', percentage: 80 },
+    { name: 'Javascript', percentage: 65 },
+    { name: 'ASP.NET', percentage: 55},
+    { name: 'React Js', percentage: 60 },
     { name: 'Java', percentage: 70 },
-    { name: 'Html & Css', percentage: 95 },
+    { name: 'Html & Css', percentage: 65 },
     { name: 'Spring Framework', percentage: 75 },
-    { name: 'Illustrator', percentage: 70 },
-    { name: 'Figma', percentage: 90 },
+    { name: 'Postman', percentage: 70 },
+    { name: 'AI', percentage: 50 },
 ];
 
 const CircularSkill = ({ name, percentage }) => {

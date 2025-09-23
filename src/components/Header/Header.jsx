@@ -58,9 +58,9 @@ const Header = () => {
                         activeClass='active'
                         className='header__nav-link'
                     >
-                        <span className='header__nav-link__number'>
+                        {/* <span className='header__nav-link__number'>
                             {item.number}.
-                        </span>
+                        </span> */}
                         {item.label}
                     </ScrollLink>
                 ))}

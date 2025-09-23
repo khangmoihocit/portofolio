@@ -18,9 +18,9 @@ const IconWork = () => (
 const educationData = [
     {
         id: 1,
-        period: '2023 - 2026',
+        period: '2020 - 2023',
         title: 'Higher School Graduation',
-        institution: 'HaNoi Open University.',
+        institution: 'Hop Thanh High School.',
         description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur donec gravida ullamcorper cum id. Sit viverra donec in ornare euismod.'
     },
     {
