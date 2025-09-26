@@ -1,0 +1,162 @@
+{
+  "header": {
+    "logo": "KHANGMOIHOCIT.",
+    "home": "TRANG CHỦ",
+    "about": "GIỚI THIỆU", 
+    "resume": "SƠ YẾU LÝ LỊCH",
+    "works": "DỰ ÁN",
+    "blog": "BLOG",
+    "contact": "LIÊN HỆ",
+    "hireMe": "THUÊ TÔI"
+  },
+  "hero": {
+    "hi": "Xin chào, tôi là",
+    "name": "Khang.",
+    "backendDev": "một lập trình viên backend.",
+    "frontendDev": "một lập trình viên frontend.",
+    "description": "Tôi là một nhà phát triển web backend, chuyên xây dựng các ứng dụng phía máy chủ mạnh mẽ, có khả năng mở rộng và bảo mật. Tôi tập trung vào việc viết mã sạch, hiệu quả và thiết kế cơ sở dữ liệu được tối ưu hóa để đảm bảo hiệu suất cao và độ tin cậy",
+    "scrollDown": "Cuộn xuống"
+  },
+  "about": {
+    "title": "Giới thiệu về tôi",
+    "bgTitle": "Giới thiệu",
+    "greeting": "Xin chào, tôi là",
+    "name": "Khang",
+    "personalInfo": {
+      "firstName": "Tên",
+      "fullName": "Họ và tên", 
+      "age": "Tuổi",
+      "nationality": "Quốc tịch",
+      "languages": "Ngôn ngữ",
+      "address": "Địa chỉ",
+      "freelance": "Freelance"
+    },
+    "personalData": {
+      "firstName": "Khang",
+      "fullName": "Phạm Văn Khang",
+      "age": "20 tuổi",
+      "nationality": "Việt Nam",
+      "languages": "Tiếng Việt, Tiếng Anh",
+      "address": "Mỹ Đức, Hà Nội, Việt Nam",
+      "freelance": "Có sẵn"
+    },
+    "downloadResume": "Tải CV"
+  },
+  "services": {
+    "title": "Dịch vụ của tôi",
+    "bgTitle": "Dịch vụ",
+    "uiDesign": "Thiết kế UI/UX",
+    "webDev": "Phát triển Web",
+    "mobileDev": "Phát triển Ứng dụng Di động",
+    "uiDesc": "Tạo ra các giao diện người dùng trực quan và hấp dẫn với các nguyên tắc thiết kế hiện đại. Tôi tập trung vào trải nghiệm người dùng, khả năng tiếp cận và thiết kế responsive để đảm bảo tương tác tối ưu trên mọi thiết bị.",
+    "webDesc": "Xây dựng các ứng dụng web mạnh mẽ, có khả năng mở rộng sử dụng công nghệ hiện đại. Chuyên về phát triển cả frontend và backend với mã nguồn sạch, dễ bảo trì và hiệu suất tối ưu.",
+    "mobileDesc": "Phát triển ứng dụng di động đa nền tảng với hiệu suất gần như native. Tạo ra trải nghiệm người dùng mượt mà cho các nền tảng iOS và Android sử dụng React Native và Flutter."
+  },
+  "contact": {
+    "title": "Liên hệ với tôi",
+    "bgTitle": "Liên hệ",
+    "contactInfo": "Thông tin liên hệ",
+    "contactDesc": "Sẵn sàng bắt đầu dự án tiếp theo của bạn? Tôi luôn mở lòng để thảo luận về những cơ hội mới và các dự án thú vị. Hãy kết nối và cùng tạo ra điều gì đó tuyệt vời!",
+    "phone": "Liên hệ qua điện thoại",
+    "email": "Liên hệ qua email", 
+    "address": "Địa chỉ liên hệ",
+    "form": {
+      "name": "Tên",
+      "email": "Email",
+      "subject": "Chủ đề",
+      "message": "Tin nhắn",
+      "namePlaceholder": "Nhập tên của bạn...",
+      "emailPlaceholder": "Nhập email của bạn...",
+      "subjectPlaceholder": "Nhập chủ đề...",
+      "messagePlaceholder": "Nhập tin nhắn của bạn...",
+      "sendMail": "Gửi thư",
+      "devMessage": "Tính năng này hiện đang được phát triển. Vui lòng quay lại và thử lại sau."
+    }
+  },
+  "portfolio": {
+    "title": "Dự án của tôi",
+    "bgTitle": "Dự án",
+    "loadMore": "Tải thêm",
+    "filters": {
+      "all": "Tất cả"
+    },
+    "ecommerce": {
+      "title": "Nền tảng Thương mại Điện tử",
+      "desc": "Website thương mại điện tử đầy đủ tính năng với giỏ hàng, tích hợp thanh toán và xác thực người dùng. Được xây dựng bằng React.js và công nghệ web hiện đại."
+    },
+    "minimartFrontend": {
+      "title": "Mini Mart Frontend", 
+      "desc": "Frontend dựa trên React cho hệ thống quản lý siêu thị với theo dõi kho hàng, quản lý bán hàng và thiết kế responsive."
+    },
+    "minimartBackend": {
+      "title": "Mini Mart Backend",
+      "desc": "Backend RESTful API được xây dựng bằng Spring Boot cho hệ thống quản lý siêu thị với xác thực an toàn và quản lý dữ liệu."
+    },
+    "portfolio": {
+      "title": "Portfolio Cá nhân",
+      "desc": "Website portfolio responsive giới thiệu các dự án và kỹ năng. Có tính năng theme sáng/tối, hỗ trợ đa ngôn ngữ và hiệu ứng mượt mà."
+    },
+    "bookstore": {
+      "title": "Quản lý Hiệu sách",
+      "desc": "Ứng dụng desktop quản lý hiệu sách được xây dựng bằng C# .NET WebForms, có tính năng quản lý kho và theo dõi bán hàng."
+    },
+    "comingSoon": {
+      "title": "Sắp ra mắt",
+      "desc": "Dự án mới đang trong quá trình phát triển. Hãy theo dõi để biết thêm tính năng thú vị và giải pháp sáng tạo."
+    }
+  },
+  "resume": {
+    "title": "Sơ yếu lý lịch",
+    "bgTitle": "Lý lịch",
+    "educationTitle": "Bằng cấp học vấn",
+    "experienceTitle": "Kinh nghiệm làm việc",
+    "future": "Tương lai",
+    "education": {
+      "highSchool": {
+        "title": "Tốt nghiệp Trung học Phổ thông",
+        "institution": "Trường THPT Hợp Thanh",
+        "desc": "Hoàn thành chương trình giáo dục trung học với tập trung vào khoa học và toán học. Phát triển kiến thức nền tảng và kỹ năng giải quyết vấn đề chuẩn bị cho việc học đại học."
+      },
+      "bachelor": {
+        "title": "Cử nhân Công nghệ thông tin",
+        "institution": "Đại học Mở Hà Nội",
+        "desc": "Hiện đang theo học chuyên ngành Công nghệ thông tin với tập trung vào phát triển phần mềm, thuật toán và các mô hình lập trình hiện đại. Tích lũy kinh nghiệm thực tế qua các dự án và thực tập."
+      },
+      "master": {
+        "title": "...",
+        "institution": "...",
+        "desc": "Kế hoạch theo đuổi bậc học cao hơn về khoa học máy tính với chuyên môn về trí tuệ nhân tạo, học máy hoặc hệ thống phân tán."
+      }
+    },
+    "experience": {
+      "cloud": {
+        "title": "...",
+        "company": "Công ty ...",
+        "desc": "..."
+      },
+      "frontend": {
+        "title": "Lập trình viên Frontend",
+        "company": "Công ty ...",
+        "desc": "Vị trí tương lai phát triển các ứng dụng web responsive sử dụng React, TypeScript và các framework frontend hiện đại với tập trung vào trải nghiệm người dùng."
+      },
+      "backend": {
+        "title": "Lập trình viên Backend", 
+        "company": "Công ty ...",
+        "desc": "Vai trò tương lai xây dựng các hệ thống backend mạnh mẽ sử dụng Spring Boot, Node.js và công nghệ cơ sở dữ liệu để tạo APIs có thể mở rộng và microservices."
+      }
+    }
+  },
+  "skills": {
+    "title": "Kỹ năng của tôi",
+    "bgTitle": "Kỹ năng",
+    "circular": {
+      "database": "Cơ sở dữ liệu",
+      "backend": "Phát triển Back-end",
+      "frontend": "Phát triển Front-end", 
+      "mobile": "Phát triển Ứng dụng Di động"
+    }
+  },
+  "common": {
+    "available": "Có sẵn"
+  }
+}

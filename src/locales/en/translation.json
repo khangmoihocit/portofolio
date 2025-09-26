@@ -1,0 +1,162 @@
+{
+  "header": {
+    "logo": "KHANGMOIHOCIT.",
+    "home": "HOME",
+    "about": "ABOUT", 
+    "resume": "RESUME",
+    "works": "WORKS",
+    "blog": "BLOG",
+    "contact": "CONTACT",
+    "hireMe": "HIRE ME"
+  },
+  "hero": {
+    "hi": "Hi, I am",
+    "name": "Khang.",
+    "backendDev": "a backend developer.",
+    "frontendDev": "a frontend developer.",
+    "description": "I am a backend web developer, specializing in building robust, scalable, and secure server-side applications. I focus on writing clean, efficient code and designing optimized databases to ensure high performance and reliability",
+    "scrollDown": "Scroll Down"
+  },
+  "about": {
+    "title": "About Me",
+    "bgTitle": "About",
+    "greeting": "Hi, I am",
+    "name": "Khang",
+    "personalInfo": {
+      "firstName": "First Name",
+      "fullName": "Full Name", 
+      "age": "Age",
+      "nationality": "Nationality",
+      "languages": "Languages",
+      "address": "Address",
+      "freelance": "Freelance"
+    },
+    "personalData": {
+      "firstName": "Khang",
+      "fullName": "Phạm Văn Khang",
+      "age": "20 years",
+      "nationality": "Vietnamese",
+      "languages": "Vietnamese, English",
+      "address": "MyDuc, Hanoi, Vietnam",
+      "freelance": "Available"
+    },
+    "downloadResume": "Download Resume"
+  },
+  "services": {
+    "title": "My Services",
+    "bgTitle": "Services",
+    "uiDesign": "UI/UX Design",
+    "webDev": "Web Development",
+    "mobileDev": "Mobile App Development",
+    "uiDesc": "Creating intuitive and engaging user interfaces with modern design principles. I focus on user experience, accessibility, and responsive design to ensure optimal interaction across all devices.",
+    "webDesc": "Building robust, scalable web applications using modern technologies. Specializing in both frontend and backend development with clean, maintainable code and optimized performance.",
+    "mobileDesc": "Developing cross-platform mobile applications with native performance. Creating seamless user experiences for iOS and Android platforms using React Native and Flutter frameworks."
+  },
+  "contact": {
+    "title": "Contact Me",
+    "bgTitle": "Contact",
+    "contactInfo": "Contact Information",
+    "contactDesc": "Ready to start your next project? I'm always open to discussing new opportunities and interesting projects. Let's connect and create something amazing together!",
+    "phone": "Contact on phone",
+    "email": "Contact on mail", 
+    "address": "Contact address",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "namePlaceholder": "Enter your name...",
+      "emailPlaceholder": "Enter your email...",
+      "subjectPlaceholder": "Enter subject...",
+      "messagePlaceholder": "Enter your message...",
+      "sendMail": "Send Mail",
+      "devMessage": "This feature is currently under development. Please come back and try again later."
+    }
+  },
+  "portfolio": {
+    "title": "My Works",
+    "bgTitle": "Works", 
+    "loadMore": "Load More",
+    "filters": {
+      "all": "All"
+    },
+    "ecommerce": {
+      "title": "E-Commerce Platform",
+      "desc": "Full-featured e-commerce website with shopping cart, payment integration, and user authentication. Built with React.js and modern web technologies."
+    },
+    "minimartFrontend": {
+      "title": "Mini Mart Frontend", 
+      "desc": "React-based frontend for supermarket management system with inventory tracking, sales management, and responsive design."
+    },
+    "minimartBackend": {
+      "title": "Mini Mart Backend",
+      "desc": "RESTful API backend built with Spring Boot for supermarket management system with secure authentication and data management."
+    },
+    "portfolio": {
+      "title": "Personal Portfolio",
+      "desc": "Responsive portfolio website showcasing projects and skills. Features dark/light theme, multi-language support, and smooth animations."
+    },
+    "bookstore": {
+      "title": "Bookstore Management",
+      "desc": "Desktop application for bookstore management built with C# .NET WebForms, featuring inventory management and sales tracking."
+    },
+    "comingSoon": {
+      "title": "Coming Soon",
+      "desc": "New project in development. Stay tuned for more exciting features and innovative solutions."
+    }
+  },
+  "resume": {
+    "title": "My Resume",
+    "bgTitle": "Resume",
+    "educationTitle": "Educational Qualification",
+    "experienceTitle": "Working Experience",
+    "future": "Future",
+    "education": {
+      "highSchool": {
+        "title": "High School Graduation",
+        "institution": "Hop Thanh High School",
+        "desc": "Completed secondary education with focus on science and mathematics. Developed foundational knowledge and problem-solving skills that prepared me for university studies."
+      },
+      "bachelor": {
+        "title": "Bachelor of Computer Science",
+        "institution": "Hanoi Open University",
+        "desc": "Currently pursuing a degree in Computer Science with focus on software development, algorithms, and modern programming paradigms. Gaining practical experience through projects and internships."
+      },
+      "master": {
+        "title": "...",
+        "institution": "...",
+        "desc": "Planning to pursue advanced studies in computer science with specialization in artificial intelligence, machine learning, or distributed systems."
+      }
+    },
+    "experience": {
+      "cloud": {
+        "title": "...",
+        "company": "Company ...",
+        "desc": "..."
+      },
+      "frontend": {
+        "title": "Frontend Developer",
+        "company": "Company ...", 
+        "desc": "Future position developing responsive web applications using React, TypeScript, and modern frontend frameworks with focus on user experience."
+      },
+      "backend": {
+        "title": "Backend Developer",
+        "company": "Company ...",
+        "desc": "Future role building robust backend systems using Spring Boot, Node.js, and database technologies to create scalable APIs and microservices."
+      }
+    }
+  },
+  "skills": {
+    "title": "My Skills",
+    "bgTitle": "Skills",
+    "circular": {
+      "database": "Database",
+      "backend": "Back-end Development", 
+      "frontend": "Front-end Development",
+      "mobile": "Mobile App Development"
+    }
+  },
+  "common": {
+    "available": "Available"
+  }
+}

@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 // SVG Icons as React Components
 const IconEducation = () => (
@@ -13,56 +14,6 @@ const IconWork = () => (
         <path d="M7 5V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V5H21C21.5523 5 22 5.44772 22 6V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V6C2 5.44772 2.44772 5 3 5H7ZM4 16V19H20V16H4ZM4 14H20V7H4V14ZM9 3V5H15V3H9ZM11 11H13V13H11V11Z"></path>
     </svg>
 );
-
-// Education data
-const educationData = [
-    {
-        id: 1,
-        period: '2020 - 2023',
-        title: 'Higher School Graduation',
-        institution: 'Hop Thanh High School.',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur donec gravida ullamcorper cum id. Sit viverra donec in ornare euismod.'
-    },
-    {
-        id: 2,
-        period: '2023 - 2028',
-        title: 'Bachelor of Sciences',
-        institution: 'HaNoi Open University.',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur donec gravida ullamcorper cum id. Sit viverra donec in ornare euismod.'
-    },
-    {
-        id: 3,
-        period: '0 - 0',
-        title: 'Masters of Sciences',
-        institution: 'University.',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur donec gravida ullamcorper cum id. Sit viverra donec in ornare euismod.'
-    }
-];
-
-// Experience data
-const experienceData = [
-    {
-        id: 1,
-        period: '0 - 0',
-        title: 'Cloud',
-        company: 'Company x.',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur donec gravida ullamcorper cum id. Sit viverra donec in ornare euismod.'
-    },
-    {
-        id: 2,
-        period: '0 - 0',
-        title: 'Front-end Developer',
-        company: 'Company x.',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur donec gravida ullamcorper cum id. Sit viverra donec in ornare euismod.'
-    },
-    {
-        id: 3,
-        period: '0 - 0',
-        title: 'Back-end Developer',
-        company: 'Company x.',
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consectetur donec gravida ullamcorper cum id. Sit viverra donec in ornare euismod.'
-    }
-];
 
 const TimelineItem = ({ item, index, isLast }) => {
     const ref = useRef(null);
@@ -93,16 +44,68 @@ const TimelineItem = ({ item, index, isLast }) => {
 };
 
 const Resume = () => {
+    const { t } = useTranslation();
+    
+    // Education data
+    const educationData = [
+        {
+            id: 1,
+            period: '2020 - 2023',
+            title: t('resume.education.highSchool.title'),
+            institution: t('resume.education.highSchool.institution'),
+            description: t('resume.education.highSchool.desc')
+        },
+        {
+            id: 2,
+            period: '2023 - 2028',
+            title: t('resume.education.bachelor.title'),
+            institution: t('resume.education.bachelor.institution'),
+            description: t('resume.education.bachelor.desc')
+        },
+        {
+            id: 3,
+            period: t('resume.future'),
+            title: t('resume.education.master.title'),
+            institution: t('resume.education.master.institution'),
+            description: t('resume.education.master.desc')
+        }
+    ];
+
+    // Experience data
+    const experienceData = [
+        {
+            id: 1,
+            period: t('resume.future'),
+            title: t('resume.experience.cloud.title'),
+            company: t('resume.experience.cloud.company'),
+            description: t('resume.experience.cloud.desc')
+        },
+        {
+            id: 2,
+            period: t('resume.future'),
+            title: t('resume.experience.frontend.title'),
+            company: t('resume.experience.frontend.company'),
+            description: t('resume.experience.frontend.desc')
+        },
+        {
+            id: 3,
+            period: t('resume.future'),
+            title: t('resume.experience.backend.title'),
+            company: t('resume.experience.backend.company'),
+            description: t('resume.experience.backend.desc')
+        }
+    ];
+
     return (
         <section className="resume-section" id="resume">
             <div className="container-tw">
                 <div className="section-heading">
-                    <h2 className="title">My Resume</h2>
+                    <h2 className="title">{t('resume.title')}</h2>
                     <div className="title-anim">
                         <span></span>
                     </div>
                     <span className="bg-title" aria-hidden="true">
-                        Resume
+                        {t('resume.bgTitle')}
                     </span>
                 </div>
                 
@@ -112,7 +115,7 @@ const Resume = () => {
                         <div className="resume-category">
                             <h4 className="category-title">
                                 <IconEducation />
-                                Educational Qualification
+                                {t('resume.educationTitle')}
                             </h4>
                             <div className="timeline">
                                 {educationData.map((item, index) => (
@@ -132,7 +135,7 @@ const Resume = () => {
                         <div className="resume-category">
                             <h4 className="category-title">
                                 <IconWork />
-                                Working Experience
+                                {t('resume.experienceTitle')}
                             </h4>
                             <div className="timeline">
                                 {experienceData.map((item, index) => (

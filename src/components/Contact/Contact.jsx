@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import Button from '../common/Button';
 
 const Contact = () => {
+    const { t } = useTranslation();
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -23,9 +25,7 @@ const Contact = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
-        setMessage(
-            'This feature is currently under development. Please come back and try again later.'
-        );
+        setMessage(t('contact.form.devMessage'));
         setTimeout(() => {
             setMessage('');
         }, 5000);
@@ -35,22 +35,21 @@ const Contact = () => {
     const contactInfo = [
         {
             icon: FaPhone,
-            title: 'Contact on phone',
+            title: t('contact.phone'),
             details: ['+012-3456-7891', '+012-3456-7892'],
             links: ['tel:+01234567891', 'tel:+01234567892']
         },
         {
             icon: FaEnvelope,
-            title: 'Contact on mail',
-            details: ['khang567.ht@gmail.com', 'khangphamvan.dev@gmail.com'],
+            title: t('contact.email'),
+            details: ['khangphamvan.dev@gmail.com'],
             links: [
-                'mailto:khang567.ht@gmail.com',
                 'mailto:khangphamvan.dev@gmail.com'
             ]
         },
         {
             icon: FaMapMarkerAlt,
-            title: 'Contact address',
+            title: t('contact.address'),
             details: ['ToaA6, TranThuDo, HoangMai, HaNoi, VietNam'],
             links: ['#']
         }
@@ -68,7 +67,7 @@ const Contact = () => {
                         transition={{ duration: 0.6 }}
                         viewport={{ once: true }}
                     >
-                        Contact Us
+                        {t('contact.title')}
                     </motion.h2>
                     <motion.div
                         className='contact__title-underline'
@@ -79,7 +78,7 @@ const Contact = () => {
                     >
                         <span className='contact__title-underline__animation'></span>
                     </motion.div>
-                    <span className='contact__title-bg'>Contact</span>
+                    <span className='contact__title-bg'>{t('contact.bgTitle')}</span>
                 </div>
 
                 <div className='contact__content'>
@@ -92,12 +91,10 @@ const Contact = () => {
                         viewport={{ once: true }}
                     >
                         <h4 className='contact__info-title'>
-                            Contact Information
+                            {t('contact.contactInfo')}
                         </h4>
                         <p className='contact__info-description'>
-                            Lorem ipsum dolor sit amet consectetur adipisicing
-                            elit. A omnis, iusto harum possimus non praesentium
-                            qui facere.
+                            {t('contact.contactDesc')}
                         </p>
                         <span className='contact__info-divider'></span>
 
@@ -163,13 +160,13 @@ const Contact = () => {
                                     htmlFor='name'
                                     className='contact__form-label'
                                 >
-                                    Name
+                                    {t('contact.form.name')}
                                 </label>
                                 <input
                                     type='text'
                                     id='name'
                                     name='name'
-                                    placeholder='Enter your name...'
+                                    placeholder={t('contact.form.namePlaceholder')}
                                     value={formData.name}
                                     onChange={handleInputChange}
                                     className='contact__form-input'
@@ -182,13 +179,13 @@ const Contact = () => {
                                     htmlFor='email'
                                     className='contact__form-label'
                                 >
-                                    Email
+                                    {t('contact.form.email')}
                                 </label>
                                 <input
                                     type='email'
                                     id='email'
                                     name='email'
-                                    placeholder='Enter your email...'
+                                    placeholder={t('contact.form.emailPlaceholder')}
                                     value={formData.email}
                                     onChange={handleInputChange}
                                     className='contact__form-input'
@@ -201,13 +198,13 @@ const Contact = () => {
                                     htmlFor='subject'
                                     className='contact__form-label'
                                 >
-                                    Subject
+                                    {t('contact.form.subject')}
                                 </label>
                                 <input
                                     type='text'
                                     id='subject'
                                     name='subject'
-                                    placeholder='Enter subject...'
+                                    placeholder={t('contact.form.subjectPlaceholder')}
                                     value={formData.subject}
                                     onChange={handleInputChange}
                                     className='contact__form-input'
@@ -220,13 +217,13 @@ const Contact = () => {
                                     htmlFor='message'
                                     className='contact__form-label'
                                 >
-                                    Message
+                                    {t('contact.form.message')}
                                 </label>
                                 <textarea
                                     id='message'
                                     name='message'
                                     rows='5'
-                                    placeholder='Enter your message...'
+                                    placeholder={t('contact.form.messagePlaceholder')}
                                     value={formData.message}
                                     onChange={handleInputChange}
                                     className='contact__form-textarea'
@@ -238,7 +235,7 @@ const Contact = () => {
                                 type='submit'
                                 className='contact__form-submit'
                             >
-                                Send Mail
+                                {t('contact.form.sendMail')}
                             </Button>
                         </form>
                     </motion.div>
