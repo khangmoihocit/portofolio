@@ -6,7 +6,7 @@ import Button from '../common/Button';
 import '../../styles/components/_header.scss';
 import useScrollHandling from '../../hooks/useScrollHandling';
 import MenuLanguage from '../common/MenuLanguage/MenuLanguage';
-import Theme from '../common/Theme/theme';
+import Theme from '../common/Theme/Theme';
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
