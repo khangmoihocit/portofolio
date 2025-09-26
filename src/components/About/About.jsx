@@ -1,29 +1,32 @@
 // src/components/About/About.jsx
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import profilePic from '../../assets/images/unnamed.jpg';
 import Button from '../common/Button';
 import '../../styles/components/_about.scss';
 
 const About = () => {
+  const { t } = useTranslation();
+  
   const personalInfo = [
-    { label: 'First Name', value: 'Khang' },
-    { label: 'Full Name', value: 'Phạm Văn Khang' },
-    { label: 'Age', value: '20 years' },
-    { label: 'Nationality', value: 'Vietnamese' },
-    { label: 'Languages', value: 'Vietnamese, English' },
-    { label: 'Address', value: 'MyDuc, Hanoi, Vietnam' },
-    { label: 'Freelance', value: 'Available' }
+    { label: t('about.personalInfo.firstName'), value: t('about.personalData.firstName') },
+    { label: t('about.personalInfo.fullName'), value: t('about.personalData.fullName') },
+    { label: t('about.personalInfo.age'), value: t('about.personalData.age') },
+    { label: t('about.personalInfo.nationality'), value: t('about.personalData.nationality') },
+    { label: t('about.personalInfo.languages'), value: t('about.personalData.languages') },
+    { label: t('about.personalInfo.address'), value: t('about.personalData.address') },
+    { label: t('about.personalInfo.freelance'), value: t('about.personalData.freelance') }
   ];
 
   return (
     <section className="about-section" id="about">
       <div className="container">
         <div className="section-heading">
-          <h2 className="title">About Me</h2>
+          <h2 className="title">{t('about.title')}</h2>
           <span className="title-anim">
             <span></span>
           </span>
-          <span className="bg-title">About</span>
+          <span className="bg-title">{t('about.bgTitle')}</span>
         </div>
         <div className="grid">
           <div className="col-span-2 lg:col-span-1">
@@ -40,7 +43,7 @@ const About = () => {
           <div className="col-span-2 lg:col-span-1">
             <div className="about-content">
               <h3>
-                Hi, I am <span className="text-primary">Khang</span>
+                {t('about.greeting')} <span className="text-primary">{t('about.name')}</span>
               </h3>
               <ul className="styledlist">
                 {personalInfo.map((info, index) => (
@@ -50,7 +53,7 @@ const About = () => {
                 ))}
               </ul>
               <Button className="btn" variant="secondary">
-                <span>Download Resume</span>
+                <span>{t('about.downloadResume')}</span>
               </Button>
             </div>
           </div>

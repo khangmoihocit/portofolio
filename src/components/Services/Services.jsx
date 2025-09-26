@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import '../../styles/components/_services.scss';
 
 // SVG Icons as React Components
@@ -65,15 +66,38 @@ const ServiceItem = ({ icon, title, description, number, index }) => {
 };
 
 const Services = () => {
+    const { t } = useTranslation();
+    
+    const servicesData = [
+        {
+            icon: <IconPen />,
+            title: t('services.uiDesign'),
+            description: t('services.uiDesc'),
+            number: '01',
+        },
+        {
+            icon: <IconCode />,
+            title: t('services.webDev'),
+            description: t('services.webDesc'),
+            number: '02',
+        },
+        {
+            icon: <IconMobile />,
+            title: t('services.mobileDev'),
+            description: t('services.mobileDesc'),
+            number: '03',
+        },
+    ];
+
     return (
         <section className="services-section" id="services">
             <div className="container">
                 <div className="section-heading">
-                    <h2 className="title">My Services</h2>
+                    <h2 className="title">{t('services.title')}</h2>
                     <span className="title-anim">
                         <span></span>
                     </span>
-                    <span className="bg-title">Services</span>
+                    <span className="bg-title">{t('services.bgTitle')}</span>
                 </div>
                 <div className="services-wrapper">
                     {servicesData.map((service, index) => (

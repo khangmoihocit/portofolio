@@ -1,6 +1,7 @@
 // src/components/Hero/Hero.jsx
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import {
     FaFacebookF,
     FaTwitter,
@@ -14,6 +15,8 @@ import '../../styles/components/_hero.scss';
 import Social from '../common/Social';
 
 const Hero = () => {
+    const { t } = useTranslation();
+    
     return (
         <section className='hero' id='hero'>
             <motion.div
@@ -36,15 +39,15 @@ const Hero = () => {
                 </div>
 
                 <h1 className='hero__title'>
-                    Hi, I am{' '}
+                    {t('hero.hi')}{' '}
                     <TypeAnimation
                         className='hero__animated-text'
                         sequence={[
-                            'Khang.',
+                            t('hero.name'),
                             1000,
-                            'a backend developer.',
+                            t('hero.backendDev'),
                             1000,
-                            'a frontend developer.',
+                            t('hero.frontendDev'),
                             1000
                         ]}
                         wrapper='span'
@@ -55,11 +58,7 @@ const Hero = () => {
                 </h1>
 
                 <p className='hero__subtitle'>
-                    I am a backend web developer, specializing in building
-                    robust, scalable, and secure server-side applications. I
-                    focus on writing clean, efficient code and designing
-                    optimized databases to ensure high performance and
-                    reliability
+                    {t('hero.description')}
                 </p>
 
                 <Social />
@@ -67,7 +66,7 @@ const Hero = () => {
 
             <div className='hero__scroll-down'>
                 <span className='hero__scroll-down__arrow'>↓</span>
-                <span className='hero__scroll-down__text'>Scroll Down</span>
+                <span className='hero__scroll-down__text'>{t('hero.scrollDown')}</span>
             </div>
         </section>
     );

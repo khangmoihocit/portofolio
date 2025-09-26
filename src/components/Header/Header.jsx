@@ -1,6 +1,7 @@
 // src/components/Header/Header.jsx
 import React, { useState, useEffect } from 'react';
 import { Link as ScrollLink } from 'react-scroll';
+import { useTranslation } from 'react-i18next';
 import Button from '../common/Button';
 import '../../styles/components/_header.scss';
 import useScrollHandling from '../../hooks/useScrollHandling';
@@ -9,6 +10,7 @@ import Theme from '../common/Theme/theme';
 
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { t } = useTranslation();
 
     const { scrollPosition } = useScrollHandling();
     const [fixedPosition, setFixedPosition] = useState(false);
@@ -28,12 +30,12 @@ const Header = () => {
     };
 
     const navigationItems = [
-        { id: 'hero', number: '01', label: 'HOME' },
-        { id: 'about', number: '02', label: 'ABOUT' },
-        { id: 'resume', number: '03', label: 'RESUME' },
-        { id: 'portfolio', number: '04', label: 'WORKS' },
-        { id: 'blog', number: '05', label: 'BLOG' },
-        { id: 'contact', number: '06', label: 'CONTACT' }
+        { id: 'hero', number: '01', label: t('header.home') },
+        { id: 'about', number: '02', label: t('header.about') },
+        { id: 'resume', number: '03', label: t('header.resume') },
+        { id: 'portfolio', number: '04', label: t('header.works') },
+        { id: 'blog', number: '05', label: t('header.blog') },
+        { id: 'contact', number: '06', label: t('header.contact') }
     ];
 
     useEffect(() => {
@@ -45,7 +47,7 @@ const Header = () => {
     return (
         <header className={`header ${fixedPosition ? 'fixedHeader' : ''}`}>
             <a href='#' className='header__logo'>
-                KHANGMOIHOCIT.
+                {t('header.logo')}
             </a>
 
             <nav className='header__nav'>
@@ -71,7 +73,7 @@ const Header = () => {
             <div className="header__actions">
                 <MenuLanguage />
                 <Theme />
-                <Button onClick={handleHireMeClick}>HIRE ME</Button>
+                <Button onClick={handleHireMeClick}>{t('header.hireMe')}</Button>
             </div>
 
             {/* Mobile menu toggle */}
@@ -126,7 +128,7 @@ const Header = () => {
                             setIsMobileMenuOpen(false);
                         }}
                     >
-                        HIRE ME
+                        {t('header.hireMe')}
                     </Button>
                 </div>
             </div>

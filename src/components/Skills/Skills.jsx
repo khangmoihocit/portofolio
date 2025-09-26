@@ -1,24 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 import '../../styles/components/_skills.scss';
-
-const circularSkillsData = [
-    { name: 'Database', percentage: 60 },
-    { name: 'Back-end Development', percentage: 75 },
-    { name: 'Front-end Development', percentage: 70 },
-    { name: 'Mobile App Development', percentage: 50 },
-];
-
-const linearSkillsData = [
-    { name: 'Javascript', percentage: 65 },
-    { name: 'ASP.NET', percentage: 55},
-    { name: 'React Js', percentage: 60 },
-    { name: 'Java', percentage: 70 },
-    { name: 'Html & Css', percentage: 65 },
-    { name: 'Spring Framework', percentage: 75 },
-    { name: 'Postman', percentage: 70 },
-    { name: 'AI', percentage: 50 },
-];
 
 const CircularSkill = ({ name, percentage }) => {
     const ref = useRef(null);
@@ -57,7 +40,7 @@ const CircularSkill = ({ name, percentage }) => {
 };
 
 const LinearSkill = ({ name, percentage }) => {
-     const ref = useRef(null);
+    const ref = useRef(null);
     const isInView = useInView(ref, { once: true, margin: "-50px" });
 
     return(
@@ -67,7 +50,6 @@ const LinearSkill = ({ name, percentage }) => {
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.5, delay: 0.2 }}
-            
         >
             <h5>{name} - <span>({percentage}%)</span></h5>
             <div className="progress-bar">
@@ -82,17 +64,36 @@ const LinearSkill = ({ name, percentage }) => {
     )
 };
 
-
 const Skills = () => {
+    const { t } = useTranslation();
+    
+    const circularSkillsData = [
+        { name: t('skills.circular.database'), percentage: 60 },
+        { name: t('skills.circular.backend'), percentage: 75 },
+        { name: t('skills.circular.frontend'), percentage: 70 },
+        { name: t('skills.circular.mobile'), percentage: 50 },
+    ];
+
+    const linearSkillsData = [
+        { name: 'Javascript', percentage: 65 },
+        { name: 'ASP.NET', percentage: 55},
+        { name: 'React Js', percentage: 60 },
+        { name: 'Java', percentage: 70 },
+        { name: 'Html & Css', percentage: 65 },
+        { name: 'Spring Framework', percentage: 75 },
+        { name: 'Postman', percentage: 70 },
+        { name: 'AI', percentage: 50 },
+    ];
+
     return (
         <section className="skills-section" id="skills">
             <div className="container">
                 <div className="section-heading">
-                    <h2 className="title">My Skills</h2>
+                    <h2 className="title">{t('skills.title')}</h2>
                     <span className="title-anim">
                         <span></span>
                     </span>
-                    <span className="bg-title">Skills</span>
+                    <span className="bg-title">{t('skills.bgTitle')}</span>
                 </div>
                 <div className="skills-wrapper">
                     <div className="grid grid-cols-4">
