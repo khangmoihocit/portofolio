@@ -12,8 +12,8 @@
   "hero": {
     "hi": "Xin chào, tôi là",
     "name": "Khang.",
-    "backendDev": "một backend developer.",
-    "frontendDev": "một frontend developer.",
+    "backendDev": "một lập trình viên backend.",
+    "frontendDev": "một lập trình viên frontend.",
     "description": "Tôi là một nhà phát triển web backend, chuyên xây dựng các ứng dụng phía máy chủ mạnh mẽ, có khả năng mở rộng và bảo mật. Tôi tập trung vào việc viết mã sạch, hiệu quả và thiết kế cơ sở dữ liệu được tối ưu hóa để đảm bảo hiệu suất cao và độ tin cậy",
     "scrollDown": "Cuộn xuống"
   },

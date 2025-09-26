@@ -2,13 +2,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import {
-    FaFacebookF,
-    FaTwitter,
-    FaGithub,
-    FaLinkedinIn,
-    FaDribbble
-} from 'react-icons/fa';
 import { TypeAnimation } from 'react-type-animation';
 import profilePic from '../../assets/images/unnamed.jpg';
 import '../../styles/components/_hero.scss';
