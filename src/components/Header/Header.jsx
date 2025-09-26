@@ -7,7 +7,6 @@ import useScrollHandling from '../../hooks/useScrollHandling';
 import MenuLanguage from '../common/MenuLanguage/MenuLanguage';
 import Theme from '../common/Theme/theme';
 
-
 const Header = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -120,10 +119,10 @@ const Header = () => {
                         </ScrollLink>
                     ))}
                 </nav>
-                <div className="header__mobile-menu__actions">
+                {/* <div className="header__mobile-menu__actions">
                     <MenuLanguage />
                     <Theme />
-                </div>
+                </div> */}
                 <div className="header__mobile-menu__button">
                     <Button
                         onClick={() => {
