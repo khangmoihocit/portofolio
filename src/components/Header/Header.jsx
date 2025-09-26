@@ -119,10 +119,6 @@ const Header = () => {
                         </ScrollLink>
                     ))}
                 </nav>
-                {/* <div className="header__mobile-menu__actions">
-                    <MenuLanguage />
-                    <Theme />
-                </div> */}
                 <div className="header__mobile-menu__button">
                     <Button
                         onClick={() => {

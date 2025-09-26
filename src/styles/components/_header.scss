@@ -232,7 +232,17 @@
             gap: $spacing-md;
             margin-top: $spacing-lg;
             padding: $spacing-md 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            
+            // Dark theme
+            :root.dark-theme & {
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            // Đảm bảo các component con không bị overflow
+            > * {
+                flex-shrink: 0;
+            }
         }
 
         &__button {
