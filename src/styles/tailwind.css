@@ -1,6 +1,3 @@
-/* Tailwind CSS Custom Utility Classes */
-/* Thay vì dùng @tailwind directives, chúng ta tạo custom utilities */
-
 /* Custom color classes */
 .bg-navy { background-color: #0F172A; }
 .bg-light-slate { background-color: #BFBECB; }

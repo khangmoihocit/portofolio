@@ -37,7 +37,7 @@
     &--scrolled {
         background-color: rgba(255, 255, 255, 0.98);
         box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-        
+
         :root.dark-theme & {
             background-color: rgba(15, 23, 42, 0.98);
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
@@ -85,8 +85,7 @@
 
         @include mobile {
             gap: $spacing-sm;
-            
-            // Hide actions on mobile, show in mobile menu
+
             .button {
                 display: none;
             }
@@ -140,7 +139,6 @@
         }
     }
 
-    // Mobile menu toggle (for future implementation)
     &__mobile-toggle {
         display: none;
         flex-direction: column;
@@ -233,12 +231,12 @@
             margin-top: $spacing-lg;
             padding: $spacing-md 0;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
-            
+
             // Dark theme
             :root.dark-theme & {
                 border-top: 1px solid rgba(255, 255, 255, 0.1);
             }
-            
+
             // Đảm bảo các component con không bị overflow
             > * {
                 flex-shrink: 0;
@@ -247,7 +245,7 @@
 
         &__button {
             margin-top: $spacing-lg;
-            
+
             .button {
                 display: inline-block !important; // Override mobile hide
                 width: 100%;

@@ -1,7 +1,8 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { loadBalancer } from './apiLoadBalancer';
 
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY || '';
-const genAI = new GoogleGenerativeAI(API_KEY);
+// Export các hàm từ load balancer để maintain compatibility
+export { getGeminiResponse, getApiKeyStatus, checkGeminiApiKey, resetFailedKeys } from './apiLoadBalancer';
 
 const PERSONAL_INFO = {
     name: 'Phạm Văn Khang',
@@ -14,7 +15,7 @@ const PERSONAL_INFO = {
     profession: 'Backend Developer / Frontend Developer',
     university: 'Đại học Mở Hà Nội',
     major: 'Công nghệ thông tin',
-    status: 'Sinh viên năm cuối',
+    status: 'Sinh viên năm 3',
     skills: {
         backend: ['Spring Boot', 'Node.js', 'Java', 'Python', 'RESTful API', 'Microservices'],
         frontend: ['React.js', 'TypeScript', 'HTML/CSS', 'JavaScript', 'Responsive Design'],
@@ -40,10 +41,9 @@ const PERSONAL_INFO = {
 
 /**
  * Hàm tạo chỉ thị hệ thống (System Prompt) cho Gemini.
- * Đây là phần quan trọng nhất, định hình vai trò và cách hoạt động của AI.
  * @returns {string} Chỉ thị hệ thống.
  */
-function createSystemPrompt() {
+export function createSystemPrompt() {
     // Chuyển toàn bộ thông tin cá nhân thành một chuỗi JSON để AI dễ đọc
     const personalInfoString = JSON.stringify(PERSONAL_INFO, null, 2);
 
@@ -86,50 +86,23 @@ function createSystemPrompt() {
 }
 
 /**
- * Hàm gọi Gemini API đã được tối ưu hóa và sửa lỗi.
+ * Lấy thông tin chi tiết về load balancer
+ * @returns {Object} Detailed status
+ */
+export function getDetailedLoadBalancerStatus() {
+    return loadBalancer.getStatus();
+}
+
+/**
+ * Hàm gọi Gemini API với hệ thống retry và rotation API key
  * @param {string} userMessage - Tin nhắn từ người dùng.
  * @param {Array<Object>} conversationHistory - Lịch sử cuộc trò chuyện.
  * @returns {Promise<string>} - Câu trả lời từ AI.
+ * @deprecated Sử dụng load balancer thay thế - kept for backward compatibility
  */
-export async function getGeminiResponse(userMessage, conversationHistory = []) {
-    try {
-        const model = genAI.getGenerativeModel({
-            model: 'gemini-2.5-flash',
-            systemInstruction: createSystemPrompt(),
-        });
-
-        // 1. Tìm vị trí của tin nhắn đầu tiên do người dùng gửi
-        const firstUserMessageIndex = conversationHistory.findIndex(msg => msg.sender === 'user');
-
-        // 2. Tạo một lịch sử hợp lệ:
-        // - Nếu không tìm thấy tin nhắn nào của user (-1), tức là đây là tin nhắn đầu tiên,
-        //   thì ta sẽ bắt đầu với một lịch sử trống.
-        // - Nếu có, ta sẽ cắt mảng lịch sử bắt đầu từ tin nhắn đó để đảm bảo nó luôn bắt đầu bằng 'user'.
-        const validHistorySlice = firstUserMessageIndex === -1
-            ? []
-            : conversationHistory.slice(firstUserMessageIndex);
-
-        // 3. Ánh xạ lại lịch sử HỢP LỆ cho phù hợp với định dạng của Gemini API
-        const history = validHistorySlice.map(msg => ({
-            role: msg.sender === 'user' ? 'user' : 'model',
-            parts: [{ text: msg.text }],
-        }));
-
-        const chat = model.startChat({ history });
-
-        const result = await chat.sendMessage(userMessage);
-        const response = await result.response;
-        
-        return response.text();
-
-    } catch (error) {
-        console.error('Lỗi khi gọi Gemini API:', error);
-        return 'Ôi, có vẻ đã có lỗi xảy ra. Bạn vui lòng thử lại sau một chút nhé! 😥';
-    }
-}
-
-export function checkGeminiApiKey() {
-    return API_KEY && API_KEY !== 'your-gemini-api-key-here';
+export async function getGeminiResponseLegacy(userMessage, conversationHistory = []) {
+    console.warn('⚠️ Đang sử dụng legacy API - nên chuyển sang load balancer');
+    return getGeminiResponse(userMessage, conversationHistory);
 }
 
 export { PERSONAL_INFO };

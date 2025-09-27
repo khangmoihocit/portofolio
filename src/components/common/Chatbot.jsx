@@ -3,16 +3,21 @@ import {
     FaPaperPlane,
     FaSync,
     FaTimes,
-    FaWindowMinimize,
     FaExpand,
-    FaCompress
+    FaCompress,
+    FaKey,
+    FaExclamationTriangle,
+    FaCog,
+    FaChartLine
 } from 'react-icons/fa';
 import '../../styles/components/_chatbot.scss';
 import { FaRobot } from 'react-icons/fa';
 import {
     getGeminiResponse,
-    checkGeminiApiKey
+    checkGeminiApiKey,
+    getApiKeyStatus
 } from '../../services/geminiService';
+import { useLoadBalancerMonitor } from '../../hooks/useLoadBalancerMonitor';
 import Theme from './Theme/Theme';
 
 const initialMessages = [
@@ -41,8 +46,14 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
     const [hasApiKey, setHasApiKey] = useState(false);
     const [currentDate, setCurrentDate] = useState('');
     const [isFullScreen, setIsFullScreen] = useState(false);
+    const [showPerformancePanel, setShowPerformancePanel] = useState(false);
+    const [requestStartTime, setRequestStartTime] = useState(null);
+    const [lastResponseTime, setLastResponseTime] = useState(null);
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
+
+    // Load balancer monitoring
+    const { metrics, healthScore, trends, recommendations, isHealthy } = useLoadBalancerMonitor();
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -60,35 +71,50 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
         const currentInput = inputValue;
         setInputValue('');
         setIsLoading(true);
+        setRequestStartTime(Date.now());
 
         try {
-            // Gọi API Gemini với context đầy đủ
+            // Gọi API Gemini với load balancer
             const botResponseText = await getGeminiResponse(
                 currentInput,
                 messages
             );
+            
+            const responseTime = Date.now() - requestStartTime;
+            setLastResponseTime(responseTime);
+            
             const botMessage = {
                 id: Date.now() + 1,
                 sender: 'bot',
                 text:
                     botResponseText ||
-                    'Xin lỗi, tôi không thể trả lời câu hỏi này lúc này. Bạn có thể thử hỏi về kỹ năng, dự án, hoặc kinh nghiệm của Khang không? 😅'
+                    'Xin lỗi, tôi không thể trả lời câu hỏi này lúc này. Bạn có thể thử hỏi về kỹ năng, dự án, hoặc kinh nghiệm của Khang không? 😅',
+                responseTime
             };
 
             setMessages(prev => [...prev, botMessage]);
+            
+            // Log performance
+            console.log(`✅ Message processed in ${responseTime}ms`);
+            
         } catch (error) {
             console.error('Lỗi khi gửi tin nhắn:', error);
+            const responseTime = Date.now() - requestStartTime;
+            setLastResponseTime(responseTime);
 
             const errorMessage = {
                 id: Date.now() + 1,
                 sender: 'bot',
                 text: !hasApiKey
                     ? 'Tính năng AI chat chưa được cấu hình. Bạn có thể liên hệ trực tiếp qua form contact trên website nhé! 📞'
-                    : 'Xin lỗi, có lỗi xảy ra. Tôi vẫn có thể trả lời các câu hỏi cơ bản về Khang. Bạn muốn biết gì về anh ấy? 😊'
+                    : 'Xin lỗi, có lỗi xảy ra. Hệ thống sẽ tự động thử lại với API key khác. Bạn vui lòng thử lại nhé! 😊',
+                responseTime,
+                isError: true
             };
             setMessages(prev => [...prev, errorMessage]);
         } finally {
             setIsLoading(false);
+            setRequestStartTime(null);
             inputRef.current?.focus();
         }
     };
@@ -162,10 +188,35 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                         <h3 className='chatbot-header__title'>
                             KhangMoiHocIT Bot
                         </h3>
-                        <p className='chatbot-header__status'>We're online</p>
+                        <p className='chatbot-header__status'>
+                            {isHealthy ? (
+                                <>
+                                    <span className='status-indicator healthy'>●</span>
+                                    {metrics.healthyKeys}/{metrics.totalKeys} keys • {metrics.systemLoad} load
+                                </>
+                            ) : (
+                                <>
+                                    <FaExclamationTriangle className='status-indicator warning' />
+                                    System degraded
+                                </>
+                            )}
+                            {lastResponseTime && (
+                                <span className='response-time'>
+                                    • {lastResponseTime}ms
+                                </span>
+                            )}
+                        </p>
                     </div>
                 </div>
                 <div className='chatbot-header__actions'>
+                    <button
+                        onClick={() => setShowPerformancePanel(!showPerformancePanel)}
+                        aria-label='Toggle performance panel'
+                        className={showPerformancePanel ? 'active' : ''}
+                        title={`Health Score: ${healthScore}%`}
+                    >
+                        <FaChartLine />
+                    </button>
                     <button
                         onClick={handleRefresh}
                         aria-label='Refresh conversation'
@@ -180,6 +231,58 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                     </button>
                 </div>
             </header>
+
+            {showPerformancePanel && (
+                <div className='performance-panel'>
+                    <div className='performance-header'>
+                        <h4>Performance Dashboard</h4>
+                        <div className='health-score'>
+                            <span className='score-value'>{healthScore}</span>
+                            <span className='score-label'>Health Score</span>
+                        </div>
+                    </div>
+                    
+                    <div className='performance-metrics'>
+                        <div className='metric'>
+                            <span className='metric-label'>Response Time</span>
+                            <span className={`metric-value ${trends.responseTime === 'UP' ? 'trend-up' : trends.responseTime === 'DOWN' ? 'trend-down' : ''}`}>
+                                {metrics.averageResponseTime.toFixed(0)}ms
+                            </span>
+                        </div>
+                        
+                        <div className='metric'>
+                            <span className='metric-label'>Success Rate</span>
+                            <span className={`metric-value ${metrics.successRate >= 95 ? 'good' : 'warning'}`}>
+                                {metrics.successRate.toFixed(1)}%
+                            </span>
+                        </div>
+                        
+                        <div className='metric'>
+                            <span className='metric-label'>Queue</span>
+                            <span className={`metric-value ${metrics.queueSize > 10 ? 'warning' : ''}`}>
+                                {metrics.queueSize}
+                            </span>
+                        </div>
+                        
+                        <div className='metric'>
+                            <span className='metric-label'>Active</span>
+                            <span className='metric-value'>
+                                {metrics.activeRequests}
+                            </span>
+                        </div>
+                    </div>
+
+                    {recommendations.length > 0 && (
+                        <div className='performance-alerts'>
+                            {recommendations.slice(0, 2).map((rec, index) => (
+                                <div key={index} className={`alert alert-${rec.type.toLowerCase()}`}>
+                                    {rec.message}
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
 
             <main className='chatbot-messages'>
                 <p className='chatbot-messages__date'>{currentDate}</p>

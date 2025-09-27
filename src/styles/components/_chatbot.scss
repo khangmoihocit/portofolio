@@ -2,266 +2,379 @@
 @use '../abstracts/mixins' as *;
 
 .chatbot-widget {
-  width: 350px;
-  max-height: 500px;
-  border-radius: $border-radius-lg;
-  background-color: var(--color-navy);
-  border: 1px solid rgba(var(--color-slate-rgb), 0.2);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  // Tối ưu hóa performance cho transitions
-  will-change: transform, width, height, border-radius;
-  transform-origin: center;
-
-  //chế độ toàn màn hình
-  &__fullscreen {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100vw !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
-    border-radius: 0 !important;
-    z-index: $z-index-modal !important;
-    box-shadow: none !important;
-    
-    // Reset margin và transform có thể được áp dụng bởi container cha
-    margin: 0 !important;
-    transform: none !important;
-    // Smooth transition cho fullscreen
+    width: 350px;
+    max-height: 500px;
+    border-radius: $border-radius-lg;
+    background-color: var(--color-navy);
+    border: 1px solid rgba(var(--color-slate-rgb), 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    // Tối ưu hóa performance
-    will-change: auto;
+    // Tối ưu hóa performance cho transitions
+    will-change: transform, width, height, border-radius;
+    transform-origin: center;
 
-    .chatbot-header {
-      padding: $spacing-md $spacing-lg;
-    }
-    
-    .chatbot-messages {
-      flex: 1;
-      min-height: 0; // Quan trọng để flex hoạt động đúng
-    }
-    
-    .chatbot-input {
-      padding: $spacing-md $spacing-lg;
-    }
-    
-    @include mobile {
-        .chatbot-header, .chatbot-input {
-            padding: $spacing-md;
+    //chế độ toàn màn hình
+    &__fullscreen {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+        z-index: $z-index-modal !important;
+        box-shadow: none !important;
+
+        margin: 0 !important;
+        transform: none !important;
+        // Smooth transition cho fullscreen
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        // Tối ưu hóa performance
+        will-change: auto;
+
+        .chatbot-header {
+            padding: $spacing-md $spacing-lg;
+        }
+
+        .chatbot-messages {
+            flex: 1;
+            min-height: 0; // Quan trọng để flex hoạt động đúng
+        }
+
+        .chatbot-input {
+            padding: $spacing-md $spacing-lg;
+        }
+
+        @include mobile {
+            .chatbot-header,
+            .chatbot-input {
+                padding: $spacing-md;
+            }
         }
     }
-  }
 }
 
 .chatbot-header {
-  @include flex-between;
-  padding: $spacing-md;
-  border-bottom: 1px solid rgba(var(--color-slate-rgb), 0.2);
-  flex-shrink: 0;
+    @include flex-between;
+    padding: $spacing-md;
+    border-bottom: 1px solid rgba(var(--color-slate-rgb), 0.2);
+    flex-shrink: 0;
 
-  &__info {
-    @include flex-center;
-    gap: $spacing-sm;
-  }
-
-  &__icon {
-    font-size: 2rem;
-  }
-
-  &__title {
-    font-size: $font-size-base;
-    color: var(--color-white);
-    font-weight: $font-weight-semibold;
-    margin: 0;
-  }
-
-  &__status {
-    font-size: $font-size-small;
-    color: var(--color-green);
-    margin: 0;
-  }
-
-  &__actions {
-    @include flex-center;
-    gap: $spacing-md;
-
-    button {
-      color: var(--color-slate);
-      font-size: $font-size-base;
-      &:hover {
-        color: var(--color-white);
-      }
+    &__info {
+        @include flex-center;
+        gap: $spacing-sm;
     }
-  }
+
+    &__icon {
+        font-size: 2rem;
+    }
+
+    &__title {
+        font-size: $font-size-base;
+        color: var(--color-white);
+        font-weight: $font-weight-semibold;
+        margin: 0;
+    }
+
+    &__status {
+        font-size: $font-size-small;
+        color: var(--color-green);
+        margin: 0;
+    }
+
+    &__actions {
+        @include flex-center;
+        gap: $spacing-md;
+
+        button {
+            color: var(--color-slate);
+            font-size: $font-size-base;
+            &:hover {
+                color: var(--color-white);
+            }
+        }
+    }
 }
 
 .chatbot-messages {
-  flex-grow: 1;
-  padding: $spacing-md;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-xs;
+    flex-grow: 1;
+    padding: $spacing-md;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
 
-  &__date {
-    text-align: center;
-    font-size: $font-size-small;
-    color: var(--color-slate);
-    margin-bottom: $spacing-md;
-    align-self: center;
-  }
+    &__date {
+        text-align: center;
+        font-size: $font-size-small;
+        color: var(--color-slate);
+        margin-bottom: $spacing-md;
+        align-self: center;
+    }
 }
 
 .message-bubble {
-  max-width: 80%;
-  padding: $spacing-sm $spacing-md;
-  border-radius: 18px;
-  margin-bottom: $spacing-sm;
-  line-height: 1.5;
-  font-size: $font-size-small;
-  word-wrap: break-word;
-  word-break: break-word;
-  hyphens: auto;
-  display: inline-block;
-  width: fit-content;
-  min-width: fit-content;
+    max-width: 80%;
+    padding: $spacing-sm $spacing-md;
+    border-radius: 18px;
+    margin-bottom: $spacing-sm;
+    line-height: 1.5;
+    font-size: $font-size-small;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    display: inline-block;
+    width: fit-content;
+    min-width: fit-content;
 
-  .message-content {
-    strong {
-      font-weight: $font-weight-semibold;
-      color: inherit;
+    .message-content {
+        strong {
+            font-weight: $font-weight-semibold;
+            color: inherit;
+        }
+
+        em {
+            font-style: italic;
+        }
+
+        // Đảm bảo text ngắn không tạo bubble quá rộng
+        p {
+            margin: 0;
+        }
     }
-    
-    em {
-      font-style: italic;
+
+    &--bot {
+        background-color: rgba(var(--color-slate-rgb), 0.1);
+        color: var(--color-light-slate);
+        border-bottom-left-radius: 4px;
+        margin-right: auto;
+        align-self: flex-start;
     }
 
-    // Đảm bảo text ngắn không tạo bubble quá rộng
-    p {
-      margin: 0;
+    &--user {
+        background-color: var(--color-green);
+        color: var(--color-navy);
+        border-bottom-right-radius: 4px;
+        margin-left: auto;
+        align-self: flex-end;
     }
-  }
 
-  &--bot {
-    background-color: rgba(var(--color-slate-rgb), 0.1);
-    color: var(--color-light-slate);
-    border-bottom-left-radius: 4px;
-    margin-right: auto;
-    align-self: flex-start;
-  }
+    // Responsive cho fullscreen mobile
+    .chatbot-widget__fullscreen & {
+        max-width: 85%;
 
-  &--user {
-    background-color: var(--color-green);
-    color: var(--color-navy);
-    border-bottom-right-radius: 4px;
-    margin-left: auto;
-    align-self: flex-end;
-  }
-
-  // Responsive cho fullscreen mobile
-  .chatbot-widget__fullscreen & {
-    max-width: 85%;
-    
-    @include mobile {
-      max-width: 90%;
-      font-size: $font-size-base;
-      padding: $spacing-sm $spacing-md;
+        @include mobile {
+            max-width: 90%;
+            font-size: $font-size-base;
+            padding: $spacing-sm $spacing-md;
+        }
     }
-  }
 }
 
 .chatbot-input {
-  display: flex;
-  padding: $spacing-md;
-  border-top: 1px solid rgba(var(--color-slate-rgb), 0.2);
-  gap: $spacing-sm;
-  flex-shrink: 0;
+    display: flex;
+    padding: $spacing-md;
+    border-top: 1px solid rgba(var(--color-slate-rgb), 0.2);
+    gap: $spacing-sm;
+    flex-shrink: 0;
 
-  input {
-    width: 100%;
-    background-color: rgba(var(--color-slate-rgb), 0.1);
-    border: 1px solid transparent;
-    border-radius: $border-radius-sm;
-    padding: $spacing-sm $spacing-md;
-    color: var(--color-white);
-    font-size: $font-size-small;
-    transition: border-color $transition-fast;
+    input {
+        width: 100%;
+        background-color: rgba(var(--color-slate-rgb), 0.1);
+        border: 1px solid transparent;
+        border-radius: $border-radius-sm;
+        padding: $spacing-sm $spacing-md;
+        color: var(--color-white);
+        font-size: $font-size-small;
+        transition: border-color $transition-fast;
 
-    &:focus {
-      outline: none;
-      border-color: var(--color-green);
-    }
-  }
-
-  button {
-    @include flex-center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--color-green);
-    color: var(--color-navy);
-    font-size: $font-size-base;
-    transition: all $transition-fast;
-
-    &:hover:not(:disabled) {
-      opacity: 0.9;
-      transform: translateY(-1px);
+        &:focus {
+            outline: none;
+            border-color: var(--color-green);
+        }
     }
 
-    &:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
+    button {
+        @include flex-center;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: var(--color-green);
+        color: var(--color-navy);
+        font-size: $font-size-base;
+        transition: all $transition-fast;
 
-    &.loading {
-      animation: spin 1s linear infinite;
+        &:hover:not(:disabled) {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        &:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        &.loading {
+            animation: spin 1s linear infinite;
+        }
     }
-  }
 }
 
 // Hiệu ứng "is typing"
 .message-bubble.is-typing {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  width: fit-content;
-  padding: $spacing-sm $spacing-md;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    width: fit-content;
+    padding: $spacing-sm $spacing-md;
 
-  span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: currentColor;
-    opacity: 0.7;
-    animation: typing-bounce 1s infinite;
-    
-    &:nth-child(2) {
-      animation-delay: 0.2s;
+    span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: currentColor;
+        opacity: 0.7;
+        animation: typing-bounce 1s infinite;
+
+        &:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        &:nth-child(3) {
+            animation-delay: 0.4s;
+        }
     }
-    &:nth-child(3) {
-      animation-delay: 0.4s;
-    }
-  }
 }
 
 @keyframes typing-bounce {
-  0%, 60%, 100% {
-    transform: translateY(0);
-  }
-  30% {
-    transform: translateY(-4px);
-  }
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+    }
+    30% {
+        transform: translateY(-4px);
+    }
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// Performance Panel
+.performance-panel {
+    background-color: rgba(var(--color-slate-rgb), 0.05);
+    border-bottom: 1px solid rgba(var(--color-slate-rgb), 0.1);
+    padding: $spacing-md;
+    flex-shrink: 0;
+    
+    .performance-header {
+        @include flex-between;
+        margin-bottom: $spacing-sm;
+        
+        h4 {
+            color: var(--color-white);
+            font-size: $font-size-small;
+            font-weight: $font-weight-semibold;
+            margin: 0;
+        }
+        
+        .health-score {
+            text-align: center;
+            
+            .score-value {
+                display: block;
+                font-size: $font-size-lg;
+                font-weight: $font-weight-bold;
+                color: var(--color-green);
+            }
+            
+            .score-label {
+                font-size: $font-size-xs;
+                color: var(--color-slate);
+            }
+        }
+    }
+
+    .performance-metrics {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: $spacing-sm;
+        margin-bottom: $spacing-sm;
+        
+        .metric {
+            text-align: center;
+            padding: $spacing-xs;
+            background-color: rgba(var(--color-navy-rgb), 0.3);
+            border-radius: $border-radius-sm;
+            
+            .metric-label {
+                display: block;
+                font-size: $font-size-xs;
+                color: var(--color-slate);
+                margin-bottom: 2px;
+            }
+            
+            .metric-value {
+                display: block;
+                font-size: $font-size-small;
+                font-weight: $font-weight-semibold;
+                color: var(--color-white);
+                
+                &.good {
+                    color: var(--color-green);
+                }
+                
+                &.warning {
+                    color: #FF9800;
+                }
+                
+                &.trend-up {
+                    color: #FF5722;
+                }
+                
+                &.trend-down {
+                    color: var(--color-green);
+                }
+            }
+        }
+    }
+
+    .performance-alerts {
+        .alert {
+            padding: $spacing-xs $spacing-sm;
+            border-radius: $border-radius-sm;
+            font-size: $font-size-xs;
+            margin-bottom: $spacing-xs;
+            
+            &:last-child {
+                margin-bottom: 0;
+            }
+            
+            &.alert-warning {
+                background-color: rgba(255, 152, 0, 0.1);
+                border: 1px solid rgba(255, 152, 0, 0.3);
+                color: #FF9800;
+            }
+            
+            &.alert-error {
+                background-color: rgba(255, 87, 34, 0.1);
+                border: 1px solid rgba(255, 87, 34, 0.3);
+                color: #FF5722;
+            }
+            
+            &.alert-critical {
+                background-color: rgba(244, 67, 54, 0.1);
+                border: 1px solid rgba(244, 67, 54, 0.3);
+                color: #F44336;
+            }
+        }
+    }
 }

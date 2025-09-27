@@ -116,12 +116,10 @@
     transform: none !important;
     animation: none !important;
     opacity: 1 !important;
-    // Thêm hiệu ứng cho fullscreen transition
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
 }
 
-// Keyframes cho hiệu ứng xuất hiện
 @keyframes fadeIn {
   to {
     opacity: 1;
@@ -132,12 +130,11 @@
 // ---- Responsive cho Mobile ----
 @include mobile {
   .chatbot-container {
-    // Căn chatbot cho vừa màn hình mobile
     bottom: 150px;
     right: $spacing-md;
     left: $spacing-md;
 
-    // Chỉnh lại component Chatbot bên trong để nó full-width trên mobile
+    //full-width trên mobile
     .chatbot-widget {
       width: 100%;
     }
