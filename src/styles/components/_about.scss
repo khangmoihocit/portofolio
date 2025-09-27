@@ -84,10 +84,18 @@
 .about-section {
   padding-top: 8rem; // Adjusted padding slightly for better spacing
   padding-bottom: 8rem;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 
   @include tablet {
     padding-top: 7rem;
     padding-bottom: 7rem;
+  }
+
+  @include mobile {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
   }
 
   @include desktop {
@@ -100,6 +108,12 @@
     overflow: hidden;
     padding-bottom: 3.5rem;
     text-align: center;
+    width: 100%;
+    max-width: 100%;
+
+    @include mobile {
+      padding-bottom: 2.5rem;
+    }
 
     h2 {
       position: relative;
@@ -107,6 +121,8 @@
       margin-bottom: 0.5rem;
       text-transform: uppercase;
       color: var(--color-white);
+      word-wrap: break-word;
+      hyphens: auto;
     }
 
     .title-anim {
@@ -118,6 +134,10 @@
       overflow: hidden;
       border-radius: 9999px;
       background-color: rgba(16, 185, 129, 0.2);
+
+      @include mobile {
+        width: 6rem;
+      }
 
       :root.dark-theme & {
         background-color: rgba(114, 226, 174, 0.2);
@@ -149,6 +169,47 @@
       color: var(--color-white);
       opacity: 0.05;
       will-change: transform;
+      white-space: nowrap;
+
+      @include tablet {
+        font-size: 4rem;
+      }
+
+      @include mobile {
+        font-size: 3rem;
+      }
+    }
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: center;
+    gap: 1.75rem;
+    width: 100%;
+    max-width: 100%;
+
+    @include tablet {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    @include mobile {
+      gap: 2rem;
+    }
+  }
+
+  .col-span-2 {
+    grid-column: span 2 / span 2;
+    
+    @include tablet {
+      grid-column: span 1 / span 1;
+    }
+  }
+  
+  .lg\:col-span-1 {
+    @include desktop {
+      grid-column: span 1 / span 1;
     }
   }
 
@@ -157,10 +218,16 @@
     border-radius: $border-radius-lg;
     max-width: 350px;
     margin: 0 auto;
+    width: 100%;
+
+    @include mobile {
+      max-width: 280px;
+    }
 
     &-inner {
       position: relative;
       border: 10px solid rgba(16, 185, 129, 0.2);
+      width: 100%;
 
       :root.dark-theme & {
         border: 10px solid rgba(114, 226, 174, 0.2);
@@ -211,14 +278,26 @@
       img {
         width: 100%;
         border-radius: $border-radius-sm;
+        max-width: 100%;
+        height: auto;
       }
     }
   }
 
   .about-content {
+    width: 100%;
+    max-width: 100%;
+    
     h3 {
       margin-bottom: $spacing-md;
       color: var(--color-white);
+      word-wrap: break-word;
+      hyphens: auto;
+      
+      @include mobile {
+        font-size: $font-size-medium;
+      }
+      
       span {
         color: var(--color-green);
       }
@@ -227,41 +306,34 @@
     .styledlist {
       list-style: none;
       padding-left: 0;
+      width: 100%;
+      
       li {
         font-size: $font-size-base;
         margin-bottom: $spacing-sm;
         color: var(--color-light-slate);
+        word-wrap: break-word;
+        
+        @include mobile {
+          font-size: $font-size-small;
+        }
+        
         strong {
           display: inline-block;
           min-width: 120px;
           font-weight: $font-weight-medium;
           color: var(--color-white);
+          
+          @include mobile {
+            min-width: 100px;
+            font-size: $font-size-small;
+          }
         }
       }
     }
+    
     .btn {
       margin-top: $spacing-lg;
-    }
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    align-items: center;
-    gap: 1.75rem;
-
-    @include tablet {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
-  }
-
-  .col-span-2 {
-    grid-column: span 2 / span 2;
-  }
-  .lg\:col-span-1 {
-    @include desktop {
-      grid-column: span 1 / span 1;
     }
   }
 }

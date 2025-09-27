@@ -11,9 +11,16 @@
 
 .skills-section {
   padding: 6rem 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 
   @include tablet {
     padding: 7rem 0;
+  }
+
+  @include mobile {
+    padding: 4rem 0;
   }
 
   // Sử dụng lại style cho section-heading từ component About
@@ -23,6 +30,11 @@
     overflow: hidden;
     padding-bottom: 3.5rem;
     text-align: center;
+    width: 100%;
+
+    @include mobile {
+      padding-bottom: 2.5rem;
+    }
 
     h2 {
       position: relative;
@@ -30,6 +42,8 @@
       margin-bottom: 0.5rem;
       text-transform: uppercase;
       color: var(--color-white);
+      word-wrap: break-word;
+      hyphens: auto;
     }
 
     .title-anim {
@@ -41,6 +55,10 @@
       overflow: hidden;
       border-radius: 9999px;
       background-color: rgba(var(--color-green-rgb), 0.2);
+
+      @include mobile {
+        width: 6rem;
+      }
 
       span {
         position: absolute;
@@ -68,19 +86,38 @@
       color: var(--color-white);
       opacity: 0.05;
       will-change: transform;
+      white-space: nowrap;
+
+      @include tablet {
+        font-size: 4rem;
+      }
+
+      @include mobile {
+        font-size: 3rem;
+      }
     }
   }
 
   .skills-wrapper {
+    width: 100%;
+    max-width: 100%;
+    
     .grid {
         display: grid;
         gap: 1.75rem;
+        width: 100%;
+
+        @include mobile {
+          gap: 1rem;
+        }
 
         &.grid-cols-4 {
             grid-template-columns: repeat(1, 1fr);
+            
             @media (min-width: 640px) {
                 grid-template-columns: repeat(2, 1fr);
             }
+            
             @include desktop {
                 grid-template-columns: repeat(4, 1fr);
             }
@@ -88,6 +125,7 @@
 
         &.grid-cols-2 {
              grid-template-columns: repeat(1, 1fr);
+             
              @include tablet {
                 grid-template-columns: repeat(2, 1fr);
              }
@@ -105,6 +143,10 @@
     border: 1px solid rgba(var(--color-white-rgb), 0.1);
     border-radius: $border-radius-lg;
     transition: all $transition-medium;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   .hovercard:hover {
@@ -115,15 +157,24 @@
   .circleprogress {
     padding: 1.25rem;
     text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+
+    @include mobile {
+      padding: 1rem;
+    }
 
     .circle-container {
       position: relative;
       margin-bottom: 0.5rem;
       display: inline-block;
       color: var(--color-green);
+      max-width: 100%;
       
       .circle {
         transform: rotate(-90deg);
+        max-width: 100%;
+        height: auto;
       }
       
       .circlebg {
@@ -146,32 +197,63 @@
         color: var(--color-white);
         font-size: $font-size-large;
         font-weight: $font-weight-medium;
+        
+        @include mobile {
+          font-size: $font-size-medium;
+        }
       }
     }
     
     h5 {
       color: var(--color-light-slate);
       font-weight: $font-weight-medium;
+      word-wrap: break-word;
+      hyphens: auto;
+      
+      @include mobile {
+        font-size: $font-size-small;
+      }
     }
   }
 
   .progress {
     margin-bottom: 1.5rem;
+    width: 100%;
+    box-sizing: border-box;
+    
+    @include mobile {
+      margin-bottom: 1rem;
+    }
+    
     h5 {
       color: var(--color-white);
       font-weight: $font-weight-medium;
       margin-bottom: $spacing-sm;
+      word-wrap: break-word;
+      hyphens: auto;
+      
+      @include mobile {
+        font-size: $font-size-small;
+      }
+      
       span {
         color: var(--color-green);
       }
     }
+    
     .progress-bar {
       position: relative;
       height: 1rem;
       width: 100%;
+      max-width: 100%;
       border-radius: 9999px;
       background-color: rgba(var(--color-green-rgb), 0.2);
       overflow: hidden;
+      box-sizing: border-box;
+
+      @include mobile {
+        height: 0.75rem;
+      }
 
       .progress-progress {
         position: absolute;
@@ -181,6 +263,7 @@
         border-radius: 9999px;
         background-color: var(--color-green);
         animation: progress-animation 1.5s ease-out forwards;
+        max-width: 100%;
       }
     }
   }
