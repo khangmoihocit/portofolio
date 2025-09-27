@@ -3,11 +3,11 @@ import { FaArrowUp } from 'react-icons/fa';
 import useScrollHandling from '../../hooks/useScrollHandling';
 import '../../styles/components/_scrollToTopButton.scss';
 import { BiChevronUp } from "react-icons/bi";
-
-const ScrollToTopButton = () => {
+const ScrollToTopButton = ({icon}) => {
     const { scrollPosition } = useScrollHandling();
 
-    const isVisible = scrollPosition > 500;
+    // Nút sẽ hiển thị khi người dùng cuộn xuống hơn 400px
+    const isVisible = scrollPosition > 400;
 
     const scrollToTop = () => {
         window.scrollTo({
@@ -17,7 +17,7 @@ const ScrollToTopButton = () => {
     };
 
     return (
-        <div className={`scroll-to-top ${isVisible ? 'visible' : ''}`}>
+        // <div className={`scroll-to-top ${isVisible ? 'visible' : ''}`}>
             <button
                 type="button"
                 onClick={scrollToTop}
@@ -25,10 +25,11 @@ const ScrollToTopButton = () => {
                 aria-label="Cuộn lên đầu trang"
             >
                 <span className="scroll-to-top__text">
-                    <BiChevronUp style={{fontSize:"24px"}} />
+                    {/* <BiChevronUp style={{fontSize:"24px"}}/> */}
+                    {icon}
                 </span>
             </button>
-        </div>
+        // </div>
     );
 };
 

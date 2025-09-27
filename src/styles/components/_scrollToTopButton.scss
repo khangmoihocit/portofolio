@@ -7,6 +7,7 @@
   right: $spacing-xl;
   z-index: $z-index-dropdown;
   
+  // Hiệu ứng xuất hiện mượt mà
   opacity: 0;
   visibility: hidden;
   transform: translateY(20px);
@@ -34,12 +35,12 @@
     position: relative;
     z-index: 2;
     color: var(--color-navy);
-    font-size: $font-size-medium;
-    display: flex;
+    font-size: 24px;
+    display: flex; // Giúp căn giữa icon
     transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
-  // Hiệu ứng hover
+  // Hiệu ứng hover giống button chính
   &__button::after {
     content: '';
     position: absolute;

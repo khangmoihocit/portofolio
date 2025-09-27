@@ -1,0 +1,62 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.fab-menu {
+  position: fixed;
+  bottom: $spacing-xl;
+  right: $spacing-xl;
+  z-index: $z-index-dropdown;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  // Hiệu ứng ẩn/hiện cho cả cụm nút
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity $transition-medium, transform $transition-medium, visibility $transition-medium;
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  &__button {
+    @include button-reset;
+    @include flex-center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    color: white;
+    font-size: $font-size-large;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition: transform $transition-fast, box-shadow $transition-fast;
+
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  // --- Màu sắc riêng cho từng nút ---
+
+  // Nút Chatbot (thay cho điện thoại)
+  &__button--chatbot {
+    background-color: var(--color-green);
+    color: var(--color-button);
+  }
+
+  // Nút Zalo
+  &__button--zalo {
+    background-color: #0068ff;
+  }
+
+  // Nút Messenger
+  &__button--messenger {
+    img{
+      border-radius: 50%;
+    }
+    // background: linear-gradient(45deg, #f02849, #6a34dd, #0084ff);
+  }
+}
