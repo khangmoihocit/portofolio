@@ -1,0 +1,130 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.chatbot-widget {
+  width: 350px;
+  max-height: 500px;
+  border-radius: $border-radius-lg;
+  background-color: var(--color-navy);
+  border: 1px solid rgba(var(--color-slate-rgb), 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.chatbot-header {
+  @include flex-between;
+  padding: $spacing-md;
+  border-bottom: 1px solid rgba(var(--color-slate-rgb), 0.2);
+  flex-shrink: 0;
+
+  &__info {
+    @include flex-center;
+    gap: $spacing-sm;
+  }
+
+  &__icon {
+    font-size: 2rem;
+  }
+
+  &__title {
+    font-size: $font-size-base;
+    color: var(--color-white);
+    font-weight: $font-weight-semibold;
+    margin: 0;
+  }
+
+  &__status {
+    font-size: $font-size-small;
+    color: var(--color-green);
+    margin: 0;
+  }
+
+  &__actions {
+    @include flex-center;
+    gap: $spacing-md;
+
+    button {
+      color: var(--color-slate);
+      font-size: $font-size-base;
+      &:hover {
+        color: var(--color-white);
+      }
+    }
+  }
+}
+
+.chatbot-messages {
+  flex-grow: 1;
+  padding: $spacing-md;
+  overflow-y: auto;
+
+  &__date {
+    text-align: center;
+    font-size: $font-size-small;
+    color: var(--color-slate);
+    margin-bottom: $spacing-md;
+  }
+}
+
+.message-bubble {
+  max-width: 80%;
+  padding: $spacing-sm $spacing-md;
+  border-radius: 18px;
+  margin-bottom: $spacing-sm;
+  line-height: 1.5;
+  font-size: $font-size-small;
+
+  &--bot {
+    background-color: rgba(var(--color-slate-rgb), 0.1);
+    color: var(--color-light-slate);
+    border-bottom-left-radius: 4px;
+    margin-right: auto;
+  }
+
+  &--user {
+    background-color: var(--color-green);
+    color: var(--color-navy);
+    border-bottom-right-radius: 4px;
+    margin-left: auto;
+  }
+}
+
+.chatbot-input {
+  display: flex;
+  padding: $spacing-md;
+  border-top: 1px solid rgba(var(--color-slate-rgb), 0.2);
+  gap: $spacing-sm;
+  flex-shrink: 0;
+
+  input {
+    width: 100%;
+    background-color: rgba(var(--color-slate-rgb), 0.1);
+    border: 1px solid transparent;
+    border-radius: $border-radius-sm;
+    padding: $spacing-sm $spacing-md;
+    color: var(--color-white);
+    font-size: $font-size-small;
+    transition: border-color $transition-fast;
+
+    &:focus {
+      outline: none;
+      border-color: var(--color-green);
+    }
+  }
+
+  button {
+    @include flex-center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--color-green);
+    color: var(--color-navy);
+    font-size: $font-size-base;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
