@@ -8,8 +8,8 @@ class ApiLoadBalancer {
     constructor() {
         // API Keys configuration
         this.apiKeys = [
-            import.meta.env.VITE_GEMINI_API_KEY || '',
             import.meta.env.VITE_GEMINI_API_KEY_1 || '',
+            import.meta.env.VITE_GEMINI_API_KEY || '',
             import.meta.env.VITE_GEMINI_API_KEY_2 || '',
             import.meta.env.VITE_GEMINI_API_KEY_3 || '',
             import.meta.env.VITE_GEMINI_API_KEY_4 || '',

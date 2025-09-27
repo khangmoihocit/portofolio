@@ -18,7 +18,6 @@ import {
     getApiKeyStatus
 } from '../../services/geminiService';
 import { useLoadBalancerMonitor } from '../../hooks/useLoadBalancerMonitor';
-import Theme from './Theme/Theme';
 
 const initialMessages = [
     {
@@ -53,7 +52,8 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
     const inputRef = useRef(null);
 
     // Load balancer monitoring
-    const { metrics, healthScore, trends, recommendations, isHealthy } = useLoadBalancerMonitor();
+    const { metrics, healthScore, trends, recommendations, isHealthy } =
+        useLoadBalancerMonitor();
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -79,10 +79,10 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                 currentInput,
                 messages
             );
-            
+
             const responseTime = Date.now() - requestStartTime;
             setLastResponseTime(responseTime);
-            
+
             const botMessage = {
                 id: Date.now() + 1,
                 sender: 'bot',
@@ -94,8 +94,9 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
 
             setMessages(prev => [...prev, botMessage]);
             
-            // Log performance
-            console.log(`✅ Message processed in ${responseTime}ms`);
+            setTimeout(() => {
+                inputRef.current?.focus();
+            }, 100);
             
         } catch (error) {
             console.error('Lỗi khi gửi tin nhắn:', error);
@@ -112,10 +113,22 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                 isError: true
             };
             setMessages(prev => [...prev, errorMessage]);
+            
+            setTimeout(() => {
+                inputRef.current?.focus();
+            }, 100);
+            
         } finally {
             setIsLoading(false);
             setRequestStartTime(null);
-            inputRef.current?.focus();
+            
+            // Fallback focus nếu các focus trên không hoạt động
+            setTimeout(() => {
+                if (inputRef.current) {
+                    inputRef.current.focus();
+                    inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 150);
         }
     };
 
@@ -124,10 +137,16 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
         setInputValue('');
         setIsLoading(false);
         sessionStorage.removeItem('chatHistory'); // Xóa lịch sử đã lưu
+        
+        // Focus vào input sau khi refresh
+        setTimeout(() => {
+            inputRef.current?.focus();
+        }, 100);
     };
 
     const handleKeyPress = event => {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault(); // Ngăn xuống dòng khi nhấn Enter
             handleSendMessage();
         }
     };
@@ -135,11 +154,15 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
     const toggleFullScreen = () => {
         const newFullScreenState = !isFullScreen;
         setIsFullScreen(newFullScreenState);
-        
+
         // Thông báo cho parent component về thay đổi trạng thái fullscreen
         if (onFullScreenChange) {
             onFullScreenChange(newFullScreenState);
         }
+        
+        setTimeout(() => {
+            inputRef.current?.focus();
+        }, 300);
     };
 
     // Thay đổi: Lưu tin nhắn vào sessionStorage
@@ -160,25 +183,37 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
     // Kiểm tra API key khi component mount
     useEffect(() => {
         setHasApiKey(checkGeminiApiKey());
-        inputRef.current?.focus();
+        
+        setTimeout(() => {
+            inputRef.current?.focus();
+        }, 500);
     }, []);
 
-    // Tự động cuộn xuống tin nhắn mới nhất
+    // Tự động cuộn xuống tin nhắn mới nhất và focus input
     useEffect(() => {
         scrollToBottom();
+        
+        if (messages.length > 1) {
+            setTimeout(() => {
+                inputRef.current?.focus();
+            }, 200);
+        }
     }, [messages]);
 
     // Lấy và định dạng ngày hiện tại
     useEffect(() => {
         const today = new Date();
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        // Sử dụng 'en-US' để có định dạng "September 27, 2025"
         setCurrentDate(today.toLocaleDateString('en-US', options));
         console.log(isFullScreen);
     }, []);
 
     return (
-        <div className={`chatbot-widget ${isFullScreen ? 'chatbot-widget__fullscreen' : ''}`}>
+        <div
+            className={`chatbot-widget ${
+                isFullScreen ? 'chatbot-widget__fullscreen' : ''
+            }`}
+        >
             <header className='chatbot-header'>
                 <div className='chatbot-header__info'>
                     <span className='chatbot-header__icon'>
@@ -191,8 +226,11 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                         <p className='chatbot-header__status'>
                             {isHealthy ? (
                                 <>
-                                    <span className='status-indicator healthy'>●</span>
-                                    {metrics.healthyKeys}/{metrics.totalKeys} keys • {metrics.systemLoad} load
+                                    <span className='status-indicator healthy'>
+                                        ●
+                                    </span>
+                                    {metrics.healthyKeys}/{metrics.totalKeys}{' '}
+                                    keys • {metrics.systemLoad} load
                                 </>
                             ) : (
                                 <>
@@ -210,7 +248,17 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                 </div>
                 <div className='chatbot-header__actions'>
                     <button
-                        onClick={() => setShowPerformancePanel(!showPerformancePanel)}
+                        onClick={() => {
+                            const newState = !showPerformancePanel;
+                            setShowPerformancePanel(newState);
+                            
+                            // Focus vào input khi đóng performance panel để tiếp tục chat
+                            if (!newState) {
+                                setTimeout(() => {
+                                    inputRef.current?.focus();
+                                }, 100);
+                            }
+                        }}
                         aria-label='Toggle performance panel'
                         className={showPerformancePanel ? 'active' : ''}
                         title={`Health Score: ${healthScore}%`}
@@ -223,7 +271,14 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                     >
                         <FaSync />
                     </button>
-                    <button onClick={toggleFullScreen} aria-label={isFullScreen ? 'Exit fullscreen' : 'Enter fullscreen'}>
+                    <button
+                        onClick={toggleFullScreen}
+                        aria-label={
+                            isFullScreen
+                                ? 'Exit fullscreen'
+                                : 'Enter fullscreen'
+                        }
+                    >
                         {isFullScreen ? <FaCompress /> : <FaExpand />}
                     </button>
                     <button onClick={handleClose} aria-label='Close widget'>
@@ -241,29 +296,47 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                             <span className='score-label'>Health Score</span>
                         </div>
                     </div>
-                    
+
                     <div className='performance-metrics'>
                         <div className='metric'>
                             <span className='metric-label'>Response Time</span>
-                            <span className={`metric-value ${trends.responseTime === 'UP' ? 'trend-up' : trends.responseTime === 'DOWN' ? 'trend-down' : ''}`}>
+                            <span
+                                className={`metric-value ${
+                                    trends.responseTime === 'UP'
+                                        ? 'trend-up'
+                                        : trends.responseTime === 'DOWN'
+                                        ? 'trend-down'
+                                        : ''
+                                }`}
+                            >
                                 {metrics.averageResponseTime.toFixed(0)}ms
                             </span>
                         </div>
-                        
+
                         <div className='metric'>
                             <span className='metric-label'>Success Rate</span>
-                            <span className={`metric-value ${metrics.successRate >= 95 ? 'good' : 'warning'}`}>
+                            <span
+                                className={`metric-value ${
+                                    metrics.successRate >= 95
+                                        ? 'good'
+                                        : 'warning'
+                                }`}
+                            >
                                 {metrics.successRate.toFixed(1)}%
                             </span>
                         </div>
-                        
+
                         <div className='metric'>
                             <span className='metric-label'>Queue</span>
-                            <span className={`metric-value ${metrics.queueSize > 10 ? 'warning' : ''}`}>
+                            <span
+                                className={`metric-value ${
+                                    metrics.queueSize > 10 ? 'warning' : ''
+                                }`}
+                            >
                                 {metrics.queueSize}
                             </span>
                         </div>
-                        
+
                         <div className='metric'>
                             <span className='metric-label'>Active</span>
                             <span className='metric-value'>
@@ -275,7 +348,10 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                     {recommendations.length > 0 && (
                         <div className='performance-alerts'>
                             {recommendations.slice(0, 2).map((rec, index) => (
-                                <div key={index} className={`alert alert-${rec.type.toLowerCase()}`}>
+                                <div
+                                    key={index}
+                                    className={`alert alert-${rec.type.toLowerCase()}`}
+                                >
                                     {rec.message}
                                 </div>
                             ))}
@@ -321,13 +397,21 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                     type='text'
                     placeholder={
                         hasApiKey
-                            ? 'Hỏi về kỹ năng, dự án của Khang...'
+                            ? isLoading 
+                                ? 'Đang xử lý...'
+                                : 'Hỏi về kỹ năng, dự án của Khang...'
                             : 'Enter message'
                     }
                     value={inputValue}
                     onChange={e => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
                     disabled={isLoading}
+                    autoFocus
+                    autoComplete="off"
+                    style={{
+                        transition: 'all 0.2s ease',
+                        transform: isLoading ? 'scale(0.99)' : 'scale(1)'
+                    }}
                 />
                 <button
                     onClick={handleSendMessage}
