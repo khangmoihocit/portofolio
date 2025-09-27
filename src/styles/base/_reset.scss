@@ -11,6 +11,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden; // Prevent horizontal scroll on html
+  max-width: 100vw; // Limit maximum width to viewport
 }
 
 body {
@@ -21,12 +23,49 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  max-width: 100vw; // Limit body width
+  position: relative;
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+// Ensure all elements don't exceed viewport width
+* {
+  max-width: 100%;
+}
+
+// Specific container rules for mobile
+@media (max-width: 768px) {
+  .main-container,
+  .hero,
+  .about-section,
+  .skills-section,
+  section {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+  }
+  
+  // Ensure text doesn't overflow
+  h1, h2, h3, h4, h5, h6, p, span, div {
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+    hyphens: auto !important;
+    overflow-wrap: break-word !important;
+  }
+  
+  // Prevent images from overflowing
+  img, svg {
+    max-width: 100% !important;
+    height: auto !important;
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
   @include heading-primary;
   margin-bottom: $spacing-md;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 h1 {
