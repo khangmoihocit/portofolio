@@ -76,6 +76,17 @@
   line-height: 1.5;
   font-size: $font-size-small;
 
+  .message-content {
+    strong {
+      font-weight: $font-weight-semibold;
+      color: inherit;
+    }
+    
+    em {
+      font-style: italic;
+    }
+  }
+
   &--bot {
     background-color: rgba(var(--color-slate-rgb), 0.1);
     color: var(--color-light-slate);
@@ -122,9 +133,20 @@
     background-color: var(--color-green);
     color: var(--color-navy);
     font-size: $font-size-base;
+    transition: all $transition-fast;
 
-    &:hover {
+    &:hover:not(:disabled) {
       opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &.loading {
+      animation: spin 1s linear infinite;
     }
   }
 }
@@ -158,5 +180,14 @@
   }
   30% {
     transform: translateY(-4px);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
