@@ -29,7 +29,6 @@ const Contact = () => {
         setTimeout(() => {
             setMessage('');
         }, 5000);
-        // Handle form submission logic here
     };
 
     const contactInfo = [
