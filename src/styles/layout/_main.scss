@@ -2,7 +2,11 @@
 @use '../abstracts/mixins' as *;
 
 .main-container {
+  width: 100%;
+  max-width: 100vw;
   padding: 0 10%;
+  box-sizing: border-box;
+  overflow-x: hidden;
   
   @include tablet {
     padding: 0 5%;
@@ -10,5 +14,13 @@
   
   @include mobile {
     padding: 0 $spacing-md;
+    max-width: 100%;
   }
+}
+
+// Ensure sections don't overflow
+.section {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
