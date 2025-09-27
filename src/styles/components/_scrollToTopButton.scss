@@ -1,0 +1,66 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.scroll-to-top {
+  position: fixed;
+  bottom: $spacing-xl;
+  right: $spacing-xl;
+  z-index: $z-index-dropdown;
+  
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity $transition-medium, transform $transition-medium, visibility $transition-medium;
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  &__button {
+    @include button-reset;
+    @include flex-center;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--color-green);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+  }
+
+  &__text {
+    position: relative;
+    z-index: 2;
+    color: var(--color-navy);
+    font-size: $font-size-medium;
+    display: flex;
+    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  // Hiệu ứng hover
+  &__button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-white);
+    border-radius: 50%;
+    z-index: 1;
+    transform: scale(0);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__button:hover {
+    .scroll-to-top__text {
+      color: var(--color-navy);
+    }
+
+    &::after {
+      transform: scale(1);
+    }
+  }
+}
