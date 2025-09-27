@@ -1,20 +1,11 @@
 import React from 'react';
 import { FaArrowUp, FaRobot, FaFacebookMessenger } from 'react-icons/fa';
 import { SiZalo } from 'react-icons/si'; // Sử dụng icon Zalo từ Simple Icons
-import useScrollHandling from '../../hooks/useScrollHandling';
 import '../../styles/components/_floatingActionMenu.scss';
-import ScrollToTopButton from './ButtonIcon';
+import ButtonIcon from './ButtonIcon';
 import messenger from '../../assets/images/messenger.png'
-import { BiChevronUp } from "react-icons/bi";
 
 const FloatingActionMenu = () => {
-    const { scrollPosition } = useScrollHandling();
-    const isVisible = scrollPosition > 400;
-
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
     const handleChatbotClick = () => {
         // Thêm logic mở chatbot của bạn ở đây
         alert('Chatbot feature is coming soon!');
@@ -24,12 +15,7 @@ const FloatingActionMenu = () => {
     const messengerLink = 'https://m.me/your-facebook-page-id';
 
     return (
-        <div className={`fab-menu ${isVisible ? 'visible' : ''}`}>
-            {/* Scroll to Top Button */}
-            <div>
-                <ScrollToTopButton icon={<BiChevronUp />}/>
-            </div>
-
+        <div className={`fab-menu visible`}>
             {/* Chatbot Button */}
             <button
                 type='button'
@@ -37,7 +23,7 @@ const FloatingActionMenu = () => {
                 className='fab-menu__button fab-menu__button--chatbot'
                 aria-label='Mở Chatbot'
             >
-                <ScrollToTopButton icon={<FaRobot />}/>
+                <ButtonIcon icon={<FaRobot />}/>
             </button>
 
             {/* Zalo Button */}

@@ -11,6 +11,7 @@ import Resume from './components/Resume/Resume';
 import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
 import FloatingActionMenu from './components/common/FloatingActionMenu';
+import ScrollToTopButton from './components/common/ScrollToTopButton';
 
 function App() {
     return (
@@ -27,6 +28,7 @@ function App() {
             </main>
             <Footer />
             <FloatingActionMenu />
+            <ScrollToTopButton />
         </>
     );
 }
