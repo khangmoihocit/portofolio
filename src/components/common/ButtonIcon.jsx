@@ -6,7 +6,6 @@ const ButtonIcon = ({ icon, ...props }) => {
         <button
             type='button'
             className='scroll-to-top__button'
-            aria-label='Cuộn lên đầu trang'
             {...props}
         >
             <span className='scroll-to-top__text'>{icon}</span>

@@ -2,15 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { FaPaperPlane, FaSync, FaTimes, FaWindowMinimize } from 'react-icons/fa';
 import '../../styles/components/_chatbot.scss';
 import {FaRobot} from 'react-icons/fa';
-// Dữ liệu chat ban đầu để minh họa
+
 const initialMessages = [
-    { id: 1, sender: 'bot', text: 'Chào bạn! Rất vui được gặp bạn 👋' },
-    { id: 2, sender: 'bot', text: 'Chúng tôi đang có mã giảm giá 10% cho khách hàng mới! Bạn có muốn nhận ngay bây giờ không?' }
+    { id: 1, sender: 'bot', text: 'Chào bạn! Tôi là trợ lý ảo của Khang. Bạn cần tôi giúp gì không?' }
 ];
 
 const Chatbot = ({ handleClose }) => {
     const [messages, setMessages] = useState(initialMessages);
     const [inputValue, setInputValue] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
 
     // Tự động cuộn xuống tin nhắn mới nhất
@@ -22,20 +22,20 @@ const Chatbot = ({ handleClose }) => {
         scrollToBottom();
     }, [messages]);
 
-    const handleSendMessage = () => {
-        if (inputValue.trim() === '') return;
+   const handleSendMessage = async () => {
+        // if (inputValue.trim() === '' || isLoading) return;
 
-        // Thêm tin nhắn của người dùng
-        const userMessage = { id: Date.now(), sender: 'user', text: inputValue };
+        // const userMessage = { id: Date.now(), sender: 'user', text: inputValue };
+        // setMessages(prev => [...prev, userMessage]);
+        // setInputValue('');
+        // setIsLoading(true);
+
+        // // Gọi API Gemini và chờ câu trả lời
+        // const botResponseText = await getGeminiResponse(inputValue, messages);
+        // const botMessage = { id: Date.now() + 1, sender: 'bot', text: botResponseText };
         
-        // Giả lập bot trả lời sau 1 giây
-        setTimeout(() => {
-            const botResponse = { id: Date.now() + 1, sender: 'bot', text: 'Cảm ơn bạn đã nhắn tin. Tôi sẽ phản hồi sớm nhất có thể.' };
-            setMessages(prev => [...prev, botResponse]);
-        }, 1000);
-
-        setMessages(prev => [...prev, userMessage]);
-        setInputValue('');
+        // setMessages(prev => [...prev, botMessage]);
+        // setIsLoading(false);
     };
 
     const handleKeyPress = (event) => {
@@ -70,6 +70,12 @@ const Chatbot = ({ handleClose }) => {
                         {msg.text}
                     </div>
                 ))}
+                {/* Hiệu ứng "Bot is typing..." */}
+                {isLoading && (
+                    <div className="message-bubble message-bubble--bot is-typing">
+                        <span></span><span></span><span></span>
+                    </div>
+                )}
                 <div ref={messagesEndRef} />
             </main>
 
@@ -81,6 +87,7 @@ const Chatbot = ({ handleClose }) => {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
+                    disabled={isLoading}
                 />
                 <button onClick={handleSendMessage} aria-label="Send message">
                     <FaPaperPlane />

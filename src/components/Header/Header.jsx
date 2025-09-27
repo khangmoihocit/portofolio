@@ -39,9 +39,7 @@ const Header = () => {
     ];
 
     useEffect(() => {
-        console.log(scrollPosition);
         setFixedPosition(scrollPosition > 80 ? true : false);
-        console.log(fixedPosition);
     }, [scrollPosition]);
 
     return (

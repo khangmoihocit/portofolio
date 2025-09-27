@@ -9,7 +9,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/genai": "^1.21.0",
     "framer-motion": "^12.23.16",
+    "generative-ai": "^0.1.4",
     "i18next": "^25.5.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
