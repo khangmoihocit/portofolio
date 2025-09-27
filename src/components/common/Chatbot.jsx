@@ -3,7 +3,9 @@ import {
     FaPaperPlane,
     FaSync,
     FaTimes,
-    FaWindowMinimize
+    FaWindowMinimize,
+    FaExpand,
+    FaCompress
 } from 'react-icons/fa';
 import '../../styles/components/_chatbot.scss';
 import { FaRobot } from 'react-icons/fa';
@@ -11,6 +13,7 @@ import {
     getGeminiResponse,
     checkGeminiApiKey
 } from '../../services/geminiService';
+import Theme from './Theme/Theme';
 
 const initialMessages = [
     {
@@ -20,28 +23,30 @@ const initialMessages = [
     }
 ];
 
-const Chatbot = ({ handleClose }) => {
-    const [messages, setMessages] = useState(initialMessages);
+const Chatbot = ({ handleClose, onFullScreenChange }) => {
+    const [messages, setMessages] = useState(() => {
+        try {
+            const savedMessages = sessionStorage.getItem('chatHistory');
+            return savedMessages ? JSON.parse(savedMessages) : initialMessages;
+        } catch (error) {
+            console.error(
+                'Could not parse chat history from sessionStorage',
+                error
+            );
+            return initialMessages;
+        }
+    });
     const [inputValue, setInputValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [hasApiKey, setHasApiKey] = useState(false);
+    const [currentDate, setCurrentDate] = useState('');
+    const [isFullScreen, setIsFullScreen] = useState(false);
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
 
-    // Kiểm tra API key khi component mount
-    useEffect(() => {
-        setHasApiKey(checkGeminiApiKey());
-        inputRef.current?.focus();
-    }, []);
-
-    // Tự động cuộn xuống tin nhắn mới nhất
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     };
-
-    useEffect(() => {
-        scrollToBottom();
-    }, [messages]);
 
     const handleSendMessage = async () => {
         if (inputValue.trim() === '' || isLoading) return;
@@ -92,6 +97,7 @@ const Chatbot = ({ handleClose }) => {
         setMessages(initialMessages);
         setInputValue('');
         setIsLoading(false);
+        sessionStorage.removeItem('chatHistory'); // Xóa lịch sử đã lưu
     };
 
     const handleKeyPress = event => {
@@ -100,9 +106,53 @@ const Chatbot = ({ handleClose }) => {
         }
     };
 
+    const toggleFullScreen = () => {
+        const newFullScreenState = !isFullScreen;
+        setIsFullScreen(newFullScreenState);
+        
+        // Thông báo cho parent component về thay đổi trạng thái fullscreen
+        if (onFullScreenChange) {
+            onFullScreenChange(newFullScreenState);
+        }
+    };
+
+    // Thay đổi: Lưu tin nhắn vào sessionStorage
+    useEffect(() => {
+        try {
+            // Chỉ lưu nếu cuộc trò chuyện đã bắt đầu
+            if (messages.length > initialMessages.length) {
+                sessionStorage.setItem('chatHistory', JSON.stringify(messages));
+            }
+        } catch (error) {
+            console.error(
+                'Could not save chat history to sessionStorage',
+                error
+            );
+        }
+    }, [messages]);
+
+    // Kiểm tra API key khi component mount
+    useEffect(() => {
+        setHasApiKey(checkGeminiApiKey());
+        inputRef.current?.focus();
+    }, []);
+
+    // Tự động cuộn xuống tin nhắn mới nhất
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
+    // Lấy và định dạng ngày hiện tại
+    useEffect(() => {
+        const today = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        // Sử dụng 'en-US' để có định dạng "September 27, 2025"
+        setCurrentDate(today.toLocaleDateString('en-US', options));
+        console.log(isFullScreen);
+    }, []);
+
     return (
-        <div className='chatbot-widget'>
-            {/* Header */}
+        <div className={`chatbot-widget ${isFullScreen ? 'chatbot-widget__fullscreen' : ''}`}>
             <header className='chatbot-header'>
                 <div className='chatbot-header__info'>
                     <span className='chatbot-header__icon'>
@@ -122,8 +172,8 @@ const Chatbot = ({ handleClose }) => {
                     >
                         <FaSync />
                     </button>
-                    <button aria-label='Minimize widget'>
-                        <FaWindowMinimize />
+                    <button onClick={toggleFullScreen} aria-label={isFullScreen ? 'Exit fullscreen' : 'Enter fullscreen'}>
+                        {isFullScreen ? <FaCompress /> : <FaExpand />}
                     </button>
                     <button onClick={handleClose} aria-label='Close widget'>
                         <FaTimes />
@@ -131,9 +181,8 @@ const Chatbot = ({ handleClose }) => {
                 </div>
             </header>
 
-            {/* Message Area */}
             <main className='chatbot-messages'>
-                <p className='chatbot-messages__date'>September 27, 2025</p>
+                <p className='chatbot-messages__date'>{currentDate}</p>
                 {messages.map(msg => (
                     <div
                         key={msg.id}
@@ -153,7 +202,6 @@ const Chatbot = ({ handleClose }) => {
                         />
                     </div>
                 ))}
-                {/* Hiệu ứng "Bot is typing..." */}
                 {isLoading && (
                     <div className='message-bubble message-bubble--bot is-typing'>
                         <span></span>
@@ -164,9 +212,9 @@ const Chatbot = ({ handleClose }) => {
                 <div ref={messagesEndRef} />
             </main>
 
-            {/* Input Area */}
             <footer className='chatbot-input'>
                 <input
+                    ref={inputRef}
                     type='text'
                     placeholder={
                         hasApiKey
@@ -176,7 +224,7 @@ const Chatbot = ({ handleClose }) => {
                     value={inputValue}
                     onChange={e => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    // disabled={isLoading}
+                    disabled={isLoading}
                 />
                 <button
                     onClick={handleSendMessage}

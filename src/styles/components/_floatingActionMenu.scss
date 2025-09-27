@@ -3,8 +3,8 @@
 
 .fab-menu {
   position: fixed;
-  bottom: 100px; // Giảm khoảng cách với mép dưới
-  right: $spacing-md;   // Giảm khoảng cách với mép phải
+  bottom: 100px; 
+  right: $spacing-md; 
   z-index: $z-index-dropdown;
   display: flex;
   flex-direction: column;
@@ -27,11 +27,11 @@
   &__button {
     @include button-reset;
     @include flex-center;
-    width: 48px; // Giảm kích thước trên mobile
+    width: 48px; 
     height: 48px;
     border-radius: 50%;
     color: white;
-    font-size: 22px; // Giảm kích thước icon
+    font-size: 22px; 
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     transition: transform $transition-fast, box-shadow $transition-fast, opacity $transition-fast, visibility $transition-fast;
 
@@ -44,7 +44,7 @@
   // --- Màu sắc riêng cho từng nút ---
   &__button--chatbot {
     background-color: var(--color-green);
-    color: var(--color-navy); // Sử dụng màu navy để tương phản
+    color: var(--color-navy); 
   }
 
   &__button--zalo {
@@ -64,7 +64,6 @@
 // Áp dụng cho màn hình từ 768px trở lên
 @include tablet {
   .fab-menu {
-    // Trở về kích thước và vị trí ban đầu cho màn hình lớn
     bottom: $spacing-xl;
     right: $spacing-xl;
     gap: $spacing-md;
@@ -104,6 +103,22 @@
   opacity: 0;
   transform: translateY(20px);
   animation: fadeIn 0.3s ease forwards;
+
+  // Khi chatbot ở chế độ fullscreen, container không được giới hạn
+  &--fullscreen {
+    position: static !important;
+    bottom: auto !important;
+    right: auto !important;
+    left: auto !important;
+    top: auto !important;
+    width: auto !important;
+    height: auto !important;
+    transform: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    // Thêm hiệu ứng cho fullscreen transition
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
 }
 
 // Keyframes cho hiệu ứng xuất hiện
@@ -118,7 +133,7 @@
 @include mobile {
   .chatbot-container {
     // Căn chatbot cho vừa màn hình mobile
-    bottom: $spacing-lg;
+    bottom: 150px;
     right: $spacing-md;
     left: $spacing-md;
 

@@ -30,7 +30,7 @@ const PERSONAL_INFO = {
     ],
     services: ['Phát triển Web (Frontend & Backend)', 'Thiết kế UI/UX', 'Phát triển ứng dụng di động', 'Tư vấn công nghệ', 'Freelance projects'],
     contact: {
-        email: 'contact@khangmoihocit.com',
+        email: 'khangphamvan.dev@gmail.com',
         phone: 'Liên hệ qua portfolio',
         linkedin: 'Xem trên portfolio',
         github: 'github.com/khangmoihocit'
@@ -47,9 +47,24 @@ function createSystemPrompt() {
     // Chuyển toàn bộ thông tin cá nhân thành một chuỗi JSON để AI dễ đọc
     const personalInfoString = JSON.stringify(PERSONAL_INFO, null, 2);
 
+    // Thêm thông tin thời gian thực
+    const now = new Date();
+    const dateTimeString = now.toLocaleString('vi-VN', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        timeZoneName: 'short'
+    });
+
     return `
-        Bạn là một trợ lý AI thông minh, thân thiện và chuyên nghiệp, đại diện cho chủ nhân của mình là Phạm Văn Khang (có thể gọi là Khang).
+        Bạn là một trợ lý AI thông minh với model là gemini-2.5-pro, thân thiện và chuyên nghiệp, đại diện cho chủ nhân của mình là Phạm Văn Khang (có thể gọi là Khang).
         
+        **THÔNG TIN BỐI CẢNH QUAN TRỌNG:**
+            **Thời gian hiện tại:** ${dateTimeString}. Hãy sử dụng thông tin này để trả lời các câu hỏi liên quan đến thời gian.
+
         **VAI TRÒ CỦA BẠN:**
         1.  **Trợ lý cho Khang:** Nhiệm vụ chính của bạn là cung cấp thông tin về kỹ năng, dự án, học vấn và các dịch vụ mà Khang cung cấp.
         2.  **Trợ lý kiến thức:** Bạn cũng có khả năng trả lời các câu hỏi kiến thức chung, sáng tạo nội dung, viết code, hoặc bất cứ điều gì người dùng yêu cầu, giống như một trợ lý AI toàn năng.
@@ -69,8 +84,6 @@ function createSystemPrompt() {
         -   **Ngắn gọn:** Giữ câu trả lời súc tích, đi thẳng vào vấn đề.
     `;
 }
-
-// ... các phần import và khai báo khác giữ nguyên
 
 /**
  * Hàm gọi Gemini API đã được tối ưu hóa và sửa lỗi.
@@ -114,8 +127,6 @@ export async function getGeminiResponse(userMessage, conversationHistory = []) {
         return 'Ôi, có vẻ đã có lỗi xảy ra. Bạn vui lòng thử lại sau một chút nhé! 😥';
     }
 }
-
-// ... các hàm còn lại giữ nguyên
 
 export function checkGeminiApiKey() {
     return API_KEY && API_KEY !== 'your-gemini-api-key-here';

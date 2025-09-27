@@ -6,16 +6,27 @@ import Chatbot from './Chatbot';
 
 const FloatingActionMenu = () => {
     const [isChatOpen, setIsChatOpen] = useState(false);
+    const [isFullScreen, setIsFullScreen] = useState(false);
 
     const toggleChatbot = () => {
+        if (isChatOpen) {
+            setIsFullScreen(false); // Reset fullscreen trước khi đóng chat
+        }
         setIsChatOpen(prev => !prev);
+    };
+
+    const handleFullScreenChange = (fullScreen) => {
+        setIsFullScreen(fullScreen);
     };
 
     return (
         <>
             {isChatOpen && (
-                <div className='chatbot-container'>
-                    <Chatbot handleClose={toggleChatbot} />
+                <div className={`chatbot-container ${isFullScreen ? 'chatbot-container--fullscreen' : ''}`}>
+                    <Chatbot 
+                        handleClose={toggleChatbot}
+                        onFullScreenChange={handleFullScreenChange}
+                    />
                 </div>
             )}
             <div className={`fab-menu visible`}>
