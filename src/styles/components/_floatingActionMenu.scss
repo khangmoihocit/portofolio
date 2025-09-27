@@ -1,0 +1,130 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.fab-menu {
+  position: fixed;
+  bottom: 100px; // Giảm khoảng cách với mép dưới
+  right: $spacing-md;   // Giảm khoảng cách với mép phải
+  z-index: $z-index-dropdown;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+
+  // Hiệu ứng ẩn/hiện chung
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: opacity $transition-medium, transform $transition-medium, visibility $transition-medium;
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  // Nút con chung
+  &__button {
+    @include button-reset;
+    @include flex-center;
+    width: 48px; // Giảm kích thước trên mobile
+    height: 48px;
+    border-radius: 50%;
+    color: white;
+    font-size: 22px; // Giảm kích thước icon
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition: transform $transition-fast, box-shadow $transition-fast, opacity $transition-fast, visibility $transition-fast;
+
+    &:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  // --- Màu sắc riêng cho từng nút ---
+  &__button--chatbot {
+    background-color: var(--color-green);
+    color: var(--color-navy); // Sử dụng màu navy để tương phản
+  }
+
+  &__button--zalo {
+    background-color: #0068ff;
+  }
+
+  &__button--messenger {
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+}
+
+// ---- Giao diện TABLET trở lên ----
+// Áp dụng cho màn hình từ 768px trở lên
+@include tablet {
+  .fab-menu {
+    // Trở về kích thước và vị trí ban đầu cho màn hình lớn
+    bottom: $spacing-xl;
+    right: $spacing-xl;
+    gap: $spacing-md;
+
+    &__button {
+      width: 50px;
+      height: 50px;
+      font-size: $font-size-large;
+    }
+  }
+}
+
+@include mobile {
+  .fab-menu {
+    bottom: 85px;
+    right: $spacing-sm;
+    gap: $spacing-sm;
+
+    &__button {
+      width: 40px;
+      height: 40px;
+      font-size: $font-size-base;
+    }
+  }
+}
+
+// ---- Chatbot Container Styling ----
+
+.chatbot-container {
+  position: fixed;
+  // Vị trí sẽ nằm ngay trên các nút FAB
+  bottom: calc(#{$spacing-xl} + 100px + #{$spacing-md}); 
+  right: $spacing-xl;
+  z-index: $z-index-dropdown;
+
+  // Hiệu ứng xuất hiện mượt mà
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 0.3s ease forwards;
+}
+
+// Keyframes cho hiệu ứng xuất hiện
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ---- Responsive cho Mobile ----
+@include mobile {
+  .chatbot-container {
+    // Căn chatbot cho vừa màn hình mobile
+    bottom: $spacing-lg;
+    right: $spacing-md;
+    left: $spacing-md;
+
+    // Chỉnh lại component Chatbot bên trong để nó full-width trên mobile
+    .chatbot-widget {
+      width: 100%;
+    }
+  }
+}

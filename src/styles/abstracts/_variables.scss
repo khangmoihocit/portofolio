@@ -33,6 +33,7 @@ $color-error: #ef4444;
   --color-green: #{$light-green};
   --color-green-rgb: #{red($light-green)}, #{green($light-green)}, #{blue($light-green)};
   --color-error: #{$color-error};
+  --color-button: #{$light-white};
 }
 
 // Dark theme - sử dụng màu tối ban đầu
@@ -48,6 +49,7 @@ $color-error: #ef4444;
   --color-green: #{$dark-green};
   --color-green-rgb: #{red($dark-green)}, #{green($dark-green)}, #{blue($dark-green)};
   --color-error: #{$color-error};
+  --color-button: #{$dark-white};
 }
 
 // Font Variables
