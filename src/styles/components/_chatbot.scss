@@ -22,26 +22,27 @@
         top: 0 !important;
         left: 0 !important;
         width: 100vw !important;
-        height: 100vh !important;
-        max-height: 100vh !important;
+
+        // Sửa lỗi bàn phím che input trên mobile
+        // Sử dụng dvh (dynamic viewport height) thay cho vh
+        height: 100dvh;
+        max-height: 100dvh;
+
         border-radius: 0 !important;
         z-index: $z-index-modal !important;
         box-shadow: none !important;
 
         margin: 0 !important;
         transform: none !important;
-        // Smooth transition cho fullscreen
-        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        // Tối ưu hóa performance
         will-change: auto;
-
-        .chatbot-header {
-            padding: $spacing-md $spacing-lg;
-        }
 
         .chatbot-messages {
             flex: 1;
-            min-height: 0; // Quan trọng để flex hoạt động đúng
+            min-height: 0;
+        }
+
+        .chatbot-header {
+            padding: $spacing-md $spacing-lg;
         }
 
         .chatbot-input {
@@ -51,7 +52,7 @@
         @include mobile {
             .chatbot-header,
             .chatbot-input {
-                padding: $spacing-md;
+                padding: $spacing-sm $spacing-md;
             }
         }
     }
@@ -274,28 +275,28 @@
     border-bottom: 1px solid rgba(var(--color-slate-rgb), 0.1);
     padding: $spacing-md;
     flex-shrink: 0;
-    
+
     .performance-header {
         @include flex-between;
         margin-bottom: $spacing-sm;
-        
+
         h4 {
             color: var(--color-white);
             font-size: $font-size-small;
             font-weight: $font-weight-semibold;
             margin: 0;
         }
-        
+
         .health-score {
             text-align: center;
-            
+
             .score-value {
                 display: block;
                 font-size: $font-size-lg;
                 font-weight: $font-weight-bold;
                 color: var(--color-green);
             }
-            
+
             .score-label {
                 font-size: $font-size-xs;
                 color: var(--color-slate);
@@ -308,38 +309,38 @@
         grid-template-columns: repeat(4, 1fr);
         gap: $spacing-sm;
         margin-bottom: $spacing-sm;
-        
+
         .metric {
             text-align: center;
             padding: $spacing-xs;
             background-color: rgba(var(--color-navy-rgb), 0.3);
             border-radius: $border-radius-sm;
-            
+
             .metric-label {
                 display: block;
                 font-size: $font-size-xs;
                 color: var(--color-slate);
                 margin-bottom: 2px;
             }
-            
+
             .metric-value {
                 display: block;
                 font-size: $font-size-small;
                 font-weight: $font-weight-semibold;
                 color: var(--color-white);
-                
+
                 &.good {
                     color: var(--color-green);
                 }
-                
+
                 &.warning {
-                    color: #FF9800;
+                    color: #ff9800;
                 }
-                
+
                 &.trend-up {
-                    color: #FF5722;
+                    color: #ff5722;
                 }
-                
+
                 &.trend-down {
                     color: var(--color-green);
                 }
@@ -353,27 +354,27 @@
             border-radius: $border-radius-sm;
             font-size: $font-size-xs;
             margin-bottom: $spacing-xs;
-            
+
             &:last-child {
                 margin-bottom: 0;
             }
-            
+
             &.alert-warning {
                 background-color: rgba(255, 152, 0, 0.1);
                 border: 1px solid rgba(255, 152, 0, 0.3);
-                color: #FF9800;
+                color: #ff9800;
             }
-            
+
             &.alert-error {
                 background-color: rgba(255, 87, 34, 0.1);
                 border: 1px solid rgba(255, 87, 34, 0.3);
-                color: #FF5722;
+                color: #ff5722;
             }
-            
+
             &.alert-critical {
                 background-color: rgba(244, 67, 54, 0.1);
                 border: 1px solid rgba(244, 67, 54, 0.3);
-                color: #F44336;
+                color: #f44336;
             }
         }
     }

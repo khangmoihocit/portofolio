@@ -141,7 +141,7 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                 <div className='chatbot-header__info'>
                     <span className='chatbot-header__icon'><FaRobot /></span>
                     <div>
-                        <h3 className='chatbot-header__title'>KhangMoiHocIT Bot</h3>
+                        <h3 className='chatbot-header__title'>BotByKhang</h3>
                         <p className='chatbot-header__status'>
                             {isHealthy ? (
                                 <>

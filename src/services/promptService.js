@@ -11,16 +11,16 @@ const PERSONAL_INFO = {
     major: 'Công nghệ thông tin',
     status: 'Sinh viên năm 3',
     skills: {
-        backend: ['Spring Boot', 'Node.js', 'Java', 'Python', 'RESTful API', 'Microservices'],
-        frontend: ['React.js', 'TypeScript', 'HTML/CSS', 'JavaScript', 'Responsive Design'],
-        database: ['MySQL', 'PostgreSQL', 'MongoDB'],
-        mobile: ['React Native', 'Flutter'],
+        backend: ['Spring Boot', 'Node.js', 'RESTful API'],
+        frontend: ['React.js', 'HTML/CSS', 'JavaScript', 'Responsive Design'],
+        database: ['MySQL', 'MongoDB'],
+        mobile: ['Java'],
         other: ['Git', 'Docker', 'AWS', 'UI/UX Design']
     },
     projects: [
-        { name: 'E-Commerce Platform', description: 'Website thương mại điện tử đầy đủ tính năng với giỏ hàng, thanh toán và xác thực người dùng', tech: ['React.js', 'Spring Boot', 'MySQL'] },
-        { name: 'Mini Mart System', description: 'Hệ thống quản lý siêu thị với frontend React và backend Spring Boot', tech: ['React.js', 'Spring Boot', 'PostgreSQL'] },
-        { name: 'Portfolio Website', description: 'Website portfolio cá nhân với theme sáng/tối, đa ngôn ngữ', tech: ['React.js', 'SCSS', 'i18next'] },
+        { name: 'E-Commerce Platform', description: 'Website thương mại điện tử đầy đủ tính năng với giỏ hàng, thanh toán và xác thực người dùng', tech: ['React.js'] },
+        { name: 'Mini Mart System', description: 'Hệ thống quản lý siêu thị với frontend React và backend Spring Boot', tech: ['React.js', 'Spring Boot', 'MySQL'] },
+        { name: 'Portfolio Website', description: 'Website portfolio cá nhân với theme sáng/tối, đa ngôn ngữ, chatbot hỗ trợ', tech: ['React.js', 'SCSS', 'i18next', 'API Gemini key'] },
         { name: 'Bookstore Management', description: 'Ứng dụng desktop quản lý hiệu sách', tech: ['C# .NET', 'WebForms'] }
     ],
     services: ['Phát triển Web (Frontend & Backend)', 'Thiết kế UI/UX', 'Phát triển ứng dụng di động', 'Tư vấn công nghệ', 'Freelance projects'],

@@ -78,13 +78,13 @@
 
 @include mobile {
   .fab-menu {
-    bottom: 85px;
-    right: $spacing-sm;
+    bottom: 100px;
+    right: 5px;
     gap: $spacing-sm;
 
     &__button {
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       font-size: $font-size-base;
     }
   }
@@ -130,7 +130,7 @@
 // ---- Responsive cho Mobile ----
 @include mobile {
   .chatbot-container {
-    bottom: 150px;
+    bottom: 160px;
     right: $spacing-md;
     left: $spacing-md;
 
