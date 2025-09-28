@@ -50,7 +50,7 @@ const Contact = () => {
         {
             icon: FaMapMarkerAlt,
             title: t('contact.address'),
-            details: ['ToaA6, TranThuDo, HoangMai, HaNoi, VietNam'],
+            details: ['HoangMai, HaNoi, VietNam'],
             links: ['#']
         }
     ];

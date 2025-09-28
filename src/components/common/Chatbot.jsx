@@ -15,7 +15,6 @@ import { FaRobot } from 'react-icons/fa';
 import {
     getGeminiResponse,
     checkGeminiApiKey,
-    getApiKeyStatus
 } from '../../services/geminiService';
 import { useLoadBalancerMonitor } from '../../hooks/useLoadBalancerMonitor';
 
@@ -93,11 +92,10 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
             };
 
             setMessages(prev => [...prev, botMessage]);
-            
+
             setTimeout(() => {
                 inputRef.current?.focus();
             }, 100);
-            
         } catch (error) {
             console.error('Lỗi khi gửi tin nhắn:', error);
             const responseTime = Date.now() - requestStartTime;
@@ -113,20 +111,22 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                 isError: true
             };
             setMessages(prev => [...prev, errorMessage]);
-            
+
             setTimeout(() => {
                 inputRef.current?.focus();
             }, 100);
-            
         } finally {
             setIsLoading(false);
             setRequestStartTime(null);
-            
+
             // Fallback focus nếu các focus trên không hoạt động
             setTimeout(() => {
                 if (inputRef.current) {
                     inputRef.current.focus();
-                    inputRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    inputRef.current.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
                 }
             }, 150);
         }
@@ -137,7 +137,7 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
         setInputValue('');
         setIsLoading(false);
         sessionStorage.removeItem('chatHistory'); // Xóa lịch sử đã lưu
-        
+
         // Focus vào input sau khi refresh
         setTimeout(() => {
             inputRef.current?.focus();
@@ -159,7 +159,7 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
         if (onFullScreenChange) {
             onFullScreenChange(newFullScreenState);
         }
-        
+
         setTimeout(() => {
             inputRef.current?.focus();
         }, 300);
@@ -173,6 +173,7 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                 sessionStorage.setItem('chatHistory', JSON.stringify(messages));
             }
         } catch (error) {
+            // For production, consider a more robust logging service
             console.error(
                 'Could not save chat history to sessionStorage',
                 error
@@ -183,7 +184,7 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
     // Kiểm tra API key khi component mount
     useEffect(() => {
         setHasApiKey(checkGeminiApiKey());
-        
+
         setTimeout(() => {
             inputRef.current?.focus();
         }, 500);
@@ -192,7 +193,7 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
     // Tự động cuộn xuống tin nhắn mới nhất và focus input
     useEffect(() => {
         scrollToBottom();
-        
+
         if (messages.length > 1) {
             setTimeout(() => {
                 inputRef.current?.focus();
@@ -205,7 +206,6 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
         const today = new Date();
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         setCurrentDate(today.toLocaleDateString('en-US', options));
-        console.log(isFullScreen);
     }, []);
 
     return (
@@ -251,7 +251,7 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                         onClick={() => {
                             const newState = !showPerformancePanel;
                             setShowPerformancePanel(newState);
-                            
+
                             // Focus vào input khi đóng performance panel để tiếp tục chat
                             if (!newState) {
                                 setTimeout(() => {
@@ -397,7 +397,7 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                     type='text'
                     placeholder={
                         hasApiKey
-                            ? isLoading 
+                            ? isLoading
                                 ? 'Đang xử lý...'
                                 : 'Hỏi về kỹ năng, dự án của Khang...'
                             : 'Enter message'
@@ -407,7 +407,7 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                     onKeyPress={handleKeyPress}
                     disabled={isLoading}
                     autoFocus
-                    autoComplete="off"
+                    autoComplete='off'
                     style={{
                         transition: 'all 0.2s ease',
                         transform: isLoading ? 'scale(0.99)' : 'scale(1)'

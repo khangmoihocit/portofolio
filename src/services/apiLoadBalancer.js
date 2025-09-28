@@ -1,4 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { createSystemPrompt } from './promptService';
 
 /**
  * Advanced API Load Balancer với Circuit Breaker Pattern
@@ -13,7 +14,8 @@ class ApiLoadBalancer {
             import.meta.env.VITE_GEMINI_API_KEY_2 || '',
             import.meta.env.VITE_GEMINI_API_KEY_3 || '',
             import.meta.env.VITE_GEMINI_API_KEY_4 || '',
-            import.meta.env.VITE_GEMINI_API_KEY_5 || ''
+            import.meta.env.VITE_GEMINI_API_KEY_5 || '',
+            import.meta.env.VITE_GEMINI_API_KEY_6 || '' // Thêm key thứ 6
         ].filter(key => key !== '');
 
         // Circuit breaker states cho từng key
@@ -182,7 +184,6 @@ class ApiLoadBalancer {
                 } else {
                     // Chuyển sang HALF_OPEN để test
                     keyState.state = 'HALF_OPEN';
-                    console.log(`🔄 Circuit breaker cho key ${keyIndex + 1} chuyển sang HALF_OPEN`);
                 }
             }
 
@@ -212,7 +213,6 @@ class ApiLoadBalancer {
             const responseTime = Date.now() - startTime;
             this.recordSuccess(keyIndex, responseTime);
             
-            console.log(`✅ Request ${request.id} hoàn thành với key ${keyIndex + 1} (${responseTime}ms)`);
             request.resolve(response);
 
         } catch (error) {
@@ -222,15 +222,12 @@ class ApiLoadBalancer {
             // Retry logic
             request.attempts++;
             if (request.attempts < request.maxAttempts) {
-                console.log(`🔄 Retry request ${request.id} (${request.attempts}/${request.maxAttempts})`);
-                
                 // Re-queue with delay
                 setTimeout(() => {
                     this.requestQueue.unshift(request);
                     this.processQueue();
                 }, 1000 * request.attempts);
             } else {
-                console.error(`❌ Request ${request.id} thất bại sau ${request.maxAttempts} lần thử`);
                 request.reject(error);
             }
 
@@ -255,8 +252,8 @@ class ApiLoadBalancer {
         const genAI = new GoogleGenerativeAI(apiKey);
         
         const model = genAI.getGenerativeModel({
-            model: 'gemini-2.5-flash',
-            systemInstruction: this.createSystemPrompt(),
+            model: 'gemini-2.5-flash', //model flash tối ưu tốc độ
+            systemInstruction: createSystemPrompt(),
         });
 
         // Process conversation history
@@ -273,8 +270,8 @@ class ApiLoadBalancer {
         const chat = model.startChat({ 
             history,
             generationConfig: {
-                maxOutputTokens: 1000,
-                temperature: 0.7,
+                maxOutputTokens: 1500, // Tăng giới hạn output
+                temperature: 0.8, // Tăng nhiệt độ để câu trả lời đa dạng hơn
             }
         });
 
@@ -305,7 +302,6 @@ class ApiLoadBalancer {
         if (keyState.state === 'HALF_OPEN') {
             keyState.state = 'CLOSED';
             keyState.isHealthy = true;
-            console.log(`✅ Circuit breaker cho key ${keyIndex + 1} đã CLOSED`);
         }
 
         // Update global metrics
@@ -347,8 +343,6 @@ class ApiLoadBalancer {
             keyState.state = 'OPEN';
             keyState.isHealthy = false;
             keyState.nextAttempt = Date.now() + this.recoveryTimeout;
-            
-            console.warn(`🚫 Circuit breaker cho key ${keyIndex + 1} đã MỞ (${keyState.failureCount} lỗi)`);
         }
 
         // Update global metrics
@@ -367,7 +361,6 @@ class ApiLoadBalancer {
                 if (keyState.state === 'OPEN' && Date.now() >= keyState.nextAttempt) {
                     keyState.state = 'HALF_OPEN';
                     keyState.failureCount = Math.max(0, keyState.failureCount - 1);
-                    console.log(`🔄 Key ${index + 1} sẵn sàng để test lại (HALF_OPEN)`);
                 }
 
                 // Reset failure count cho keys hoạt động tốt
@@ -422,14 +415,6 @@ class ApiLoadBalancer {
     }
 
     /**
-     * Create system prompt (simplified)
-     * @returns {string} System prompt
-     */
-    createSystemPrompt() {
-        return `Bạn là trợ lý AI của Phạm Văn Khang, một Backend/Frontend Developer tài năng. Hãy trả lời ngắn gọn, thân thiện và chuyên nghiệp.`;
-    }
-
-    /**
      * Get current status
      * @returns {Object} Current status
      */
@@ -467,7 +452,6 @@ class ApiLoadBalancer {
             keyState.isHealthy = true;
             keyState.nextAttempt = null;
         });
-        console.log('🔄 Đã reset tất cả failed keys');
     }
 }
 
