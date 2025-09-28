@@ -5,16 +5,14 @@ import {
     FaTimes,
     FaExpand,
     FaCompress,
-    FaKey,
     FaExclamationTriangle,
-    FaCog,
     FaChartLine
 } from 'react-icons/fa';
 import '../../styles/components/_chatbot.scss';
 import { FaRobot } from 'react-icons/fa';
 import {
     getGeminiResponse,
-    checkGeminiApiKey,
+    checkGeminiApiKey
 } from '../../services/geminiService';
 import { useLoadBalancerMonitor } from '../../hooks/useLoadBalancerMonitor';
 
@@ -32,10 +30,7 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
             const savedMessages = sessionStorage.getItem('chatHistory');
             return savedMessages ? JSON.parse(savedMessages) : initialMessages;
         } catch (error) {
-            console.error(
-                'Could not parse chat history from sessionStorage',
-                error
-            );
+            console.error('Không thể đọc lịch sử chat từ sessionStorage', error);
             return initialMessages;
         }
     });
@@ -49,10 +44,7 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
     const [lastResponseTime, setLastResponseTime] = useState(null);
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
-
-    // Load balancer monitoring
-    const { metrics, healthScore, trends, recommendations, isHealthy } =
-        useLoadBalancerMonitor();
+    const { metrics, healthScore, trends, recommendations, isHealthy } = useLoadBalancerMonitor();
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -61,74 +53,39 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
     const handleSendMessage = async () => {
         if (inputValue.trim() === '' || isLoading) return;
 
-        const userMessage = {
-            id: Date.now(),
-            sender: 'user',
-            text: inputValue
-        };
-        setMessages(prev => [...prev, userMessage]);
         const currentInput = inputValue;
+        const userMessage = { id: Date.now(), sender: 'user', text: currentInput };
+        setMessages(prev => [...prev, userMessage]);
         setInputValue('');
         setIsLoading(true);
         setRequestStartTime(Date.now());
 
         try {
-            // Gọi API Gemini với load balancer
-            const botResponseText = await getGeminiResponse(
-                currentInput,
-                messages
-            );
-
+            const botResponseText = await getGeminiResponse(currentInput, messages);
             const responseTime = Date.now() - requestStartTime;
             setLastResponseTime(responseTime);
 
             const botMessage = {
                 id: Date.now() + 1,
                 sender: 'bot',
-                text:
-                    botResponseText ||
-                    'Xin lỗi, tôi không thể trả lời câu hỏi này lúc này. Bạn có thể thử hỏi về kỹ năng, dự án, hoặc kinh nghiệm của Khang không? 😅',
+                text: botResponseText || 'Xin lỗi, tôi không thể trả lời câu hỏi này lúc này. Bạn có thể thử hỏi về kỹ năng, dự án, hoặc kinh nghiệm của Khang không? 😅',
                 responseTime
             };
-
             setMessages(prev => [...prev, botMessage]);
-
-            setTimeout(() => {
-                inputRef.current?.focus();
-            }, 100);
         } catch (error) {
-            console.error('Lỗi khi gửi tin nhắn:', error);
-            const responseTime = Date.now() - requestStartTime;
-            setLastResponseTime(responseTime);
-
-            const errorMessage = {
+            console.error('Lỗi sau nhiều lần thử lại:', error);
+            const finalErrorMessage = {
                 id: Date.now() + 1,
                 sender: 'bot',
-                text: !hasApiKey
-                    ? 'Tính năng AI chat chưa được cấu hình. Bạn có thể liên hệ trực tiếp qua form contact trên website nhé! 📞'
-                    : 'Xin lỗi, có lỗi xảy ra. Hệ thống sẽ tự động thử lại với API key khác. Bạn vui lòng thử lại nhé! 😊',
-                responseTime,
+                text: 'Rất tiếc, đã có lỗi xảy ra và không thể xử lý yêu cầu của bạn lúc này. Tin nhắn của bạn đã được khôi phục, bạn có thể thử gửi lại. 🙏',
                 isError: true
             };
-            setMessages(prev => [...prev, errorMessage]);
-
-            setTimeout(() => {
-                inputRef.current?.focus();
-            }, 100);
+            setMessages(prev => [...prev, finalErrorMessage]);
+            setInputValue(currentInput); // Khôi phục lại tin nhắn của người dùng
         } finally {
             setIsLoading(false);
             setRequestStartTime(null);
-
-            // Fallback focus nếu các focus trên không hoạt động
-            setTimeout(() => {
-                if (inputRef.current) {
-                    inputRef.current.focus();
-                    inputRef.current.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'center'
-                    });
-                }
-            }, 150);
+            setTimeout(() => inputRef.current?.focus(), 100);
         }
     };
 
@@ -136,17 +93,13 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
         setMessages(initialMessages);
         setInputValue('');
         setIsLoading(false);
-        sessionStorage.removeItem('chatHistory'); // Xóa lịch sử đã lưu
-
-        // Focus vào input sau khi refresh
-        setTimeout(() => {
-            inputRef.current?.focus();
-        }, 100);
+        sessionStorage.removeItem('chatHistory');
+        setTimeout(() => inputRef.current?.focus(), 100);
     };
 
-    const handleKeyPress = event => {
-        if (event.key === 'Enter' && !event.shiftKey) {
-            event.preventDefault(); // Ngăn xuống dòng khi nhấn Enter
+    const handleKeyPress = e => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
             handleSendMessage();
         }
     };
@@ -154,83 +107,46 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
     const toggleFullScreen = () => {
         const newFullScreenState = !isFullScreen;
         setIsFullScreen(newFullScreenState);
-
-        // Thông báo cho parent component về thay đổi trạng thái fullscreen
         if (onFullScreenChange) {
             onFullScreenChange(newFullScreenState);
         }
-
-        setTimeout(() => {
-            inputRef.current?.focus();
-        }, 300);
+        setTimeout(() => inputRef.current?.focus(), 300);
     };
 
-    // Thay đổi: Lưu tin nhắn vào sessionStorage
     useEffect(() => {
         try {
-            // Chỉ lưu nếu cuộc trò chuyện đã bắt đầu
             if (messages.length > initialMessages.length) {
                 sessionStorage.setItem('chatHistory', JSON.stringify(messages));
             }
         } catch (error) {
-            // For production, consider a more robust logging service
-            console.error(
-                'Could not save chat history to sessionStorage',
-                error
-            );
+            console.error('Không thể lưu lịch sử chat vào sessionStorage', error);
         }
     }, [messages]);
 
-    // Kiểm tra API key khi component mount
     useEffect(() => {
         setHasApiKey(checkGeminiApiKey());
-
-        setTimeout(() => {
-            inputRef.current?.focus();
-        }, 500);
-    }, []);
-
-    // Tự động cuộn xuống tin nhắn mới nhất và focus input
-    useEffect(() => {
-        scrollToBottom();
-
-        if (messages.length > 1) {
-            setTimeout(() => {
-                inputRef.current?.focus();
-            }, 200);
-        }
-    }, [messages]);
-
-    // Lấy và định dạng ngày hiện tại
-    useEffect(() => {
         const today = new Date();
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         setCurrentDate(today.toLocaleDateString('en-US', options));
+        setTimeout(() => inputRef.current?.focus(), 500);
     }, []);
 
+    useEffect(() => {
+        scrollToBottom();
+    }, [messages]);
+
     return (
-        <div
-            className={`chatbot-widget ${
-                isFullScreen ? 'chatbot-widget__fullscreen' : ''
-            }`}
-        >
+        <div className={`chatbot-widget ${isFullScreen ? 'chatbot-widget__fullscreen' : ''}`}>
             <header className='chatbot-header'>
                 <div className='chatbot-header__info'>
-                    <span className='chatbot-header__icon'>
-                        <FaRobot />
-                    </span>
+                    <span className='chatbot-header__icon'><FaRobot /></span>
                     <div>
-                        <h3 className='chatbot-header__title'>
-                            KhangMoiHocIT Bot
-                        </h3>
+                        <h3 className='chatbot-header__title'>KhangMoiHocIT Bot</h3>
                         <p className='chatbot-header__status'>
                             {isHealthy ? (
                                 <>
-                                    <span className='status-indicator healthy'>
-                                        ●
-                                    </span>
-                                    {metrics.healthyKeys}/{metrics.totalKeys}{' '}
-                                    keys • {metrics.systemLoad} load
+                                    <span className='status-indicator healthy'>●</span>
+                                    {metrics.healthyKeys}/{metrics.totalKeys} keys • {metrics.systemLoad} load
                                 </>
                             ) : (
                                 <>
@@ -238,52 +154,19 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                                     System degraded
                                 </>
                             )}
-                            {lastResponseTime && (
-                                <span className='response-time'>
-                                    • {lastResponseTime}ms
-                                </span>
-                            )}
+                            {lastResponseTime && <span className='response-time'>• {lastResponseTime}ms</span>}
                         </p>
                     </div>
                 </div>
                 <div className='chatbot-header__actions'>
-                    <button
-                        onClick={() => {
-                            const newState = !showPerformancePanel;
-                            setShowPerformancePanel(newState);
-
-                            // Focus vào input khi đóng performance panel để tiếp tục chat
-                            if (!newState) {
-                                setTimeout(() => {
-                                    inputRef.current?.focus();
-                                }, 100);
-                            }
-                        }}
-                        aria-label='Toggle performance panel'
-                        className={showPerformancePanel ? 'active' : ''}
-                        title={`Health Score: ${healthScore}%`}
-                    >
+                    <button onClick={() => setShowPerformancePanel(prev => !prev)} aria-label='Toggle performance panel' className={showPerformancePanel ? 'active' : ''} title={`Health Score: ${healthScore}%`}>
                         <FaChartLine />
                     </button>
-                    <button
-                        onClick={handleRefresh}
-                        aria-label='Refresh conversation'
-                    >
-                        <FaSync />
-                    </button>
-                    <button
-                        onClick={toggleFullScreen}
-                        aria-label={
-                            isFullScreen
-                                ? 'Exit fullscreen'
-                                : 'Enter fullscreen'
-                        }
-                    >
+                    <button onClick={handleRefresh} aria-label='Refresh conversation'><FaSync /></button>
+                    <button onClick={toggleFullScreen} aria-label={isFullScreen ? 'Exit fullscreen' : 'Enter fullscreen'}>
                         {isFullScreen ? <FaCompress /> : <FaExpand />}
                     </button>
-                    <button onClick={handleClose} aria-label='Close widget'>
-                        <FaTimes />
-                    </button>
+                    <button onClick={handleClose} aria-label='Close widget'><FaTimes /></button>
                 </div>
             </header>
 
@@ -296,7 +179,6 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                             <span className='score-label'>Health Score</span>
                         </div>
                     </div>
-
                     <div className='performance-metrics'>
                         <div className='metric'>
                             <span className='metric-label'>Response Time</span>
@@ -344,16 +226,10 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                             </span>
                         </div>
                     </div>
-
                     {recommendations.length > 0 && (
                         <div className='performance-alerts'>
                             {recommendations.slice(0, 2).map((rec, index) => (
-                                <div
-                                    key={index}
-                                    className={`alert alert-${rec.type.toLowerCase()}`}
-                                >
-                                    {rec.message}
-                                </div>
+                                <div key={index} className={`alert alert-${rec.type.toLowerCase()}`}>{rec.message}</div>
                             ))}
                         </div>
                     )}
@@ -363,29 +239,13 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
             <main className='chatbot-messages'>
                 <p className='chatbot-messages__date'>{currentDate}</p>
                 {messages.map(msg => (
-                    <div
-                        key={msg.id}
-                        className={`message-bubble message-bubble--${msg.sender}`}
-                    >
-                        <div
-                            className='message-content'
-                            dangerouslySetInnerHTML={{
-                                __html: msg.text
-                                    .replace(/\n/g, '<br/>')
-                                    .replace(
-                                        /\*\*(.*?)\*\*/g,
-                                        '<strong>$1</strong>'
-                                    )
-                                    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-                            }}
-                        />
+                    <div key={msg.id} className={`message-bubble message-bubble--${msg.sender}`}>
+                        <div className='message-content' dangerouslySetInnerHTML={{ __html: msg.text.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>') }} />
                     </div>
                 ))}
                 {isLoading && (
                     <div className='message-bubble message-bubble--bot is-typing'>
-                        <span></span>
-                        <span></span>
-                        <span></span>
+                        <span></span><span></span><span></span>
                     </div>
                 )}
                 <div ref={messagesEndRef} />
@@ -395,30 +255,15 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
                 <input
                     ref={inputRef}
                     type='text'
-                    placeholder={
-                        hasApiKey
-                            ? isLoading
-                                ? 'Đang xử lý...'
-                                : 'Hỏi về kỹ năng, dự án của Khang...'
-                            : 'Enter message'
-                    }
+                    placeholder={hasApiKey ? (isLoading ? 'Đang xử lý...' : 'Hỏi về kỹ năng, dự án của Khang...') : 'Enter message'}
                     value={inputValue}
                     onChange={e => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
                     disabled={isLoading}
                     autoFocus
-                    autoComplete='off'
-                    style={{
-                        transition: 'all 0.2s ease',
-                        transform: isLoading ? 'scale(0.99)' : 'scale(1)'
-                    }}
+                    autoComplete="off"
                 />
-                <button
-                    onClick={handleSendMessage}
-                    aria-label='Send message'
-                    disabled={isLoading || inputValue.trim() === ''}
-                    className={isLoading ? 'loading' : ''}
-                >
+                <button onClick={handleSendMessage} aria-label='Send message' disabled={isLoading || inputValue.trim() === ''} className={isLoading ? 'loading' : ''}>
                     <FaPaperPlane />
                 </button>
             </footer>
