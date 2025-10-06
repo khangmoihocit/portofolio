@@ -1,0 +1,108 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.sentence-practice-container {
+    background-color: rgba(var(--color-slate-rgb), 0.05);
+    border: 1px solid rgba(var(--color-slate-rgb), 0.1);
+    border-radius: $border-radius-lg;
+    padding: $spacing-lg;
+    margin: $spacing-xl 0;
+
+    h4 {
+        @include flex-center;
+        gap: $spacing-sm;
+        font-size: $font-size-lg;
+        color: var(--color-white);
+        margin-bottom: $spacing-lg;
+    }
+
+    .input-section {
+        display: flex;
+        gap: $spacing-md;
+        margin-bottom: $spacing-md;
+
+        @include mobile {
+            flex-direction: column;
+        }
+
+        input {
+            flex-grow: 1;
+            background-color: var(--color-navy);
+            border: 1px solid rgba(var(--color-slate-rgb), 0.2);
+            border-radius: $border-radius-sm;
+            padding: 12px;
+            color: var(--color-white);
+            font-size: $font-size-base;
+
+            &:focus {
+                outline: none;
+                border-color: var(--color-green);
+            }
+        }
+    }
+
+    .error-text {
+        color: $color-error;
+        margin-bottom: $spacing-md;
+    }
+
+    .exercise-list {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-lg;
+    }
+
+    .exercise-item {
+        border-top: 1px solid rgba(var(--color-slate-rgb), 0.1);
+        padding-top: $spacing-lg;
+
+        .vietnamese-sentence {
+            color: var(--color-light-slate);
+            margin-bottom: $spacing-md;
+            line-height: 1.6;
+
+            strong {
+                color: var(--color-white);
+            }
+        }
+
+        .answer-section {
+            display: flex;
+            align-items: center;
+            gap: $spacing-md;
+            
+            @include mobile {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            input {
+                flex-grow: 1;
+                background-color: rgba(var(--color-navy-rgb), 0.5);
+                border: 1px solid rgba(var(--color-slate-rgb), 0.2);
+                border-radius: $border-radius-sm;
+                padding: 10px;
+                color: var(--color-white);
+
+                 &:disabled {
+                    background-color: rgba(var(--color-slate-rgb), 0.1);
+                    cursor: not-allowed;
+                }
+            }
+
+            .correct-icon {
+                font-size: 24px;
+                color: var(--color-green);
+            }
+        }
+
+        .suggestion-text {
+            color: #ffc107; // Màu vàng cho gợi ý
+            margin-top: $spacing-sm;
+            font-size: $font-size-small;
+            padding: $spacing-sm;
+            background-color: rgba(#ffc107, 0.1);
+            border-radius: $border-radius-sm;
+        }
+    }
+}
