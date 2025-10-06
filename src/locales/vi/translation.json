@@ -170,6 +170,7 @@
     "blog": {
         "title": "Bài viết mới nhất",
         "bgTitle": "Bài viết",
+        "backToList": "Quay lại danh sách bài viết",
         "posts": {
             "post1": {
                 "month": "Thg 6",

@@ -170,6 +170,7 @@
     "blog": {
         "title": "最新のブログ",
         "bgTitle": "ブログ",
+        "backToList": "ブログ一覧に戻る",
         "posts": {
             "post1": {
                 "month": "6月",
@@ -185,6 +186,16 @@
                 "month": "8月",
                 "title": "簡単なプログラミングの学び方",
                 "category": "コーディング"
+            },
+            "post4": {
+                "month": "9月",
+                "title": "JavaScriptフレームワークの選択",
+                "category": "JavaScript"
+            },
+            "post5": {
+                "month": "10月",
+                "title": "バックエンド開発入門",
+                "category": "バックエンド"
             }
         }
     }

@@ -170,6 +170,7 @@
     "blog": {
         "title": "Latest Blogs",
         "bgTitle": "Blogs",
+        "backToList": "Back to Blog List",
         "posts": {
             "post1": {
         "month": "Jun",
