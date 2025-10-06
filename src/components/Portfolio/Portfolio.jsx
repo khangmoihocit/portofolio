@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import Button from '../common/Button';
@@ -81,7 +81,7 @@ const PortfolioItem = ({ item, index }) => {
 
 const Portfolio = () => {
     const { t } = useTranslation();
-    const [activeFilter, setActiveFilter] = useState(t('portfolio.filters.all'));
+    const [activeFilter, setActiveFilter] = useState('all');
     const [visibleItems, setVisibleItems] = useState(6);
 
     const portfolioData = [
@@ -153,9 +153,15 @@ const Portfolio = () => {
         }
     ];
 
-    const filterCategories = [t('portfolio.filters.all'), 'Android', 'React JS', 'C# .NET', 'Spring boot'];
+    const filterCategories = [
+        { key: 'all', label: t('portfolio.filters.all') },
+        { key: 'Android', label: 'Android' },
+        { key: 'React JS', label: 'React JS' },
+        { key: 'C# .NET', label: 'C# .NET' },
+        { key: 'Spring boot', label: 'Spring boot' }
+    ];
 
-    const filteredPortfolio = activeFilter === t('portfolio.filters.all')
+    const filteredPortfolio = activeFilter === 'all'
         ? portfolioData 
         : portfolioData.filter(item => item.category === activeFilter);
 
@@ -178,13 +184,13 @@ const Portfolio = () => {
                 <div className="portfolio-filters">
                     {filterCategories.map((category) => (
                         <Button
-                            key={category}
-                            variant={activeFilter === category ? 'primary' : 'outline'}
+                            key={category.key}
+                            variant={activeFilter === category.key ? 'primary' : 'outline'}
                             size="small"
-                            onClick={() => handleFilterChange(category)}
+                            onClick={() => handleFilterChange(category.key)}
                             className="portfolio-filter-btn"
                         >
-                            {category}
+                            {category.label}
                         </Button>
                     ))}
                 </div>

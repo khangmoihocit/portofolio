@@ -2,7 +2,7 @@
 @use 'sass:color';
 
 .portfolio-section {
-    padding: 6rem 0;
+    padding-bottom: 5rem;
     background: var(--color-navy);
 
     @include tablet {
