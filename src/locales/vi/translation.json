@@ -166,5 +166,36 @@
             "content3": "Chat với AI!",
             "content4": "Bạn cần tư vấn?"
         }
+    },
+    "blog": {
+        "title": "Bài viết mới nhất",
+        "bgTitle": "Bài viết",
+        "posts": {
+            "post1": {
+                "month": "Thg 6",
+                "title": "Một nhà thiết kế có thể làm gì",
+                "category": "Thiết kế"
+            },
+            "post2": {
+                "month": "Thg 7",
+                "title": "Những gì bạn cần học trong năm 2024",
+                "category": "Công nghệ"
+            },
+            "post3": {
+                "month": "Thg 8",
+                "title": "Học lập trình một cách dễ dàng",
+                "category": "Lập trình"
+            },
+             "post4": {
+        "month": "Thg 9",
+        "title": "Lựa chọn JavaScript Framework",
+        "category": "JavaScript"
+    },
+    "post5": {
+        "month": "Thg 10",
+        "title": "Giới thiệu về Lập trình Backend",
+        "category": "Backend"
+    }
+        }
     }
 }

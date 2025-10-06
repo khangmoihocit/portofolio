@@ -10,7 +10,7 @@ import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
 import FloatingActionMenu from './components/common/FloatingActionMenu';
 import ScrollToTopButton from './components/common/ScrollToTopButton';
-
+import Blog from './components/Blog/Blog'; 
 function App() {
     return (
         <>
@@ -22,6 +22,9 @@ function App() {
                 <Services />
                 <Resume />
                 <Portfolio />
+            </main>
+            <Blog />
+            <main className='main-container'>
                 <Contact />
             </main>
             <Footer />

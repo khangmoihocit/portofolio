@@ -45,14 +45,12 @@ export const useDarkMode = () => {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    // Check localStorage và system preference
     const stored = localStorage.getItem('darkMode');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
     const shouldBeDark = stored ? JSON.parse(stored) : prefersDark;
     setIsDark(shouldBeDark);
     
-    // Apply to document
     if (shouldBeDark) {
       document.documentElement.classList.add('dark');
     } else {
@@ -109,7 +107,6 @@ export const useScrollAnimation = (threshold = 0.1) => {
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          // Unobserve after animation triggers
           observer.unobserve(elementRef);
         }
       },

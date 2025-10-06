@@ -166,5 +166,26 @@
             "content3": "AIとチャット！",
             "content4": "ご相談が必要ですか？"
         }
+    },
+    "blog": {
+        "title": "最新のブログ",
+        "bgTitle": "ブログ",
+        "posts": {
+            "post1": {
+                "month": "6月",
+                "title": "デザイナーに何ができるか",
+                "category": "デザイン"
+            },
+            "post2": {
+                "month": "7月",
+                "title": "2024年に学ぶべきこと",
+                "category": "テクノロジー"
+            },
+            "post3": {
+                "month": "8月",
+                "title": "簡単なプログラミングの学び方",
+                "category": "コーディング"
+            }
+        }
     }
 }

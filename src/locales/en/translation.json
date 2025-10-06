@@ -166,5 +166,36 @@
             "content3": "Chat with AI!",
             "content4": "Do you need advice?"
         }
+    },
+    "blog": {
+        "title": "Latest Blogs",
+        "bgTitle": "Blogs",
+        "posts": {
+            "post1": {
+        "month": "Jun",
+        "title": "What a Designer Can Do",
+        "category": "Design"
+    },
+    "post2": {
+        "month": "Jul",
+        "title": "What You Need to Learn in 2024",
+        "category": "Technology"
+    },
+    "post3": {
+        "month": "Aug",
+        "title": "Learn Programming the Easy Way",
+        "category": "Coding"
+    },
+    "post4": {
+        "month": "Sep",
+        "title": "Choosing a JavaScript Framework",
+        "category": "JavaScript"
+    },
+    "post5": {
+        "month": "Oct",
+        "title": "Introduction to Backend Development",
+        "category": "Backend"
+    }
+        }
     }
 }
