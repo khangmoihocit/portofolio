@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import '../../styles/components/_services.scss';
+import Heading from '../common/Heading';
 
 // SVG Icons as React Components
 const IconPen = () => (
@@ -92,13 +93,7 @@ const Services = () => {
     return (
         <section className="services-section" id="services">
             <div className="container">
-                <div className="section-heading">
-                    <h2 className="title">{t('services.title')}</h2>
-                    <span className="title-anim">
-                        <span></span>
-                    </span>
-                    <span className="bg-title">{t('services.bgTitle')}</span>
-                </div>
+                <Heading title={t('services.title')} bgTitle={t('services.bgTitle')}/>
                 <div className="services-wrapper">
                     {servicesData.map((service, index) => (
                         <ServiceItem

@@ -9,84 +9,6 @@
         padding: 7rem 0;
     }
 
-    // Section heading style - Consistent with other sections
-    .section-heading {
-        position: relative;
-        overflow: hidden;
-        padding-bottom: 3.5rem;
-        text-align: center;
-
-        .title {
-            position: relative;
-            z-index: 10;
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--color-white);
-            letter-spacing: 0.05em;
-
-            @include tablet {
-                font-size: 2rem;
-            }
-
-            @include mobile {
-                font-size: 1.75rem;
-            }
-        }
-
-        .title-anim {
-            position: relative;
-            z-index: 10;
-            display: inline-block;
-            height: 0.375rem;
-            width: 8rem;
-            overflow: hidden;
-            border-radius: 9999px;
-            background-color: rgba(var(--color-green-rgb), 0.2);
-            margin-bottom: 1rem;
-
-            span {
-                position: absolute;
-                left: 0;
-                top: 0;
-                display: inline-block;
-                height: 100%;
-                width: 0.375rem;
-                animation: slideLeftToRight 2s cubic-bezier(0.4, 0, 0.2, 1)
-                    infinite;
-                border-radius: 9999px;
-                background-color: var(--color-green);
-            }
-        }
-
-        .bg-title {
-            pointer-events: none;
-            position: absolute;
-            left: 50%;
-            top: -0.5rem;
-            z-index: 0;
-            transform: translateX(-50%);
-            font-size: 9rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--color-white);
-            opacity: 0.05;
-            user-select: none;
-
-            @include tablet {
-                font-size: 6rem;
-                top: 0;
-            }
-
-            @include mobile {
-                font-size: 4rem;
-                top: 0.5rem;
-            }
-        }
-    }
-
-    // Portfolio filters
     .portfolio-filters {
         display: flex;
         flex-wrap: wrap;
@@ -118,12 +40,10 @@
         }
     }
 
-    // Remove old filter-btn styles since we're using Button component
     .filter-btn {
-        display: none; // Hide old filter buttons
+        display: none;
     }
 
-    // Portfolio grid
     .portfolio-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -143,7 +63,7 @@
 
     .portfolio-item {
         width: 100%;
-        min-width: 0; // Fix để tránh grid item bị overflow
+        min-width: 0; 
     }
 
     .portfolio-card {
@@ -155,7 +75,7 @@
         padding: 1.5rem;
         transition: all 0.3s ease;
         overflow: hidden;
-        height: 100%; // Ensure consistent height
+        height: 100%;
         display: flex;
         flex-direction: column;
 
@@ -259,7 +179,7 @@
     }
 
     .portfolio-content {
-        margin-top: auto; // Push content to bottom of card
+        margin-top: auto;
         padding-top: 1rem;
 
         h5 {
@@ -286,14 +206,12 @@
         }
     }
 
-    // Load more section
     .portfolio-load-more {
         text-align: center;
         margin-top: 2rem;
     }
 }
 
-// Animation for the underline bar
 @keyframes slideLeftToRight {
     0% {
         left: 0;
@@ -309,7 +227,6 @@
     }
 }
 
-// Portfolio item hover variants
 .portfolio-card--featured {
     border-color: rgba($green, 0.3);
 
@@ -342,7 +259,6 @@
     }
 }
 
-// Dark theme support
 @media (prefers-color-scheme: dark) {
     .portfolio-section {
         .section-heading .bg-title {
@@ -359,7 +275,6 @@
     }
 }
 
-// High contrast mode support
 @media (prefers-contrast: high) {
     .portfolio-section {
         .portfolio-card {
@@ -393,7 +308,6 @@
     }
 }
 
-// Reduced motion support
 @media (prefers-reduced-motion: reduce) {
     .portfolio-section {
         .title-anim span {
@@ -426,7 +340,6 @@
     }
 }
 
-// Print styles
 @media print {
     .portfolio-section {
         .portfolio-filters,

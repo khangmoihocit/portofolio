@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import Heading from '../common/Heading';
 
 // SVG Icons as React Components
 const IconEducation = () => (
@@ -99,15 +100,7 @@ const Resume = () => {
     return (
         <section className="resume-section" id="resume">
             <div className="container-tw">
-                <div className="section-heading">
-                    <h2 className="title">{t('resume.title')}</h2>
-                    <div className="title-anim">
-                        <span></span>
-                    </div>
-                    <span className="bg-title" aria-hidden="true">
-                        {t('resume.bgTitle')}
-                    </span>
-                </div>
+                <Heading title={t('resume.title')} bgTitle={t('resume.bgTitle')}/>
                 
                 <div className="resume-content">
                     {/* Education Section */}

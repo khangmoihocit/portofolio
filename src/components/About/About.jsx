@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import profilePic from '../../assets/images/unnamed.jpg';
 import Button from '../common/Button';
 import '../../styles/components/_about.scss';
+import Heading from '../common/Heading';
 
 const About = () => {
   const { t } = useTranslation();
@@ -21,13 +22,7 @@ const About = () => {
   return (
     <section className="about-section" id="about">
       <div className="container">
-        <div className="section-heading">
-          <h2 className="title">{t('about.title')}</h2>
-          <span className="title-anim">
-            <span></span>
-          </span>
-          <span className="bg-title">{t('about.bgTitle')}</span>
-        </div>
+        <Heading title={t('about.title')} bgTitle={t('about.bgTitle')} />
         <div className="grid">
           <div className="col-span-2 lg:col-span-1">
             <div className="about-image">

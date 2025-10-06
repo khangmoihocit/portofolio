@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import '../../styles/components/_skills.scss';
+import Heading from '../common/Heading';
 
 const CircularSkill = ({ name, percentage }) => {
     const ref = useRef(null);
@@ -88,13 +89,7 @@ const Skills = () => {
     return (
         <section className="skills-section" id="skills">
             <div className="container">
-                <div className="section-heading">
-                    <h2 className="title">{t('skills.title')}</h2>
-                    <span className="title-anim">
-                        <span></span>
-                    </span>
-                    <span className="bg-title">{t('skills.bgTitle')}</span>
-                </div>
+                <Heading title={t('skills.title')} bgTitle={t('skills.bgTitle')}/>
                 <div className="skills-wrapper">
                     <div className="grid grid-cols-4">
                         {circularSkillsData.map((skill, index) => (

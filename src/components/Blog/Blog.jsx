@@ -9,6 +9,7 @@ import blogImage2 from '../../assets/images/minimart.png';
 import blogImage3 from '../../assets/images/ecommerce.png';
 import blogImage4 from '../../assets/images/bookstore.png';
 import blogImage5 from '../../assets/images/unnamed.jpg';
+import Heading from '../common/Heading';
 
 
 const BlogItem = ({ post }) => {
@@ -71,13 +72,7 @@ const Blog = () => {
     return (
         <section className='blog-section' id='blog'>
             <div className='container'>
-                <div className='section-heading'>
-                    <h2 className='title'>{t('blog.title')}</h2>
-                    <span className='title-anim'>
-                        <span></span>
-                    </span>
-                    <span className='bg-title'>{t('blog.bgTitle')}</span>
-                </div>
+                <Heading title={t('blog.title')} bgTitle={t('blog.bgTitle')}/>
                 
                 <div className="blog-slider">
                     <motion.div
