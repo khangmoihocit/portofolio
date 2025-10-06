@@ -1,18 +1,11 @@
 import React from 'react';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
-import FloatingActionMenu from '../../components/common/FloatingActionMenu';
-import ScrollToTopButton from '../../components/common/ScrollToTopButton';
-import SentencePractice from '../../components/Blog/Interactive/SentencePractice';
-import styles from '../../components/Blog/contents/Content1/styles.module.scss';
+import styles from '../Content1/styles.module.scss';
 import { Link } from 'react-router-dom';
-import { FaArrowLeft } from 'react-icons/fa';
+import { FaArrowLeft, FaExternalLinkAlt } from 'react-icons/fa';
+import { SentenceBuilding } from '../../../../pages/PracticePage/components';
 
-const AILearningPage = () => {
+const Content2 = () => {
     return (
-        <div>
-            <Header />
-            <main className="blog-container">
                 <article className={styles.blogContent}>
                     <div className={styles.backButton}>
                         <Link to="/#blog" className={styles.backLink}>
@@ -32,9 +25,24 @@ const AILearningPage = () => {
                                 Chào mừng bạn đến với một phương pháp học tiếng Anh hoàn toàn mới, được tích hợp ngay trên trang portfolio này!
                                 Tính năng "Luyện Đặt Câu với AI" sử dụng sức mạnh của Google Gemini để tạo ra các bài tập thực hành cá nhân hóa, giúp bạn vận dụng từ vựng vào ngữ cảnh thực tế một cách hiệu quả.
                             </p>
+                            <div style={{
+                                padding: '1rem',
+                                background: 'rgba(100, 255, 218, 0.1)',
+                                borderLeft: '3px solid #64ffda',
+                                borderRadius: '4px',
+                                marginTop: '1rem'
+                            }}>
+                                <p style={{ margin: 0 }}>
+                                    <strong>Trải nghiệm đầy đủ:</strong> Tính năng này hiện đã được tích hợp vào{' '}
+                                    <Link to="/practice" style={{ color: '#2e6e59ff', fontWeight: 'bold' }}>
+                                        Trang Luyện Tập <FaExternalLinkAlt style={{ fontSize: '0.8em' }} />
+                                    </Link>
+                                    {' '}với giao diện được cải tiến và nhiều chế độ luyện tập hơn!
+                                </p>
+                            </div>
                         </section>
 
-                        <SentencePractice />
+                        <SentenceBuilding />
 
                         <section className={styles.section}>
                             <h2>Cách Hoạt Động</h2>
@@ -44,12 +52,7 @@ const AILearningPage = () => {
                         </section>
                     </div>
                 </article>
-            </main>
-            <Footer />
-            <FloatingActionMenu />
-            <ScrollToTopButton />
-        </div>
     );
 };
 
-export default AILearningPage;
+export default Content2;

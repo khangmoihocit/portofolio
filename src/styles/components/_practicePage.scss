@@ -70,6 +70,38 @@
         margin-bottom: $spacing-md;
     }
 
+    .practice-mode-section {
+        margin-bottom: $spacing-xl;
+        padding-bottom: $spacing-lg;
+        border-bottom: 2px solid rgba(var(--color-slate-rgb), 0.2);
+    }
+
+    .sentence-building-option {
+        display: flex;
+        align-items: center;
+        gap: $spacing-sm;
+        padding: $spacing-md;
+        background: linear-gradient(135deg, rgba(var(--color-green-rgb), 0.15), rgba(var(--color-green-rgb), 0.05));
+        border-radius: $border-radius-md;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: var(--color-light-slate);
+        font-weight: $font-weight-medium;
+        border: 1px solid rgba(var(--color-green-rgb), 0.2);
+
+        svg {
+            color: var(--color-green);
+            font-size: $font-size-large;
+        }
+
+        &:hover {
+            background: linear-gradient(135deg, rgba(var(--color-green-rgb), 0.25), rgba(var(--color-green-rgb), 0.1));
+            color: var(--color-white);
+            transform: translateX(5px);
+            border-color: var(--color-green);
+        }
+    }
+
     .difficulty-group {
         margin-bottom: $spacing-lg;
         h4 {
@@ -99,12 +131,67 @@
     height: 100%;
     text-align: center;
     color: var(--color-slate);
-    svg {
+    
+    .welcome-icon {
         font-size: 4rem;
         margin-bottom: $spacing-lg;
+        color: var(--color-green);
     }
+    
     h2 {
         color: var(--color-white);
+        margin-bottom: $spacing-md;
+    }
+    
+    > p {
+        margin-bottom: $spacing-xl;
+        font-size: $font-size-medium;
+    }
+
+    .feature-list {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-lg;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .feature-item {
+        display: flex;
+        align-items: flex-start;
+        gap: $spacing-md;
+        padding: $spacing-lg;
+        background-color: rgba(var(--color-slate-rgb), 0.05);
+        border: 1px solid rgba(var(--color-slate-rgb), 0.1);
+        border-radius: $border-radius-md;
+        text-align: left;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background-color: rgba(var(--color-slate-rgb), 0.1);
+            border-color: var(--color-green);
+            transform: translateY(-2px);
+        }
+
+        > svg {
+            font-size: 2rem;
+            color: var(--color-green);
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        h3 {
+            color: var(--color-white);
+            font-size: $font-size-medium;
+            margin-bottom: $spacing-xs;
+        }
+
+        p {
+            color: var(--color-light-slate);
+            font-size: $font-size-small;
+            margin: 0;
+            line-height: 1.6;
+        }
     }
 }
 
