@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
 import Button from '../common/Button';
+import Heading from '../common/Heading';
 
 const Contact = () => {
     const { t } = useTranslation();
@@ -60,25 +61,7 @@ const Contact = () => {
             <div className='contact__container'>
                 {/* Section Heading */}
                 <div className='contact__heading'>
-                    <motion.h2
-                        className='contact__title'
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                        viewport={{ once: true }}
-                    >
-                        {t('contact.title')}
-                    </motion.h2>
-                    <motion.div
-                        className='contact__title-underline'
-                        initial={{ width: 0 }}
-                        whileInView={{ width: '8rem' }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        viewport={{ once: true }}
-                    >
-                        <span className='contact__title-underline__animation'></span>
-                    </motion.div>
-                    <span className='contact__title-bg'>{t('contact.bgTitle')}</span>
+                    <Heading title={t('contact.title')} bgTitle={t('contact.bgTitle')}/>
                 </div>
 
                 <div className='contact__content'>

@@ -12,3 +12,12 @@
     padding: 0 $spacing-md;
   }
 }
+
+.blog-container {
+    min-height: 100vh;
+    padding: 100px 5% 40px;
+    
+    @include mobile {
+        padding: 80px 4% 30px;
+    }
+}

@@ -44,7 +44,7 @@ const Header = () => {
 
     return (
         <header className={`header ${fixedPosition ? 'fixedHeader' : ''}`}>
-            <a href='#' className='header__logo'>
+            <a href='/' className='header__logo'>
                 {t('header.logo')}
             </a>
 
@@ -60,9 +60,6 @@ const Header = () => {
                         activeClass='active'
                         className='header__nav-link'
                     >
-                        {/* <span className='header__nav-link__number'>
-                            {item.number}.
-                        </span> */}
                         {item.label}
                     </ScrollLink>
                 ))}

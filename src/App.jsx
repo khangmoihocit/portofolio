@@ -1,32 +1,18 @@
 import React from 'react';
-import Header from './components/Header/Header';
-import Hero from './components/Hero/Hero';
-import About from './components/About/About';
-import Skills from './components/Skills/Skills';
-import Services from './components/Services/Services';
-import Portfolio from './components/Portfolio/Portfolio';
-import Resume from './components/Resume/Resume';
-import Contact from './components/Contact/Contact';
-import Footer from './components/Footer/Footer';
-import FloatingActionMenu from './components/common/FloatingActionMenu';
-import ScrollToTopButton from './components/common/ScrollToTopButton';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage/HomePage';
+import BlogPage from './pages/BlogPage/BlogPage';
 
 function App() {
     return (
         <>
-            <Header />
-            <main className='main-container'>
-                <Hero />
-                <About />
-                <Skills />
-                <Services />
-                <Resume />
-                <Portfolio />
-                <Contact />
-            </main>
-            <Footer />
-            <FloatingActionMenu />
-            <ScrollToTopButton />
+            <BrowserRouter>
+                <Routes>
+                    <Route path='/' element={<HomePage />} />
+                    <Route path='/blog/:id' element={<BlogPage />} />
+                    <Route path='/blog' element={<BlogPage id={1} />} />
+                </Routes>
+            </BrowserRouter>
         </>
     );
 }

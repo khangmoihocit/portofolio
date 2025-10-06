@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import Button from '../common/Button';
@@ -7,19 +7,15 @@ import minimart from '../../assets/images/minimart.png';
 import portfolio from '../../assets/images/portfolio.png';
 import bookstore from '../../assets/images/bookstore.png';
 import { FaGithub} from 'react-icons/fa';
+import Heading from '../common/Heading';
 
-// SVG Icons as React Components
 const IconImage = () => (
-    // <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-    //     <path d="M2.9918 21C2.44405 21 2 20.5551 2 20.0066V3.9934C2 3.44476 2.45531 3 2.9918 3H21.0082C21.556 3 22 3.44495 22 3.9934V20.0066C22 20.5552 21.5447 21 21.0082 21H2.9918ZM20 15V5H4V19L14 9L20 15ZM20 17.8284L14 11.8284L6.82843 19H20V17.8284ZM8 11C6.89543 11 6 10.1046 6 9C6 7.89543 6.89543 7 8 7C9.10457 7 10 7.89543 10 9C10 10.1046 9.10457 11 8 11Z"></path>
-    // </svg>
     <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
         <path d="M10 6V8H5V19H16V14H18V20C18 20.5523 17.5523 21 17 21H4C3.44772 21 3 20.5523 3 20V7C3 6.44772 3.44772 6 4 6H10ZM21 3V11H19L18.9999 6.413L11.2071 14.2071L9.79289 12.7929L17.5849 5H13V3H21Z"></path>
     </svg>
 );
 
 const IconExternal = () => (
-    
     <FaGithub />
 );
 
@@ -85,7 +81,7 @@ const PortfolioItem = ({ item, index }) => {
 
 const Portfolio = () => {
     const { t } = useTranslation();
-    const [activeFilter, setActiveFilter] = useState(t('portfolio.filters.all'));
+    const [activeFilter, setActiveFilter] = useState('all');
     const [visibleItems, setVisibleItems] = useState(6);
 
     const portfolioData = [
@@ -157,9 +153,15 @@ const Portfolio = () => {
         }
     ];
 
-    const filterCategories = [t('portfolio.filters.all'), 'Android', 'React JS', 'C# .NET', 'Spring boot'];
+    const filterCategories = [
+        { key: 'all', label: t('portfolio.filters.all') },
+        { key: 'Android', label: 'Android' },
+        { key: 'React JS', label: 'React JS' },
+        { key: 'C# .NET', label: 'C# .NET' },
+        { key: 'Spring boot', label: 'Spring boot' }
+    ];
 
-    const filteredPortfolio = activeFilter === t('portfolio.filters.all')
+    const filteredPortfolio = activeFilter === 'all'
         ? portfolioData 
         : portfolioData.filter(item => item.category === activeFilter);
 
@@ -167,7 +169,7 @@ const Portfolio = () => {
 
     const handleFilterChange = (filter) => {
         setActiveFilter(filter);
-        setVisibleItems(6); // Reset visible items when filter changes
+        setVisibleItems(6);
     };
 
     const handleLoadMore = () => {
@@ -177,26 +179,18 @@ const Portfolio = () => {
     return (
         <section className="portfolio-section" id="portfolio">
             <div className="container-tw">
-                <div className="section-heading">
-                    <h2 className="title">{t('portfolio.title')}</h2>
-                    <div className="title-anim">
-                        <span></span>
-                    </div>
-                    <span className="bg-title" aria-hidden="true">
-                        {t('portfolio.bgTitle')}
-                    </span>
-                </div>
+                <Heading title={t('portfolio.title')} bgTitle={t('portfolio.bgTitle')}/>
                 
                 <div className="portfolio-filters">
                     {filterCategories.map((category) => (
                         <Button
-                            key={category}
-                            variant={activeFilter === category ? 'primary' : 'outline'}
+                            key={category.key}
+                            variant={activeFilter === category.key ? 'primary' : 'outline'}
                             size="small"
-                            onClick={() => handleFilterChange(category)}
+                            onClick={() => handleFilterChange(category.key)}
                             className="portfolio-filter-btn"
                         >
-                            {category}
+                            {category.label}
                         </Button>
                     ))}
                 </div>

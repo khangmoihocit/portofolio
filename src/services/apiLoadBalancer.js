@@ -15,7 +15,6 @@ class ApiLoadBalancer {
             import.meta.env.VITE_GEMINI_API_KEY_8 || '',
         ].filter(key => key !== '');
 
-        // Circuit breaker states for each key
         this.keyStates = this.apiKeys.map(() => ({
             state: 'CLOSED',
             failureCount: 0,
@@ -67,7 +66,7 @@ class ApiLoadBalancer {
                 .map((state, index) => ({ index, activeRequests: this.getActiveRequestsForKey(index) }))
                 .filter(key => key.activeRequests < this.maxConcurrentPerKey)
                 .sort((a, b) => a.activeRequests - b.activeRequests);
-            return availableKeys.length > 0 ? availableKeys[0].index : -1; // Trả về -1 nếu không có key nào
+            return availableKeys.length > 0 ? availableKeys[0].index : -1;
         }
 
         const keyScores = healthyKeys.map(key => ({ ...key, score: this.calculateKeyScore(key) }));
@@ -108,7 +107,6 @@ class ApiLoadBalancer {
 
         const keyIndex = this.selectOptimalKey();
         if (keyIndex === -1) {
-            // Không có key nào sẵn sàng, chờ và thử lại
             setTimeout(() => this.processQueue(), 1000);
             return;
         }
@@ -280,16 +278,14 @@ class ApiLoadBalancer {
     }
 }
 
-// Singleton instance
 export const loadBalancer = new ApiLoadBalancer();
 
-// Export các hàm wrapper một cách chính xác
 export async function getGeminiResponse(userMessage, conversationHistory = []) {
     return loadBalancer.processRequest(userMessage, conversationHistory);
 }
 
 export function getApiKeyStatus() {
-    return loadBalancer.getStatus(); // Sửa lại để gọi hàm getStatus
+    return loadBalancer.getStatus();
 }
 
 export function checkGeminiApiKey() {
