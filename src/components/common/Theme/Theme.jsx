@@ -1,38 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { FaSun, FaMoon } from 'react-icons/fa';
+import { useTheme } from '../../../contexts';
 import styles from './styles.module.scss';
 
 const Theme = () => {
-    const [isDarkMode, setIsDarkMode] = useState(true);
-
-    // Load theme from localStorage on component mount
-    useEffect(() => {
-        const savedTheme = localStorage.getItem('theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
-        if (savedTheme) {
-            setIsDarkMode(savedTheme === 'dark');
-        } else {
-            // Default to light mode
-            setIsDarkMode(false);
-        }
-    }, []);
-
-    // Apply theme to document when state changes
-    useEffect(() => {
-        const root = document.documentElement;
-        if (isDarkMode) {
-            root.classList.add('dark-theme');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            root.classList.remove('dark-theme');
-            localStorage.setItem('theme', 'light');
-        }
-    }, [isDarkMode]);
-
-    const toggleTheme = () => {
-        setIsDarkMode(!isDarkMode);
-    };
+    const { isDarkMode, toggleTheme } = useTheme();
 
     const { themeToggle, toggleButton, icon, sun, moon, stars, clouds } = styles;
 
