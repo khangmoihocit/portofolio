@@ -1,0 +1,99 @@
+@use '../abstracts/variables' as *;
+@use '../abstracts/mixins' as *;
+
+.conversational-practice {
+    animation: fadeIn 0.5s ease;
+
+    h2 {
+        @include flex-center;
+        gap: $spacing-md;
+        color: var(--color-white);
+        margin-bottom: $spacing-sm;
+    }
+
+    .page-description {
+        text-align: center;
+        color: var(--color-slate);
+        max-width: 60ch;
+        margin: 0 auto $spacing-xl;
+    }
+}
+
+.category-section {
+    margin-bottom: $spacing-xxl;
+}
+
+.category-title {
+    font-size: $font-size-lg;
+    color: var(--color-green);
+    padding-bottom: $spacing-sm;
+    border-bottom: 2px solid rgba(var(--color-green-rgb), 0.2);
+    margin-bottom: $spacing-lg;
+}
+
+.sentences-list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xl;
+}
+
+.conversation-item {
+    background-color: rgba(var(--color-slate-rgb), 0.05);
+    padding: $spacing-lg;
+    border-radius: $border-radius-md;
+    border-left: 4px solid var(--color-green);
+
+    .vietnamese-text {
+        font-size: $font-size-medium;
+        color: var(--color-light-slate);
+        margin-bottom: $spacing-md;
+        font-style: italic;
+    }
+
+    .answer-wrapper {
+        display: flex;
+        gap: $spacing-md;
+
+        input {
+            flex-grow: 1;
+            background-color: var(--color-navy);
+            border: 1px solid rgba(var(--color-slate-rgb), 0.3);
+            border-radius: $border-radius-sm;
+            padding: 12px;
+            color: var(--color-white);
+
+            &:focus {
+                outline: none;
+                border-color: var(--color-green);
+            }
+        }
+    }
+}
+
+.feedback-bubble {
+    margin-top: $spacing-md;
+    padding: $spacing-md;
+    border-radius: $border-radius-sm;
+    animation: fadeIn 0.3s ease;
+
+    p {
+        margin: 0;
+        line-height: 1.6;
+    }
+    
+    strong {
+        font-weight: $font-weight-semibold;
+    }
+
+    &.correct {
+        background-color: rgba(var(--color-green-rgb), 0.1);
+        color: #a5d6a7;
+        strong { color: var(--color-green); }
+    }
+
+    &.incorrect {
+        background-color: rgba(#ef4444, 0.1);
+        color: #ff8a80;
+        strong { color: #ef4444; }
+    }
+}

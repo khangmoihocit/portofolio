@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
-import { FaPencilAlt } from 'react-icons/fa';
 import { translationLessons } from '../../../data/translationData.js';
+import { FaPencilAlt, FaComments } from 'react-icons/fa';
 
-const Sidebar = ({ onSelectLesson, onSelectSentenceBuilding }) => {
+const Sidebar = ({ onSelectLesson, onSelectSentenceBuilding, onSelectConversational }) => {
     const lessonsByDifficulty = useMemo(() => {
         return translationLessons.reduce((acc, lesson) => {
             const { difficulty } = lesson;
@@ -24,11 +24,18 @@ const Sidebar = ({ onSelectLesson, onSelectSentenceBuilding }) => {
                     className="sentence-building-option" 
                     onClick={onSelectSentenceBuilding}
                 >
-                    <FaPencilAlt /> Luyện đặt câu với AI
+                    <FaPencilAlt /> Thực hành đặt câu với từ vựng
+                </div>
+                <div 
+                    className="sentence-building-option" 
+                    onClick={onSelectConversational}
+                    style={{marginTop: '10px'}}
+                >
+                    <FaComments /> Luyện Giao Tiếp
                 </div>
             </div>
 
-            <h3>Luyện dịch</h3>
+            <h3>Luyện dịch văn bản</h3>
             {difficultyOrder.map(difficulty => (
                 lessonsByDifficulty[difficulty] && (
                     <div key={difficulty} className="difficulty-group">

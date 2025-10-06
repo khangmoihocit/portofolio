@@ -8,7 +8,8 @@ import {
     VocabularyStep, 
     TranslationStep, 
     WelcomeScreen,
-    SentenceBuilding
+    SentenceBuilding,
+    ConversationalPractice 
 } from './components';
 import MenuLanguage from '../../components/common/MenuLanguage/MenuLanguage.jsx';
 import Theme from '../../components/common/Theme/Theme.jsx';
@@ -42,7 +43,23 @@ const PracticePage = () => {
         setCurrentStep('vocab');
     };
 
+    const handleSelectConversational = () => {
+        setSelectedLesson(null);
+        setCurrentStep('conversational');
+    };
+
     const renderContent = () => {
+        if (currentStep === 'conversational') {
+            return (
+                <div className="practice-main-content">
+                    <button onClick={handleBackToSelection} className="back-button">
+                        <FaArrowLeft /> Quay lại
+                    </button>
+                    <ConversationalPractice />
+                </div>
+            );
+        }
+
         if (currentStep === 'sentence-building') {
             return (
                 <div className="practice-main-content">
@@ -100,6 +117,7 @@ const PracticePage = () => {
                 <Sidebar 
                     onSelectLesson={handleSelectLesson}
                     onSelectSentenceBuilding={handleSelectSentenceBuilding}
+                    onSelectConversational={handleSelectConversational}
                 />
             </div>
         </div>
