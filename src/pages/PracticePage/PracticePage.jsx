@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
+import { FaArrowLeft, FaBars, FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 import Button from '../../components/common/Button.jsx';
@@ -18,15 +18,26 @@ const PracticePage = () => {
     const [selectedLesson, setSelectedLesson] = useState(null);
     const [currentStep, setCurrentStep] = useState('select'); // 'select', 'vocab', 'practice', 'sentence-building'
     const [practiceDirection, setPracticeDirection] = useState('en-vi'); // 'en-vi' or 'vi-en'
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
+
+    const closeSidebar = () => {
+        setIsSidebarOpen(false);
+    };
 
     const handleSelectLesson = (lesson) => {
         setSelectedLesson(lesson);
         setCurrentStep('vocab');
+        closeSidebar();
     };
 
     const handleSelectSentenceBuilding = () => {
         setSelectedLesson(null);
         setCurrentStep('sentence-building');
+        closeSidebar();
     };
     
     const handleStartPractice = (direction) => {
@@ -46,6 +57,7 @@ const PracticePage = () => {
     const handleSelectConversational = () => {
         setSelectedLesson(null);
         setCurrentStep('conversational');
+        closeSidebar();
     };
 
     const renderContent = () => {
@@ -102,23 +114,43 @@ const PracticePage = () => {
     return (
         <div className="practice-page-container">
             <div className="practice-header">
+                <div className="header-left">
+                    <button 
+                        className="hamburger-menu" 
+                        onClick={toggleSidebar}
+                        aria-label="Toggle sidebar"
+                    >
+                        {isSidebarOpen ? <FaTimes /> : <FaBars />}
+                    </button>
                     <Link to="/" className="home-link">
                         <FaArrowLeft /> Về trang chủ
                     </Link>
+                </div>
                 <div className="header-actions">
-                    <MenuLanguage />
+                    {/* <MenuLanguage /> */}
                     <Theme />
                 </div>
             </div>
+            
+            {isSidebarOpen && (
+                <div 
+                    className="sidebar-overlay" 
+                    onClick={closeSidebar}
+                    aria-hidden="true"
+                />
+            )}
+            
             <div className="practice-layout">
                 <div className="practice-main-area">
                     {renderContent()}
                 </div>
-                <Sidebar 
-                    onSelectLesson={handleSelectLesson}
-                    onSelectSentenceBuilding={handleSelectSentenceBuilding}
-                    onSelectConversational={handleSelectConversational}
-                />
+                <div className={`practice-sidebar-wrapper ${isSidebarOpen ? 'open' : ''}`}>
+                    <Sidebar 
+                        onSelectLesson={handleSelectLesson}
+                        onSelectSentenceBuilding={handleSelectSentenceBuilding}
+                        onSelectConversational={handleSelectConversational}
+                    />
+                </div>
             </div>
         </div>
     );

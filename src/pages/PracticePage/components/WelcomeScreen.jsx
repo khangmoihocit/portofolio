@@ -11,7 +11,7 @@ const WelcomeScreen = () => {
                 <div className="feature-item">
                     <FaPencilAlt />
                     <div>
-                        <h3>Luyện đặt câu với AI</h3>
+                        <h3>Thực hành đặt câu với các từ vựng</h3>
                         <p>Nhập từ vựng và luyện tập đặt câu tiếng Anh với sự hỗ trợ của AI</p>
                     </div>
                 </div>
@@ -20,6 +20,13 @@ const WelcomeScreen = () => {
                     <div>
                         <h3>Luyện dịch văn bản</h3>
                         <p>Học từ vựng và thực hành dịch các đoạn văn từ cơ bản đến nâng cao</p>
+                    </div>
+                </div>
+                <div className="feature-item">
+                    <FaPencilAlt />
+                    <div>
+                        <h3>Luyện dịch các câu giao tiếp</h3>
+                        <p>Thực hành kỹ năng nói và phản xạ trong các tình huống giao tiếp hàng ngày</p>
                     </div>
                 </div>
             </div>

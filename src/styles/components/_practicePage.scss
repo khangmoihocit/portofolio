@@ -7,16 +7,79 @@
     min-height: 100vh;
     padding: $spacing-xl;
 
+    @include tablet {
+        padding: $spacing-lg;
+    }
+
+    @include mobile {
+        padding: $spacing-md;
+    }
+
     .practice-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: $spacing-xl;
+        flex-wrap: wrap;
+        gap: $spacing-md;
+
+        @include mobile {
+            margin-bottom: $spacing-lg;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: $spacing-md;
+
+            @include mobile {
+                gap: $spacing-sm;
+            }
+        }
+
+        .hamburger-menu {
+            @include button-reset;
+            display: none;
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(var(--color-slate-rgb), 0.1);
+            border: 1px solid rgba(var(--color-slate-rgb), 0.2);
+            border-radius: $border-radius-sm;
+            color: var(--color-white);
+            font-size: $font-size-large;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1001;
+
+            @include tablet {
+                display: flex;
+            }
+
+            &:hover {
+                background-color: rgba(var(--color-green-rgb), 0.1);
+                border-color: var(--color-green);
+                color: var(--color-green);
+            }
+
+            &:active {
+                transform: scale(0.95);
+            }
+
+            svg {
+                transition: transform 0.3s ease;
+            }
+        }
 
         .header-actions {
             display: flex;
             align-items: center;
-            gap: $spacing-xl;
+            gap: $spacing-md;
+
+            @include mobile {
+                gap: $spacing-sm;
+            }
         }
     }
 
@@ -25,22 +88,38 @@
         align-items: center;
         gap: $spacing-sm;
         color: var(--color-green);
-        margin-bottom: $spacing-lg;
         font-weight: $font-weight-medium;
+        
         &:hover {
             text-decoration: underline;
+        }
+
+        @include mobile {
+            font-size: $font-size-small;
         }
     }
 }
 
 .practice-layout {
     display: grid;
-    grid-template-columns: 1fr 350px;
-    gap: $spacing-xl;
-    height: calc(100vh - 120px);
+    grid-template-columns: 1fr 280px;
+    gap: $spacing-lg;
+    height: calc(100vh - 140px);
+    max-height: calc(100vh - 140px);
+
+    @include desktop {
+        grid-template-columns: 1fr 280px;
+        gap: $spacing-lg;
+    }
 
     @include tablet {
         grid-template-columns: 1fr;
+        height: auto;
+        min-height: calc(100vh - 200px);
+    }
+
+    @include mobile {
+        gap: $spacing-md;
     }
 }
 
@@ -50,6 +129,13 @@
     border-radius: $border-radius-lg;
     padding: $spacing-lg;
     overflow-y: auto;
+    height: 100%;
+    max-height: 100%;
+
+    @include mobile {
+        padding: $spacing-md;
+        border-radius: $border-radius-md;
+    }
     
     .back-button {
         @include button-reset;
@@ -58,8 +144,63 @@
         gap: $spacing-sm;
         color: var(--color-slate);
         margin-bottom: $spacing-lg;
+        padding: $spacing-sm $spacing-md;
+        border-radius: $border-radius-sm;
+        transition: all 0.2s ease;
+        
         &:hover {
             color: var(--color-white);
+            background-color: rgba(var(--color-slate-rgb), 0.1);
+        }
+
+        @include mobile {
+            margin-bottom: $spacing-md;
+            font-size: $font-size-small;
+        }
+    }
+}
+
+// ==================== Sidebar Overlay & Wrapper ====================
+.sidebar-overlay {
+    display: none;
+
+    @include tablet {
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 999;
+        animation: fadeIn 0.3s ease;
+    }
+}
+
+.practice-sidebar-wrapper {
+    height: 100%;
+    overflow: hidden;
+    
+    @include tablet {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 80%;
+        max-width: 350px;
+        height: 100vh;
+        background-color: var(--color-navy);
+        z-index: 1000;
+        transition: right 0.3s ease;
+        box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    @include mobile {
+        max-width: 85%;
+    }
+
+    &.open {
+        @include tablet {
+            right: 0;
         }
     }
 }
@@ -70,9 +211,18 @@
     border-radius: $border-radius-lg;
     padding: $spacing-lg;
     overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
     
     @include tablet {
-        display: none; // Tạm ẩn trên tablet/mobile, có thể cải tiến sau
+        border: none;
+        border-radius: 0;
+        background-color: transparent;
+        padding: $spacing-xl $spacing-lg;
+    }
+
+    @include mobile {
+        padding: $spacing-lg $spacing-md;
     }
 
     h3 {
@@ -81,12 +231,23 @@
         border-bottom: 1px solid rgba(var(--color-slate-rgb), 0.1);
         padding-bottom: $spacing-md;
         margin-bottom: $spacing-md;
+
+        @include mobile {
+            font-size: $font-size-medium;
+            padding-bottom: $spacing-sm;
+            margin-bottom: $spacing-sm;
+        }
     }
 
     .practice-mode-section {
         margin-bottom: $spacing-xl;
         padding-bottom: $spacing-lg;
         border-bottom: 2px solid rgba(var(--color-slate-rgb), 0.2);
+
+        @include mobile {
+            margin-bottom: $spacing-lg;
+            padding-bottom: $spacing-md;
+        }
     }
 
     .sentence-building-option {
@@ -102,9 +263,18 @@
         font-weight: $font-weight-medium;
         border: 1px solid rgba(var(--color-green-rgb), 0.2);
 
+        @include mobile {
+            padding: $spacing-sm;
+            font-size: $font-size-small;
+        }
+
         svg {
             color: var(--color-green);
             font-size: $font-size-large;
+
+            @include mobile {
+                font-size: $font-size-medium;
+            }
         }
 
         &:hover {
@@ -113,29 +283,82 @@
             transform: translateX(5px);
             border-color: var(--color-green);
         }
+
+        &:active {
+            transform: translateX(3px);
+        }
     }
 
     .difficulty-group {
         margin-bottom: $spacing-lg;
-        h4 {
+        
+        .difficulty-header {
+            display: flex;
+            align-items: center;
+            gap: $spacing-sm;
             color: var(--color-green);
             font-size: $font-size-medium;
             margin-bottom: $spacing-sm;
+            cursor: pointer;
+            padding: $spacing-sm;
+            border-radius: $border-radius-sm;
+            transition: all 0.2s ease;
+            user-select: none;
+
+            &:hover {
+                background-color: rgba(var(--color-green-rgb), 0.1);
+            }
+
+            .difficulty-icon {
+                display: flex;
+                align-items: center;
+                font-size: $font-size-small;
+                transition: transform 0.2s ease;
+            }
+
+            .difficulty-text {
+                flex-grow: 1;
+                font-weight: $font-weight-semibold;
+            }
+
+            .lesson-count {
+                font-size: $font-size-small;
+                color: var(--color-slate);
+                font-weight: $font-weight-normal;
+            }
         }
-        ul {
+
+        .lessons-list {
             list-style: none;
-            padding-left: $spacing-sm;
+            padding-left: $spacing-lg;
+            animation: slideDown 0.3s ease;
+
             li {
                 padding: $spacing-sm;
                 cursor: pointer;
                 border-radius: $border-radius-sm;
-                transition: background-color 0.2s ease;
+                transition: all 0.2s ease;
+                color: var(--color-light-slate);
+                font-size: $font-size-small;
+
                 &:hover {
                     background-color: rgba(var(--color-green-rgb), 0.1);
                     color: var(--color-white);
+                    transform: translateX(4px);
                 }
             }
         }
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 500px;
     }
 }
 
@@ -144,21 +367,40 @@
     height: 100%;
     text-align: center;
     color: var(--color-slate);
+
+    @include mobile {
+        padding: $spacing-md;
+    }
     
     .welcome-icon {
         font-size: 4rem;
         margin-bottom: $spacing-lg;
         color: var(--color-green);
+
+        @include mobile {
+            font-size: 3rem;
+            margin-bottom: $spacing-md;
+        }
     }
     
     h2 {
         color: var(--color-white);
         margin-bottom: $spacing-md;
+        font-size: $font-size-xlarge;
+
+        @include mobile {
+            font-size: $font-size-large;
+        }
     }
     
     > p {
         margin-bottom: $spacing-xl;
         font-size: $font-size-medium;
+
+        @include mobile {
+            font-size: $font-size-small;
+            margin-bottom: $spacing-lg;
+        }
     }
 
     .feature-list {
@@ -167,6 +409,11 @@
         gap: $spacing-lg;
         max-width: 600px;
         margin: 0 auto;
+
+        @include mobile {
+            gap: $spacing-md;
+            max-width: 100%;
+        }
     }
 
     .feature-item {
@@ -180,6 +427,11 @@
         text-align: left;
         transition: all 0.3s ease;
 
+        @include mobile {
+            padding: $spacing-md;
+            gap: $spacing-sm;
+        }
+
         &:hover {
             background-color: rgba(var(--color-slate-rgb), 0.1);
             border-color: var(--color-green);
@@ -191,12 +443,20 @@
             color: var(--color-green);
             flex-shrink: 0;
             margin-top: 4px;
+
+            @include mobile {
+                font-size: 1.5rem;
+            }
         }
 
         h3 {
             color: var(--color-white);
             font-size: $font-size-medium;
             margin-bottom: $spacing-xs;
+
+            @include mobile {
+                font-size: $font-size-small;
+            }
         }
 
         p {
@@ -204,6 +464,10 @@
             font-size: $font-size-small;
             margin: 0;
             line-height: 1.6;
+
+            @include mobile {
+                font-size: $font-size-xs;
+            }
         }
     }
 }
@@ -226,12 +490,26 @@
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
         gap: $spacing-md;
         margin-bottom: $spacing-xl;
+
+        @include tablet {
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        }
+
+        @include mobile {
+            grid-template-columns: 1fr;
+            gap: $spacing-sm;
+            margin-bottom: $spacing-lg;
+        }
     }
     .vocab-item {
         background-color: rgba(var(--color-navy-rgb), 0.5);
         padding: $spacing-md;
         border-radius: $border-radius-sm;
         border-left: 3px solid var(--color-green);
+
+        @include mobile {
+            padding: $spacing-sm;
+        }
     }
     .vocab-word {
         font-size: $font-size-medium;
@@ -239,19 +517,76 @@
         margin-bottom: $spacing-xs;
         strong { font-weight: $font-weight-semibold; }
         em { color: var(--color-slate); }
+
+        @include mobile {
+            font-size: $font-size-base;
+        }
     }
     .vocab-meaning {
         color: var(--color-light-slate);
+        
+        @include mobile {
+            font-size: $font-size-small;
+        }
     }
+}
+
+// ==================== Custom Scrollbar ====================
+.practice-main-area,
+.practice-sidebar {
+    // Webkit browsers (Chrome, Safari, Edge)
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: rgba(var(--color-slate-rgb), 0.1);
+        border-radius: $border-radius-sm;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: rgba(var(--color-slate-rgb), 0.3);
+        border-radius: $border-radius-sm;
+        transition: background 0.3s ease;
+
+        &:hover {
+            background: rgba(var(--color-slate-rgb), 0.5);
+        }
+    }
+
+    // Firefox
+    scrollbar-width: thin;
+    scrollbar-color: rgba(var(--color-slate-rgb), 0.3) rgba(var(--color-slate-rgb), 0.1);
 }
 
 .practice-options {
     margin-top: $spacing-xl;
     padding-top: $spacing-xl;
     border-top: 1px solid rgba(var(--color-slate-rgb), 0.1);
-    h3 { color: var(--color-white); margin-bottom: $spacing-md; }
+    
+    h3 { 
+        color: var(--color-white); 
+        margin-bottom: $spacing-md;
+
+        @include mobile {
+            font-size: $font-size-medium;
+            margin-bottom: $spacing-sm;
+        }
+    }
+    
     display: flex;
     gap: $spacing-md;
+    flex-wrap: wrap;
+
+    @include mobile {
+        margin-top: $spacing-lg;
+        padding-top: $spacing-lg;
+        gap: $spacing-sm;
+
+        button {
+            flex: 1 1 100%;
+        }
+    }
 }
 
 
@@ -310,7 +645,18 @@
     padding-top: $spacing-lg;
     animation: fadeIn 0.5s ease;
 
-    h3 { color: var(--color-white); }
+    @include mobile {
+        margin-top: $spacing-lg;
+        padding-top: $spacing-md;
+    }
+
+    h3 { 
+        color: var(--color-white);
+        
+        @include mobile {
+            font-size: $font-size-medium;
+        }
+    }
     
     .feedback-summary {
         display: flex;
@@ -320,6 +666,13 @@
         padding: $spacing-md;
         border-radius: $border-radius-md;
         margin: $spacing-md 0;
+
+        @include mobile {
+            flex-direction: column;
+            text-align: center;
+            gap: $spacing-md;
+            padding: $spacing-sm;
+        }
     }
     
     .feedback-score {
@@ -330,27 +683,77 @@
         width: 80px;
         height: 80px;
         flex-shrink: 0;
+        
         span { font-size: $font-size-small; }
         strong { font-size: $font-size-large; font-weight: $font-weight-bold; }
+
+        @include mobile {
+            width: 60px;
+            height: 60px;
+            
+            span { font-size: $font-size-xs; }
+            strong { font-size: $font-size-medium; }
+        }
     }
 
     .feedback-overall {
         margin: 0;
         line-height: 1.6;
+
+        @include mobile {
+            font-size: $font-size-small;
+        }
     }
 
     .feedback-corrections {
         margin-top: $spacing-lg;
-        h4 { color: var(--color-white); margin-bottom: $spacing-sm; }
+        
+        h4 { 
+            color: var(--color-white); 
+            margin-bottom: $spacing-sm;
+
+            @include mobile {
+                font-size: $font-size-base;
+            }
+        }
+
+        @include mobile {
+            margin-top: $spacing-md;
+        }
     }
 
     .correction-item {
         padding: $spacing-md;
         border-bottom: 1px solid rgba(var(--color-slate-rgb), 0.1);
+        
         &:last-child { border: none; }
-        p { margin: 0 0 $spacing-xs 0; line-height: 1.7; }
-        .error-text { color: #ff8a80; background-color: rgba(#ff8a80, 0.1); padding: 2px 4px; border-radius: 4px;}
-        .suggestion-text { color: #b9f6ca; background-color: rgba(#b9f6ca, 0.1); padding: 2px 4px; border-radius: 4px;}
+        
+        p { 
+            margin: 0 0 $spacing-xs 0; 
+            line-height: 1.7;
+
+            @include mobile {
+                font-size: $font-size-small;
+            }
+        }
+        
+        .error-text { 
+            color: #ff8a80; 
+            background-color: rgba(#ff8a80, 0.1); 
+            padding: 2px 4px; 
+            border-radius: 4px;
+        }
+        
+        .suggestion-text { 
+            color: #b9f6ca; 
+            background-color: rgba(#b9f6ca, 0.1); 
+            padding: 2px 4px; 
+            border-radius: 4px;
+        }
+
+        @include mobile {
+            padding: $spacing-sm;
+        }
     }
 }
 
