@@ -1,12 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useState } from 'react';
+import { useLanguage } from '../../../contexts';
 import styles from './styles.module.scss';
-import LogoVN from '../../../assets/svgs/vn.svg';
-import LogoENG from '../../../assets/svgs/eng.svg';
-import LogoJP from '../../../assets/svgs/japan.svg';
 
 const MenuLanguage = () => {
-    const { i18n } = useTranslation();
+    const { currentLanguageData, languages, changeLanguage } = useLanguage();
     const {
         boxLanguage,
         menuLanguage,
@@ -16,62 +13,32 @@ const MenuLanguage = () => {
     } = styles;
 
     const [isShowLanguage, setIsShowLanguage] = useState(false);
-    const [typeLanguage, setTypeLanguage] = useState(i18n.language || 'en');
-    const [language, setLanguage] = useState({ src: LogoENG, content: 'ENG' });
-
-    const dataLanguage = [
-        { content: 'Vietnamese (vi-VN)', src: LogoVN, value: 'vi' },
-        { content: 'English (en-US)', src: LogoENG, value: 'en' },
-        { content: 'Japanese (ja-JP)', src: LogoJP, value: 'ja' }
-    ];
-
-    // Đồng bộ ngôn ngữ hiện tại khi component mount
-    useEffect(() => {
-        setTypeLanguage(i18n.language || 'en');
-    }, [i18n.language]);
-
-    useEffect(() => {
-        switch (typeLanguage) {
-            case 'vi':
-                setLanguage({ src: LogoVN, content: 'VN' });
-                break;
-            case 'en':
-                setLanguage({ src: LogoENG, content: 'ENG' });
-                break;
-            case 'ja':
-                setLanguage({ src: LogoJP, content: 'JP' });
-                break;
-            default:
-                setLanguage({ src: LogoENG, content: 'ENG' });
-        }
-    }, [typeLanguage]);
 
     return (
         <div
             className={containerLanguage}
-            onMouseEnter={() => setIsShowLanguage(!isShowLanguage)}
-            onMouseLeave={() => setIsShowLanguage(!isShowLanguage)}
+            onMouseEnter={() => setIsShowLanguage(true)}
+            onMouseLeave={() => setIsShowLanguage(false)}
         >
             <div className={boxLanguage}>
-                <img src={language.src} alt='icon vn' />
-                <p>{language.content}</p>
+                <img src={currentLanguageData.flag} alt={currentLanguageData.name} />
+                <p>{currentLanguageData.shortCode}</p>
             </div>
             {isShowLanguage && (
                 <div className={menuLanguage}>
                     <b>Languages</b>
                     <div className={wrapLanguage}>
-                        {dataLanguage.map((item, index) => (
+                        {languages.map((item) => (
                             <div
-                                key={index}
+                                key={item.code}
                                 onClick={() => {
-                                    setTypeLanguage(item.value);
-                                    i18n.changeLanguage(item.value);
+                                    changeLanguage(item.code);
                                     setIsShowLanguage(false);
                                 }}
                                 className={boxLanguage1}
                             >
-                                <img src={item.src} alt={item.content} />
-                                <p>{item.content}</p>
+                                <img src={item.flag} alt={item.name} />
+                                <p>{item.fullName}</p>
                             </div>
                         ))}
                     </div>

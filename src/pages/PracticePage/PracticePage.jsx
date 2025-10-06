@@ -10,6 +10,8 @@ import {
     WelcomeScreen,
     SentenceBuilding
 } from './components';
+import MenuLanguage from '../../components/common/MenuLanguage/MenuLanguage.jsx';
+import Theme from '../../components/common/Theme/Theme.jsx';
 
 const PracticePage = () => {
     const [selectedLesson, setSelectedLesson] = useState(null);
@@ -82,9 +84,15 @@ const PracticePage = () => {
 
     return (
         <div className="practice-page-container">
-            <Link to="/" className="home-link">
-                <FaArrowLeft /> Về trang chủ
-            </Link>
+            <div className="practice-header">
+                    <Link to="/" className="home-link">
+                        <FaArrowLeft /> Về trang chủ
+                    </Link>
+                <div className="header-actions">
+                    <MenuLanguage />
+                    <Theme />
+                </div>
+            </div>
             <div className="practice-layout">
                 <div className="practice-main-area">
                     {renderContent()}

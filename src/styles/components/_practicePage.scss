@@ -7,6 +7,19 @@
     min-height: 100vh;
     padding: $spacing-xl;
 
+    .practice-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: $spacing-xl;
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: $spacing-xl;
+        }
+    }
+
     .home-link {
         display: inline-flex;
         align-items: center;
