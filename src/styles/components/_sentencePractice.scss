@@ -14,12 +14,23 @@
         svg {
             color: var(--color-green);
         }
+
+        @include mobile {
+            font-size: $font-size-medium;
+            flex-direction: column;
+            gap: $spacing-xs;
+        }
     }
 
     .description {
         color: var(--color-slate);
         margin-bottom: $spacing-xl;
         line-height: 1.6;
+
+        @include mobile {
+            font-size: $font-size-small;
+            margin-bottom: $spacing-lg;
+        }
     }
 
     .input-section {
@@ -33,6 +44,9 @@
 
         @include mobile {
             flex-direction: column;
+            padding: $spacing-md;
+            gap: $spacing-sm;
+            margin-bottom: $spacing-lg;
         }
 
         .select-wrapper {
@@ -41,9 +55,19 @@
             align-items: center;
             gap: $spacing-sm;
 
+            @include mobile {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+            }
+
             label {
                 color: var(--color-light-slate);
                 white-space: nowrap;
+
+                @include mobile {
+                    font-size: $font-size-small;
+                }
             }
 
             select {
@@ -59,6 +83,12 @@
                 cursor: pointer;
                 transition: border-color 0.2s ease;
                 min-width: 130px;
+
+                @include mobile {
+                    width: 100%;
+                    font-size: $font-size-small;
+                    padding: 10px 36px 10px 10px;
+                }
 
                 &:focus {
                     outline: none;
@@ -80,6 +110,10 @@
                 top: 50%;
                 transform: translateY(-50%);
                 pointer-events: none;
+
+                @include mobile {
+                    top: calc(50% + 12px);
+                }
             }
         }
 
@@ -91,6 +125,12 @@
             padding: 12px;
             color: var(--color-white);
             font-size: $font-size-base;
+
+            @include mobile {
+                width: 100%;
+                font-size: $font-size-small;
+                padding: 10px;
+            }
 
             &:focus {
                 outline: none;

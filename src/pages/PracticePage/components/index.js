@@ -3,3 +3,4 @@ export { default as VocabularyStep } from './VocabularyStep.jsx';
 export { default as TranslationStep } from './TranslationStep.jsx';
 export { default as WelcomeScreen } from './WelcomeScreen.jsx';
 export { default as SentenceBuilding } from './SentenceBuilding.jsx';
+export { default as ConversationalPractice } from './ConversationalPractice.jsx';
