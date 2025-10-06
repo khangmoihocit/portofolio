@@ -173,29 +173,9 @@
         "backToList": "ブログ一覧に戻る",
         "posts": {
             "post1": {
-                "month": "6月",
-                "title": "デザイナーに何ができるか",
-                "category": "デザイン"
-            },
-            "post2": {
-                "month": "7月",
-                "title": "2024年に学ぶべきこと",
-                "category": "テクノロジー"
-            },
-            "post3": {
-                "month": "8月",
-                "title": "簡単なプログラミングの学び方",
-                "category": "コーディング"
-            },
-            "post4": {
-                "month": "9月",
-                "title": "JavaScriptフレームワークの選択",
-                "category": "JavaScript"
-            },
-            "post5": {
                 "month": "10月",
-                "title": "バックエンド開発入門",
-                "category": "バックエンド"
+                "title": "AIで効果的に英単語を学ぶ方法",
+                "category": "英語学習"
             }
         }
     }

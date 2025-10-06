@@ -15,8 +15,6 @@ const BlogPage = ({ id: propId }) => {
     const ContentComponent = useMemo(() => {
         switch (id) {
             case 1:
-                return Content1;
-            case 2:
                 return Content2;
             default:
                 return null;

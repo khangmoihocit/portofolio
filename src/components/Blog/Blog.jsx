@@ -5,11 +5,7 @@ import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { useBreakpoint } from '../../hooks/useTailwindUtilities';
 import '../../styles/components/_blog.scss';
-import blogImage1 from '../../assets/images/portfolio.png';
-import blogImage2 from '../../assets/images/minimart.png';
-import blogImage3 from '../../assets/images/ecommerce.png';
-import blogImage4 from '../../assets/images/bookstore.png';
-import blogImage5 from '../../assets/images/unnamed.jpg';
+import PostPracticeEnglish from '../../assets/images/postpracticeenglish.png';
 import Heading from '../common/Heading';
 
 
@@ -45,11 +41,7 @@ const Blog = () => {
     
 
     const blogPosts = [
-        { id: 1, image: blogImage1, day: '15', year: '2024', ...t('blog.posts.post1', { returnObjects: true }) },
-        { id: 2, image: blogImage2, day: '22', year: '2024', ...t('blog.posts.post2', { returnObjects: true }) },
-        { id: 3, image: blogImage3, day: '30', year: '2024', ...t('blog.posts.post3', { returnObjects: true }) },
-        { id: 4, image: blogImage4, day: '05', year: '2024', ...t('blog.posts.post4', { returnObjects: true }) },
-        { id: 5, image: blogImage5, day: '12', year: '2024', ...t('blog.posts.post5', { returnObjects: true }) },
+        { id: 1, image: PostPracticeEnglish, day: '06', year: '2025', ...t('blog.posts.post1', { returnObjects: true }) },
     ];
     
     const postsToShow = isMobile ? 1 : isTablet ? 2 : 3;
