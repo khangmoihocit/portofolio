@@ -3,6 +3,20 @@ import { FaCheckCircle, FaLightbulb } from 'react-icons/fa';
 import { gradeConversationalTranslation } from '../../../../services/conversationalAIService';
 import Button from '../../../../components/common/Button';
 
+// Function to parse markdown bold syntax (**text**)
+const parseMarkdownBold = (text) => {
+    if (!text) return text;
+    
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+            const content = part.slice(2, -2);
+            return <strong key={index} className="markdown-bold">{content}</strong>;
+        }
+        return part;
+    });
+};
+
 const SentenceCard = ({ sentence, index, total }) => {
     const [userInput, setUserInput] = useState('');
     const [feedback, setFeedback] = useState(null);
@@ -85,31 +99,31 @@ const SentenceCard = ({ sentence, index, total }) => {
                     {feedback.correct ? (
                         <>
                             <p className="success-message">
-                                <strong>✓ Chính xác!</strong> {feedback.feedback}
+                                <strong>✓ Chính xác!</strong> {parseMarkdownBold(feedback.feedback)}
                             </p>
                             {feedback.grammar && (
                                 <p className="grammar-explanation">
-                                    <strong>📚 Ngữ pháp:</strong> {feedback.grammar}
+                                    <strong>📚 Ngữ pháp:</strong> {parseMarkdownBold(feedback.grammar)}
                                 </p>
                             )}
                             {feedback.suggestion && (
                                 <p className="alternative-suggestion">
-                                    <strong>💬 Cách khác:</strong> {feedback.suggestion}
+                                    <strong>💬 Cách khác:</strong> {parseMarkdownBold(feedback.suggestion)}
                                 </p>
                             )}
                         </>
                     ) : (
                         <>
                             <p className="feedback-text">
-                                <strong>Nhận xét:</strong> {feedback.feedback}
+                                <strong>Nhận xét:</strong> {parseMarkdownBold(feedback.feedback)}
                             </p>
                             {feedback.grammar && (
                                 <p className="grammar-explanation">
-                                    <strong>📚 Ngữ pháp cần dùng:</strong> {feedback.grammar}
+                                    <strong>📚 Ngữ pháp cần dùng:</strong> {parseMarkdownBold(feedback.grammar)}
                                 </p>
                             )}
                             <p className="suggestion-text">
-                                <strong>✏️ Câu đúng:</strong> {feedback.suggestion}
+                                <strong>✏️ Câu đúng:</strong> {parseMarkdownBold(feedback.suggestion)}
                             </p>
                         </>
                     )}

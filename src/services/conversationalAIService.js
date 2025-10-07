@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY_3 || '';
 
@@ -6,8 +6,7 @@ if (!apiKey) {
     console.error("Gemini API Key for conversational service is not set.");
 }
 
-const genAI = new GoogleGenerativeAI(apiKey);
-const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+const ai = new GoogleGenAI({ apiKey });
 
 /**
  * Đánh giá câu dịch của người dùng khi luyện viết câu đơn.
@@ -37,9 +36,11 @@ Yêu cầu:
 `;
 
     try {
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text().replace(/```json|```/g, '').trim();
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt,
+        });
+        const text = response.text.replace(/```json|```/g, '').trim();
         return JSON.parse(text);
     } catch (error) {
         console.error("Error grading conversational answer:", error);

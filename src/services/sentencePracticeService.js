@@ -1,14 +1,12 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 
-// Lấy API key từ biến môi trường
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY_1 || '';
 
 if (!apiKey) {
     console.error("Gemini API Key is not set in environment variables.");
 }
 
-const genAI = new GoogleGenerativeAI(apiKey);
-const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+const ai = new GoogleGenAI({ apiKey });
 
 /**
  * Gọi Gemini API để tạo bài tập đặt câu từ danh sách từ vựng.
@@ -28,9 +26,11 @@ export const createSentenceExercises = async (vocabList, difficulty = 'trung bì
     `;
 
     try {
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text().replace(/```json|```/g, '').trim();
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash-lite",
+            contents: prompt,
+        });
+        const text = response.text.replace(/```json|```/g, '').trim();
         return JSON.parse(text);
     } catch (error) {
         console.error("Error creating exercises:", error);
@@ -61,9 +61,11 @@ export const getExerciseHint = async (englishWord, vietnameseSentence) => {
     `;
 
     try {
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text().replace(/```json|```/g, '').trim();
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash-lite",
+            contents: prompt,
+        });
+        const text = response.text.replace(/```json|```/g, '').trim();
         return JSON.parse(text);
     } catch (error) {
         console.error("Error getting hint:", error);
@@ -94,9 +96,11 @@ export const gradeUserAnswer = async (englishWord, vietnameseSentence, userAnswe
     `;
 
     try {
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text().replace(/```json|```/g, '').trim();
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash",
+            contents: prompt,
+        });
+        const text = response.text.replace(/```json|```/g, '').trim();
         return JSON.parse(text);
     } catch (error) {
         console.error("Error grading answer:", error);

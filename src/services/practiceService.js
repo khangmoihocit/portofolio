@@ -1,12 +1,11 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { GoogleGenAI } from '@google/genai';
 
 const apiKey = import.meta.env.VITE_GEMINI_API_KEY_2 || '';
 if (!apiKey) {
     console.error("Gemini API Key is not set.");
 }
 
-const genAI = new GoogleGenerativeAI(apiKey);
-const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+const ai = new GoogleGenAI({ apiKey });
 
 /**
  * Đánh giá một đoạn văn dịch thuật bằng AI.
@@ -45,9 +44,11 @@ export const evaluateTranslation = async (originalText, translatedText, sourceLa
     `;
 
     try {
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const text = response.text();
+        const response = await ai.models.generateContent({
+            model: "gemini-2.0-flash",
+            contents: prompt,
+        });
+        const text = response.text;
 
         const jsonMatch = text.match(/{[\s\S]*}/);
         if (jsonMatch && jsonMatch[0]) {
