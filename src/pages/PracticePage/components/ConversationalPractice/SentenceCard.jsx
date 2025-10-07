@@ -146,7 +146,7 @@ const SentenceCard = ({ sentence, index, total }) => {
                     {feedback.correct ? (
                         <>
                             <p className="success-message">
-                                <strong>✓ Chính xác!</strong> {parseMarkdownBold(feedback.feedback)}
+                                <strong>✓ Chính xác!</strong> <span style={{ color: 'var(--color-green)' }}>{parseMarkdownBold(feedback.feedback)}</span>
                             </p>
                             {feedback.grammar && (
                                 <p className="grammar-explanation">
@@ -158,6 +158,11 @@ const SentenceCard = ({ sentence, index, total }) => {
                                     <strong>💬 Cách khác:</strong> {parseMarkdownBold(feedback.suggestion)}
                                 </p>
                             )}
+                            {feedback.explanation && (
+                                <p className="explanation-text">
+                                    <strong>Giải thích:</strong> {parseMarkdownBold(feedback.explanation)}
+                                </p>
+                            )}
                         </>
                     ) : (
                         <>
@@ -166,11 +171,11 @@ const SentenceCard = ({ sentence, index, total }) => {
                             </p>
                             {feedback.grammar && (
                                 <p className="grammar-explanation">
-                                    <strong>📚 Ngữ pháp cần dùng:</strong> {parseMarkdownBold(feedback.grammar)}
+                                    <strong>📚 Gợi ý Ngữ pháp:</strong> {parseMarkdownBold(feedback.grammar)}
                                 </p>
                             )}
                             <p className="suggestion-text">
-                                <strong>✏️ Câu đúng:</strong> {parseMarkdownBold(feedback.suggestion)}
+                                <strong>✏️ Gợi ý câu:</strong> {parseMarkdownBold(feedback.suggestion)}
                             </p>
                         </>
                     )}

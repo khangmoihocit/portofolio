@@ -96,19 +96,19 @@ Yêu cầu:
  * @param {string} englishWord - Từ vựng tiếng Anh.
  * @param {string} vietnameseSentence - Câu tiếng Việt gốc.
  * @param {string} userAnswer - Câu trả lời của người dùng.
- * @returns {Promise<{correct: boolean, feedback?: string, suggestion?: string}>}
+ * @returns {Promise<{correct: boolean, feedback?: string, suggestion?: string, explanation?: string}>}
  */
 export const gradeUserAnswer = async (englishWord, vietnameseSentence, userAnswer) => {
     const prompt = `
-        Bạn là một giáo viên tiếng Anh tỉ mỉ. Người dùng được cho từ khóa "${englishWord}" và câu tiếng Việt "${vietnameseSentence}". Họ đã viết câu tiếng Anh sau: "${userAnswer}".
+        Bạn là một giáo viên tiếng Anh tỉ mỉ và chuyên sâu về ngữ cảnh sử dụng từ vựng. Người dùng được cho từ khóa "${englishWord}" và câu tiếng Việt "${vietnameseSentence}". Họ đã viết câu tiếng Anh sau: "${userAnswer}".
 
         Hãy đánh giá câu trả lời và trả về một đối tượng JSON duy nhất.
         
         1.  Nếu câu trả lời hoàn toàn đúng về ngữ pháp, sử dụng đúng từ khóa và truyền tải chính xác ý nghĩa của câu tiếng Việt, trả về:
-            {"correct": true}
+            {"correct": true, "explanation": "Giải thích ngắn gọn tại sao câu trả lời đúng và ngữ cảnh sử dụng từ vựng '${englishWord}' trong câu này."}
 
         2.  Nếu câu trả lời có lỗi, trả về:
-            {"correct": false, "feedback": "Phân tích ngắn gọn lỗi sai (ví dụ: 'sai thì của động từ', 'dùng sai giới từ', 'không chứa từ khóa yêu cầu').", "suggestion": "Viết lại câu đúng để người dùng tham khảo."}
+            {"correct": false, "feedback": "Phân tích ngắn gọn lỗi sai (ví dụ: 'sai thì của động từ', 'dùng sai giới từ', 'không chứa từ khóa yêu cầu'). Sau đó, giải thích rõ tại sao từ khóa '${englishWord}' được sử dụng trong ngữ cảnh của câu tiếng Việt này, bao gồm nghĩa của từ và cách nó phù hợp với tình huống.", "suggestion": "Viết lại câu đúng để người dùng tham khảo."}
 
         Lưu ý: Phản hồi phải bằng tiếng Việt. Chỉ trả về đối tượng JSON.
     `;

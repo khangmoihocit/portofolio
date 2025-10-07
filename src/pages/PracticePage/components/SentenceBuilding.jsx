@@ -218,9 +218,16 @@ const SentenceBuilding = () => {
                                 {result && (
                                     <div className={`feedback-section ${result.correct ? 'correct' : 'incorrect'}`}>
                                         {result.correct ? (
-                                            <p className="feedback-text success">
-                                                <strong>✓ Chính xác!</strong> {result.feedback}
-                                            </p>
+                                            <>
+                                                <p className="feedback-text success">
+                                                    <strong>✓ Chính xác!</strong> {result.feedback}
+                                                </p>
+                                                {result.explanation && (
+                                                    <p className="explanation-text">
+                                                        <strong>Giải thích:</strong> {result.explanation}
+                                                    </p>
+                                                )}
+                                            </>
                                         ) : (
                                             <>
                                                 <p className="feedback-text">
