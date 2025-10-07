@@ -115,7 +115,7 @@ export const gradeUserAnswer = async (englishWord, vietnameseSentence, userAnswe
 
     try {
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: "gemini-2.0-flash",
             contents: prompt,
         });
         const text = response.text.replace(/```json|```/g, '').trim();
