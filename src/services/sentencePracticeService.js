@@ -42,23 +42,27 @@ export const createSentenceExercises = async (vocabList, difficulty = 'trung bì
  * Gọi Gemini API để lấy gợi ý cho bài tập.
  * @param {string} englishWord - Từ vựng tiếng Anh.
  * @param {string} vietnameseSentence - Câu tiếng Việt gốc.
- * @returns {Promise<{vocabulary: string[], grammar: string[]}>}
+ * @returns {Promise<{vocabulary: Array<{word: string, meaning: string}>, grammar: string}>}
  */
 export const getExerciseHint = async (englishWord, vietnameseSentence) => {
     const prompt = `
-        Bạn là một giáo viên tiếng Anh. Với từ khóa "${englishWord}" và câu tiếng Việt "${vietnameseSentence}", hãy đưa ra gợi ý để giúp học viên dịch câu này sang tiếng Anh.
+Từ khóa: "${englishWord}"
+Câu tiếng Việt: "${vietnameseSentence}"
 
-        Trả về một đối tượng JSON có cấu trúc:
-        {
-            "vocabulary": ["từ_vựng_1", "từ_vựng_2", ...],
-            "grammar": ["cấu_trúc_ngữ_pháp_1", "cấu_trúc_ngữ_pháp_2", ...]
-        }
+Hãy cung cấp gợi ý giúp người học viết câu tiếng Anh tương ứng và trả về JSON:
+{
+  "vocabulary": [
+    { "word": "...", "meaning": "..." }
+  ],
+  "grammar": "..."
+}
 
-        - "vocabulary": Danh sách 3-5 từ vựng quan trọng nên sử dụng (bao gồm từ khóa yêu cầu).
-        - "grammar": Danh sách 2-3 cấu trúc ngữ pháp hoặc mẹo dịch (ví dụ: "thì hiện tại đơn", "giới từ 'at'", "cấu trúc S + V + O").
-
-        Chỉ trả về JSON, không có văn bản giải thích khác.
-    `;
+Yêu cầu:
+- Chọn 3-7 từ vựng hoặc cụm từ quan trọng (bao gồm từ khóa yêu cầu). "word" là tiếng Anh, "meaning" là nghĩa tiếng Việt ngắn gọn.
+- "grammar" mô tả cấu trúc câu hoặc điểm ngữ pháp cần lưu ý bằng tiếng Việt, tối đa 2 câu.
+- Không dùng markdown.
+- Chỉ trả về JSON hợp lệ.
+`;
 
     try {
         const response = await ai.models.generateContent({
@@ -66,7 +70,21 @@ export const getExerciseHint = async (englishWord, vietnameseSentence) => {
             contents: prompt,
         });
         const text = response.text.replace(/```json|```/g, '').trim();
-        return JSON.parse(text);
+        const parsed = JSON.parse(text);
+
+        const vocabulary = Array.isArray(parsed.vocabulary)
+            ? parsed.vocabulary
+                .filter(item => item && typeof item.word === 'string' && typeof item.meaning === 'string')
+                .map(item => ({
+                    word: item.word.trim(),
+                    meaning: item.meaning.trim(),
+                }))
+            : [];
+
+        return {
+            vocabulary,
+            grammar: typeof parsed.grammar === 'string' ? parsed.grammar.trim() : '',
+        };
     } catch (error) {
         console.error("Error getting hint:", error);
         throw new Error("Không thể lấy gợi ý vào lúc này. Vui lòng thử lại.");

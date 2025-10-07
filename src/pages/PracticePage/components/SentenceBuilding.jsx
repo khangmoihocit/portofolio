@@ -13,6 +13,7 @@ const SentenceBuilding = () => {
     const [checkingStates, setCheckingStates] = useState({});
     const [hints, setHints] = useState({});
     const [loadingHints, setLoadingHints] = useState({});
+    const [showHints, setShowHints] = useState({});
     const [error, setError] = useState('');
 
     const handleCreateExercises = async () => {
@@ -28,6 +29,7 @@ const SentenceBuilding = () => {
         setUserAnswers({});
         setResults({});
         setHints({});
+        setShowHints({});
 
         try {
             const generatedExercises = await createSentenceExercises(vocabList, difficulty);
@@ -80,18 +82,30 @@ const SentenceBuilding = () => {
     const handleGetHint = async (index) => {
         const exercise = exercises[index];
         
-        setLoadingHints(prev => ({ ...prev, [index]: true }));
-        try {
-            const hint = await getExerciseHint(exercise.englishWord, exercise.vietnameseSentence);
-            setHints(prev => ({ ...prev, [index]: hint }));
-        } catch (err) {
-            setHints(prev => ({
-                ...prev,
-                [index]: { vocabulary: [], grammar: ['Không thể lấy gợi ý. Vui lòng thử lại.'] }
-            }));
-        } finally {
-            setLoadingHints(prev => ({ ...prev, [index]: false }));
+        // If hint is already visible, toggle it off
+        if (showHints[index]) {
+            setShowHints(prev => ({ ...prev, [index]: false }));
+            return;
         }
+
+        // If hint doesn't exist yet, fetch it
+        if (!hints[index]) {
+            setLoadingHints(prev => ({ ...prev, [index]: true }));
+            try {
+                const hint = await getExerciseHint(exercise.englishWord, exercise.vietnameseSentence);
+                setHints(prev => ({ ...prev, [index]: hint }));
+            } catch (err) {
+                setHints(prev => ({
+                    ...prev,
+                    [index]: { vocabulary: [], grammar: 'Không thể lấy gợi ý. Vui lòng thử lại.' }
+                }));
+            } finally {
+                setLoadingHints(prev => ({ ...prev, [index]: false }));
+            }
+        }
+
+        // Show the hint
+        setShowHints(prev => ({ ...prev, [index]: true }));
     };
 
     return (
@@ -153,28 +167,29 @@ const SentenceBuilding = () => {
                                         <FaLightbulb />
                                     </button>
                                 </div>
-                                {hint && (
+                                {showHints[index] && hint && (
                                     <div className="hint-section">
                                         <div className="hint-content">
-                                            {hint.vocabulary && hint.vocabulary.length > 0 && (
-                                                <div className="hint-item">
-                                                    <strong>Từ vựng gợi ý:</strong>
-                                                    <ul>
-                                                        {hint.vocabulary.map((word, i) => (
-                                                            <li key={i}>{word}</li>
+                                            <strong>💡 Gợi ý từ AI:</strong>
+                                            {Array.isArray(hint.vocabulary) && hint.vocabulary.length > 0 && (
+                                                <div className="hint-vocabulary">
+                                                    <strong style={{ color: 'var(--color-green)' }}>Từ vựng: </strong>
+                                                    <span className="vocabulary-inline" >
+                                                        {hint.vocabulary.map(({ word, meaning }, idx) => (
+                                                            <span key={`${word}-${idx}`} className="vocab-item" style={{display:'flex', gap: '0 6px'}}>
+                                                                <strong style={{ color: 'var(--color-green)' }}>{word}</strong>: {meaning}
+                                                            </span>
                                                         ))}
-                                                    </ul>
+                                                    </span>
                                                 </div>
                                             )}
-                                            {hint.grammar && hint.grammar.length > 0 && (
-                                                <div className="hint-item">
-                                                    <strong>Ngữ pháp gợi ý:</strong>
-                                                    <ul>
-                                                        {hint.grammar.map((gram, i) => (
-                                                            <li key={i}>{gram}</li>
-                                                        ))}
-                                                    </ul>
-                                                </div>
+                                            {hint.grammar && (
+                                                <p className="hint-grammar">
+                                                     <i>{hint.grammar}</i>
+                                                </p>
+                                            )}
+                                            {(!Array.isArray(hint.vocabulary) || hint.vocabulary.length === 0) && !hint.grammar && (
+                                                <p className="hint-empty">Chưa có gợi ý phù hợp cho câu này.</p>
                                             )}
                                         </div>
                                     </div>

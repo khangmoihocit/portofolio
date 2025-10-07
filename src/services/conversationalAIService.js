@@ -40,10 +40,61 @@ Yêu cầu:
             model: "gemini-2.5-flash",
             contents: prompt,
         });
-        const text = response.text.replace(/```json|```/g, '').trim();
-        return JSON.parse(text);
+    const text = response.text.replace(/```json|```/g, '').trim();
+    return JSON.parse(text);
     } catch (error) {
         console.error("Error grading conversational answer:", error);
         throw new Error("AI đang bận, không thể chấm điểm lúc này. Vui lòng thử lại sau!");
+    }
+};
+
+/**
+ * Lấy gợi ý học tập cho câu hội thoại: từ vựng quan trọng và cấu trúc ngữ pháp.
+ * @param {string} vietnameseSentence - Câu tiếng Việt gốc.
+ * @returns {Promise<{vocabulary: Array<{word: string, meaning: string}>, grammar: string}>}
+ */
+export const getConversationalHint = async (vietnameseSentence) => {
+    const prompt = `
+Câu tiếng Việt: "${vietnameseSentence}"
+
+Hãy cung cấp gợi ý giúp người học viết câu tiếng Anh tương ứng và trả về JSON:
+{
+  "vocabulary": [
+    { "word": "...", "meaning": "..." }
+  ],
+  "grammar": "..."
+}
+
+Yêu cầu:
+- Chọn 3-7 từ vựng hoặc cụm từ quan trọng. "word" là tiếng Anh, "meaning" là nghĩa tiếng Việt ngắn gọn.
+- "grammar" mô tả cấu trúc câu hoặc điểm ngữ pháp cần lưu ý bằng tiếng Việt, tối đa 2 câu.
+- Không dùng markdown.
+- Chỉ trả về JSON hợp lệ.
+`;
+
+    try {
+        const response = await ai.models.generateContent({
+            model: "gemini-2.5-flash-lite",
+            contents: prompt,
+        });
+        const text = response.text.replace(/```json|```/g, '').trim();
+        const parsed = JSON.parse(text);
+
+        const vocabulary = Array.isArray(parsed.vocabulary)
+            ? parsed.vocabulary
+                .filter(item => item && typeof item.word === 'string' && typeof item.meaning === 'string')
+                .map(item => ({
+                    word: item.word.trim(),
+                    meaning: item.meaning.trim(),
+                }))
+            : [];
+
+        return {
+            vocabulary,
+            grammar: typeof parsed.grammar === 'string' ? parsed.grammar.trim() : '',
+        };
+    } catch (error) {
+        console.error("Error fetching conversational hint:", error);
+        throw new Error("AI đang bận, không thể tạo gợi ý lúc này. Vui lòng thử lại sau!");
     }
 };
