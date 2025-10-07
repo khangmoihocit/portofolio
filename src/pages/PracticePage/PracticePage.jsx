@@ -11,12 +11,13 @@ import {
     SentenceBuilding,
     ConversationalPractice 
 } from './components';
+import VocabularyPractice from './components/VocabularyPractice/VocabularyPractice.jsx';
 import MenuLanguage from '../../components/common/MenuLanguage/MenuLanguage.jsx';
 import Theme from '../../components/common/Theme/Theme.jsx';
 
 const PracticePage = () => {
     const [selectedLesson, setSelectedLesson] = useState(null);
-    const [currentStep, setCurrentStep] = useState('select'); // 'select', 'vocab', 'practice', 'sentence-building'
+    const [currentStep, setCurrentStep] = useState('select'); // 'select', 'vocab', 'practice', 'sentence-building', 'vocab-practice'
     const [practiceDirection, setPracticeDirection] = useState('en-vi'); // 'en-vi' or 'vi-en'
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
@@ -51,6 +52,14 @@ const PracticePage = () => {
     };
     
     const handleBackToVocab = () => {
+        setCurrentStep('vocab');
+    };
+
+    const handleStartVocabPractice = () => {
+        setCurrentStep('vocab-practice');
+    };
+
+    const handleCompleteVocabPractice = () => {
         setCurrentStep('vocab');
     };
 
@@ -90,12 +99,25 @@ const PracticePage = () => {
                     <VocabularyStep 
                         lesson={selectedLesson}
                         onStartPractice={() => handleStartPractice('en-vi')} // Mặc định bắt đầu với Anh-Việt
+                        onStartVocabPractice={handleStartVocabPractice}
                     />
                      <div className="practice-options">
                         <h3>Chọn chế độ luyện tập:</h3>
                         <Button onClick={() => handleStartPractice('en-vi')}>Dịch Anh - Việt</Button>
                         <Button onClick={() => handleStartPractice('vi-en')}>Dịch Việt - Anh</Button>
                     </div>
+                </div>
+            );
+        }
+
+        if (currentStep === 'vocab-practice' && selectedLesson) {
+            return (
+                <div className="practice-main-content">
+                    <button onClick={handleCompleteVocabPractice} className="back-button"><FaArrowLeft /> Quay lại từ vựng</button>
+                    <VocabularyPractice 
+                        vocabulary={selectedLesson.vocabulary}
+                        onComplete={handleCompleteVocabPractice}
+                    />
                 </div>
             );
         }
