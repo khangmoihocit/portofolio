@@ -44,7 +44,7 @@ const Sidebar = ({ onSelectLesson, onSelectSentenceBuilding, onSelectConversatio
                     onClick={onSelectConversational}
                     style={{marginTop: '10px'}}
                 >
-                    <FaComments /> Luyện Giao Tiếp
+                    <FaComments /> Luyện Viết Câu Đơn
                 </div>
             </div>
 

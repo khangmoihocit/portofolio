@@ -10,27 +10,31 @@ const genAI = new GoogleGenerativeAI(apiKey);
 const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
 /**
- * Đánh giá câu dịch giao tiếp của người dùng.
+ * Đánh giá câu dịch của người dùng khi luyện viết câu đơn.
  * @param {string} vietnameseSentence - Câu tiếng Việt gốc.
  * @param {string} userAnswer - Câu trả lời tiếng Anh của người dùng.
- * @returns {Promise<{correct: boolean, feedback: string, suggestion: string}>}
+ * @returns {Promise<{correct: boolean, feedback: string, grammar: string, suggestion: string}>}
  */
 export const gradeConversationalTranslation = async (vietnameseSentence, userAnswer) => {
     const prompt = `
-        Bạn là một giáo viên tiếng Anh bản ngữ, chuyên sửa lỗi giao tiếp.
-        Câu tiếng Việt là: "${vietnameseSentence}".
-        Học viên dịch là: "${userAnswer}".
+Câu tiếng Việt: "${vietnameseSentence}"
+Câu học viên viết: "${userAnswer}"
 
-        Hãy đánh giá và trả về một đối tượng JSON duy nhất với cấu trúc sau:
-        {
-          "correct": [true nếu câu dịch đúng ngữ pháp, tự nhiên và sát nghĩa, ngược lại false],
-          "feedback": "Một nhận xét ngắn gọn, thân thiện về câu trả lời (ví dụ: 'Tuyệt vời!', 'Gần đúng rồi!', 'Sai ngữ pháp rồi nhé!').",
-          "suggestion": "Nếu sai, đưa ra một hoặc hai cách diễn đạt đúng và tự nhiên hơn. Nếu đúng, có thể đưa ra một cách nói khác phổ biến."
-        }
-        - Tập trung vào tính tự nhiên trong giao tiếp hàng ngày.
-        - Phản hồi bằng tiếng Việt.
-        - Chỉ trả về đối tượng JSON.
-    `;
+Đánh giá và trả về JSON:
+{
+  "correct": true/false,
+  "feedback": "Nhận xét ngắn gọn (1 câu)",
+  "grammar": "Giải thích ngữ pháp và cấu trúc câu cần dùng cho ngữ cảnh này (ví dụ: 'Thì hiện tại đơn (S + V/V-s/es) dùng cho sự thật, thói quen', 'Cấu trúc: S + give + IO + DO', 'Dùng giới từ 'in' với thời gian dài: in + year/month/season')",
+  "suggestion": "Câu đúng (nếu sai) hoặc cách diễn đạt khác (nếu đúng)"
+}
+
+Yêu cầu:
+- Nếu đúng: feedback khen ngợi, grammar giải thích cấu trúc đã dùng tốt, suggestion đưa cách viết thay thế
+- Nếu sai: feedback chỉ ra lỗi, grammar giải thích chi tiết ngữ pháp/cấu trúc đúng phải dùng, suggestion viết câu hoàn chỉnh đúng
+- Grammar phải ngắn gọn, dễ hiểu, tập trung vào cấu trúc câu và ngữ cảnh sử dụng
+- Trả về JSON thuần, không có markdown
+- Phản hồi bằng tiếng Việt
+`;
 
     try {
         const result = await model.generateContent(prompt);

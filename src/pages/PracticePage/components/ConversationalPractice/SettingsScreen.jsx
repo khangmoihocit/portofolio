@@ -54,7 +54,7 @@ const SettingsScreen = ({ onStartPractice }) => {
                     <FaCog className="settings-icon" style={{ fontSize: '2rem'}} />
                     <h2>Cài đặt luyện tập</h2>
                 </div>
-                <p>Chọn độ khó và chủ đề bạn muốn luyện tập</p>
+                <p>Chọn độ khó và chủ đề bạn muốn luyện viết câu đơn</p>
             </div>
 
             <div className="settings-content">
@@ -83,7 +83,7 @@ const SettingsScreen = ({ onStartPractice }) => {
                 <div className="setting-group">
                     <label className="setting-label">
                         <span className="label-text">Chủ đề</span>
-                        <span className="label-description">Chọn chủ đề giao tiếp bạn muốn luyện</span>
+                        <span className="label-description">Chọn chủ đề viết câu bạn muốn luyện</span>
                     </label>
                     <div className="options-grid">
                         {categories.map(cat => (
