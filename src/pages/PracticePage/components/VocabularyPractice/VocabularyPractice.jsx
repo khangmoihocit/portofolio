@@ -1,45 +1,68 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { FaCheckCircle, FaTimesCircle, FaArrowLeft, FaArrowRight, FaTrophy, FaKeyboard } from 'react-icons/fa';
+import {
+    FaCheckCircle,
+    FaTimesCircle,
+    FaArrowLeft,
+    FaArrowRight,
+    FaTrophy,
+    FaKeyboard,
+} from 'react-icons/fa';
+
 import Button from '../../../../components/common/Button';
 import KeyboardGuide from './KeyboardGuide';
 
 const VocabularyPractice = ({ vocabulary, onComplete }) => {
-    const [vocabState, setVocabState] = useState(() => 
+    const [vocabState, setVocabState] = useState(() =>
         vocabulary.map((vocab, index) => ({
             ...vocab,
             id: index,
             nextReview: Date.now(),
             reviewCount: 0,
-            isMemorized: false
+            isMemorized: false,
         }))
     );
-    
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const [userInput, setUserInput] = useState('');
     const [feedback, setFeedback] = useState(null);
     const [showGuide, setShowGuide] = useState(false);
+    const [currentTime, setCurrentTime] = useState(Date.now());
 
     const vocabToReview = useMemo(() => {
-        const now = Date.now();
-        return vocabState
-            .filter(v => !v.isMemorized && v.nextReview <= now)
-            .sort((a, b) => a.nextReview - b.nextReview);
-    }, [vocabState]);
+        const now = currentTime;
+        
+        const notMemorized = vocabState.filter((v) => !v.isMemorized);
+        
+        const newWords = notMemorized.filter((v) => v.reviewCount === 0);
+        
+        const dueWords = notMemorized.filter(
+            (v) => v.reviewCount > 0 && v.nextReview <= now
+        );
+
+        if (newWords.length > 0 || dueWords.length > 0) {
+            return [...newWords, ...dueWords].sort((a, b) => a.nextReview - b.nextReview);
+        }
+        
+        const waitingWords = notMemorized.filter((v) => v.reviewCount > 0);
+        return waitingWords.sort((a, b) => a.nextReview - b.nextReview);
+    }, [vocabState, currentTime]);
+
+   
 
     const currentVocab = vocabToReview[currentIndex];
-
-    const isCompleted = vocabState.every(v => v.isMemorized);
+    
+    const isCompleted = vocabState.every((v) => v.isMemorized);
 
     const handleCheck = () => {
         if (!userInput.trim()) return;
-        
+
         const correctAnswer = currentVocab.word.toLowerCase().trim();
         const userAnswer = userInput.toLowerCase().trim();
         const isCorrect = correctAnswer === userAnswer;
 
         setFeedback({
             isCorrect,
-            correctAnswer: currentVocab.word
+            correctAnswer: currentVocab.word,
         });
     };
 
@@ -54,16 +77,28 @@ const VocabularyPractice = ({ vocabulary, onComplete }) => {
 
                 setFeedback({
                     isCorrect,
-                    correctAnswer: currentVocab.word
+                    correctAnswer: currentVocab.word,
                 });
             }
         }
     };
 
-    // Xử lý keyboard shortcuts
+    useEffect(() => {
+        if (vocabToReview.length > 0 && currentIndex >= vocabToReview.length) {
+            setCurrentIndex(0);
+        }
+    }, [vocabToReview.length, currentIndex]);
+   
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentTime(Date.now());
+        }, 1000);
+        return () => clearInterval(interval);
+    }, []);
+
     useEffect(() => {
         const handleGlobalKeyPress = (e) => {
-            if (feedback && !e.ctrlKey) {
+            if (!e.ctrlKey) {
                 if (e.key === '1') {
                     e.preventDefault();
                     setReviewTime(1);
@@ -92,30 +127,50 @@ const VocabularyPractice = ({ vocabulary, onComplete }) => {
 
         window.addEventListener('keydown', handleGlobalKeyPress);
         return () => window.removeEventListener('keydown', handleGlobalKeyPress);
-    }, [feedback, currentIndex, vocabToReview.length]);
+    }, [feedback, userInput, currentIndex, vocabToReview.length]);
 
     const setReviewTime = (minutes) => {
+        const now = currentTime;
+        const currentVocabId = currentVocab.id;
         const newState = [...vocabState];
-        const vocabIndex = vocabState.findIndex(v => v.id === currentVocab.id);
-        
+        const vocabIndex = vocabState.findIndex((v) => v.id === currentVocabId);
+
         if (vocabIndex !== -1) {
             newState[vocabIndex] = {
                 ...newState[vocabIndex],
-                nextReview: Date.now() + (minutes * 60 * 1000),
+                nextReview: minutes === Infinity ? Infinity : now + minutes * 60 * 1000,
                 reviewCount: newState[vocabIndex].reviewCount + 1,
-                isMemorized: minutes === Infinity // Infinity = Đã nhớ
+                isMemorized: minutes === Infinity, // Infinity = Đã nhớ
             };
-            setVocabState(newState);
         }
 
+        // Cập nhật state
+        setVocabState(newState);
+        
         setFeedback(null);
         setUserInput('');
+
+        // Tính toán hàng đợi mới NGAY LẬP TỨC (không đợi useMemo)
+        const notMemorized = newState.filter((v) => !v.isMemorized);
+        const newWords = notMemorized.filter((v) => v.reviewCount === 0);
+        const dueWords = notMemorized.filter(
+            (v) => v.reviewCount > 0 && v.nextReview <= now
+        );
         
-        if (currentIndex < vocabToReview.length - 1) {
-            setCurrentIndex(currentIndex + 1);
+        let nextQueue = [];
+        if (newWords.length > 0 || dueWords.length > 0) {
+            nextQueue = [...newWords, ...dueWords].sort((a, b) => a.nextReview - b.nextReview);
         } else {
-            setCurrentIndex(0);
+            const waitingWords = notMemorized.filter((v) => v.reviewCount > 0);
+            nextQueue = waitingWords.sort((a, b) => a.nextReview - b.nextReview);
         }
+
+        // Tìm từ KHÁC (không phải từ vừa chọn) trong hàng đợi mới
+        const nextIndex = nextQueue.findIndex((v) => v.id !== currentVocabId);
+        
+        // Nếu tìm thấy từ khác → chuyển sang từ đó
+        // Nếu không (chỉ còn từ vừa chọn hoặc hết từ) → về đầu hàng đợi
+        setCurrentIndex(nextIndex !== -1 ? nextIndex : 0);
     };
 
     const handleNext = () => {
@@ -135,7 +190,7 @@ const VocabularyPractice = ({ vocabulary, onComplete }) => {
     };
 
     const stats = useMemo(() => {
-        const memorized = vocabState.filter(v => v.isMemorized).length;
+        const memorized = vocabState.filter((v) => v.isMemorized).length;
         const total = vocabState.length;
         const percentage = Math.round((memorized / total) * 100);
         return { memorized, total, percentage };
@@ -148,7 +203,10 @@ const VocabularyPractice = ({ vocabulary, onComplete }) => {
                     <FaTrophy />
                 </div>
                 <h2>🎉 Xuất sắc!</h2>
-                <p>Bạn đã học thuộc tất cả {vocabState.length} từ vựng trong bài này!</p>
+                <p>
+                    Bạn đã học thuộc tất cả {vocabState.length} từ vựng trong bài
+                    này!
+                </p>
                 <div className="complete-stats">
                     <div className="stat-item">
                         <span className="stat-number">{vocabState.length}</span>
@@ -165,10 +223,15 @@ const VocabularyPractice = ({ vocabulary, onComplete }) => {
     if (vocabToReview.length === 0) {
         return (
             <div className="vocab-practice-waiting">
-                <h3>Đang chờ ôn tập</h3>
-                <p>Bạn đã ôn tất cả từ. Hãy chờ đến thời gian ôn lại hoặc đánh dấu "Đã nhớ" để hoàn thành!</p>
+                <h3>🎉 Hoàn thành!</h3>
+                <p>
+                    Bạn đã đánh dấu tất cả từ là "Đã nhớ". Tuyệt vời!
+                </p>
                 <div className="waiting-stats">
-                    <p>Tiến độ: {stats.memorized} / {stats.total} từ đã nhớ ({stats.percentage}%)</p>
+                    <p>
+                        Tiến độ: {stats.memorized} / {stats.total} từ đã nhớ (
+                        {stats.percentage}%)
+                    </p>
                 </div>
                 <Button onClick={onComplete}>
                     <FaArrowLeft /> Quay lại
@@ -179,7 +242,7 @@ const VocabularyPractice = ({ vocabulary, onComplete }) => {
 
     return (
         <div className="vocab-practice">
-            {/* Header với thống kê */}
+            {/* Header*/}
             <div className="practice-header">
                 <div className="progress-info">
                     <span className="current-position">
@@ -190,12 +253,12 @@ const VocabularyPractice = ({ vocabulary, onComplete }) => {
                     </span>
                 </div>
                 <div className="progress-bar">
-                    <div 
-                        className="progress-fill" 
+                    <div
+                        className="progress-fill"
                         style={{ width: `${stats.percentage}%` }}
                     />
                 </div>
-                <button 
+                <button
                     className="keyboard-guide-toggle"
                     onClick={() => setShowGuide(!showGuide)}
                     title="Xem phím tắt"
@@ -227,7 +290,7 @@ const VocabularyPractice = ({ vocabulary, onComplete }) => {
                             className="vocab-input"
                             autoFocus
                         />
-                        <Button 
+                        <Button
                             onClick={handleCheck}
                             disabled={!userInput.trim()}
                             className="check-button"
@@ -238,17 +301,24 @@ const VocabularyPractice = ({ vocabulary, onComplete }) => {
 
                     {/* Feedback */}
                     {feedback && (
-                        <div className={`feedback-box ${feedback.isCorrect ? 'correct' : 'incorrect'}`}>
+                        <div
+                            className={`feedback-box ${
+                                feedback.isCorrect ? 'correct' : 'incorrect'
+                            }`}
+                        >
                             {feedback.isCorrect ? (
                                 <>
                                     <FaCheckCircle className="feedback-icon" />
-                                    <span className="feedback-text">Chính xác! 🎉</span>
+                                    <span className="feedback-text">
+                                        Chính xác! 🎉
+                                    </span>
                                 </>
                             ) : (
                                 <>
                                     <FaTimesCircle className="feedback-icon" />
                                     <span className="feedback-text">
-                                        Chưa đúng. Đáp án: <strong>{feedback.correctAnswer}</strong>
+                                        Chưa đúng. Đáp án:{' '}
+                                        <strong>{feedback.correctAnswer}</strong>
                                     </span>
                                 </>
                             )}
@@ -259,45 +329,41 @@ const VocabularyPractice = ({ vocabulary, onComplete }) => {
                 {/* Controls */}
                 <div className="vocab-controls">
                     <div className="time-buttons">
-                        <button 
+                        <button
                             className="time-btn"
                             onClick={() => setReviewTime(1)}
-                            disabled={!feedback}
                         >
                             1 phút
                         </button>
-                        <button 
+                        <button
                             className="time-btn"
                             onClick={() => setReviewTime(5)}
-                            disabled={!feedback}
                         >
                             5 phút
                         </button>
-                        <button 
+                        <button
                             className="time-btn"
                             onClick={() => setReviewTime(10)}
-                            disabled={!feedback}
                         >
                             10 phút
                         </button>
-                        <button 
+                        <button
                             className="time-btn memorized"
                             onClick={() => setReviewTime(Infinity)}
-                            disabled={!feedback}
                         >
                             Đã nhớ
                         </button>
                     </div>
 
                     <div className="navigation-buttons">
-                        <button 
+                        <button
                             className="nav-btn"
                             onClick={handlePrevious}
                             disabled={currentIndex === 0}
                         >
                             <FaArrowLeft />
                         </button>
-                        <button 
+                        <button
                             className="nav-btn"
                             onClick={handleNext}
                             disabled={currentIndex === vocabToReview.length - 1}
@@ -310,7 +376,8 @@ const VocabularyPractice = ({ vocabulary, onComplete }) => {
 
             {/* Hint */}
             <div className="practice-hint">
-                💡 Mẹo: Sau khi kiểm tra, chọn thời gian bạn muốn ôn lại từ này. Nhấn Enter để nhập lại nếu sai. Nhấn <FaKeyboard style={{verticalAlign: 'middle'}} /> để xem phím tắt!
+                💡 Mẹo: Nhập từ tiếng Anh và nhấn Enter để kiểm tra, hoặc chọn thời gian ôn lại trực tiếp nếu đã biết từ. Nhấn{' '}
+                <FaKeyboard style={{ verticalAlign: 'middle' }} /> để xem phím tắt!
             </div>
         </div>
     );

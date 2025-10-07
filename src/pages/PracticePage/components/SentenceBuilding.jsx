@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { FaRobot, FaCheckCircle } from 'react-icons/fa';
-import { createSentenceExercises, gradeUserAnswer } from '../../../services/sentencePracticeService';
+import { FaRobot, FaCheckCircle, FaLightbulb } from 'react-icons/fa';
+import { createSentenceExercises, gradeUserAnswer, getExerciseHint } from '../../../services/sentencePracticeService';
 import Button from '../../../components/common/Button';
 
 const SentenceBuilding = () => {
@@ -11,6 +11,9 @@ const SentenceBuilding = () => {
     const [results, setResults] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [checkingStates, setCheckingStates] = useState({});
+    const [hints, setHints] = useState({});
+    const [loadingHints, setLoadingHints] = useState({});
+    const [showHints, setShowHints] = useState({});
     const [error, setError] = useState('');
 
     const handleCreateExercises = async () => {
@@ -25,6 +28,8 @@ const SentenceBuilding = () => {
         setExercises([]);
         setUserAnswers({});
         setResults({});
+        setHints({});
+        setShowHints({});
 
         try {
             const generatedExercises = await createSentenceExercises(vocabList, difficulty);
@@ -74,6 +79,35 @@ const SentenceBuilding = () => {
         }
     };
 
+    const handleGetHint = async (index) => {
+        const exercise = exercises[index];
+        
+        // If hint is already visible, toggle it off
+        if (showHints[index]) {
+            setShowHints(prev => ({ ...prev, [index]: false }));
+            return;
+        }
+
+        // If hint doesn't exist yet, fetch it
+        if (!hints[index]) {
+            setLoadingHints(prev => ({ ...prev, [index]: true }));
+            try {
+                const hint = await getExerciseHint(exercise.englishWord, exercise.vietnameseSentence);
+                setHints(prev => ({ ...prev, [index]: hint }));
+            } catch (err) {
+                setHints(prev => ({
+                    ...prev,
+                    [index]: { vocabulary: [], grammar: 'Không thể lấy gợi ý. Vui lòng thử lại.' }
+                }));
+            } finally {
+                setLoadingHints(prev => ({ ...prev, [index]: false }));
+            }
+        }
+
+        // Show the hint
+        setShowHints(prev => ({ ...prev, [index]: true }));
+    };
+
     return (
         <div className="sentence-practice-container">
             <h2>Thực hành đặt câu tiếng Anh với AI <FaRobot /></h2>
@@ -116,12 +150,50 @@ const SentenceBuilding = () => {
                     <h3>Bài tập của bạn ({exercises.length} câu)</h3>
                     {exercises.map((ex, index) => {
                         const result = results[index];
+                        const hint = hints[index];
                         return (
                             <div key={index} className="exercise-item">
                                 <div className="exercise-number">Câu {index + 1}</div>
-                                <p className="vietnamese-sentence">
-                                    <strong>Câu tiếng Việt:</strong> {ex.vietnameseSentence}
-                                </p>
+                                <div className="vietnamese-sentence-wrapper">
+                                    <p className="vietnamese-sentence">
+                                        <strong>Câu tiếng Việt:</strong> {ex.vietnameseSentence}
+                                    </p>
+                                    <button
+                                        className="hint-button"
+                                        onClick={() => handleGetHint(index)}
+                                        disabled={loadingHints[index]}
+                                        title="Xem gợi ý"
+                                    >
+                                        <FaLightbulb />
+                                    </button>
+                                </div>
+                                {showHints[index] && hint && (
+                                    <div className="hint-section">
+                                        <div className="hint-content">
+                                            <strong>💡 Gợi ý từ AI:</strong>
+                                            {Array.isArray(hint.vocabulary) && hint.vocabulary.length > 0 && (
+                                                <div className="hint-vocabulary">
+                                                    <strong style={{ color: 'var(--color-green)' }}>Từ vựng: </strong>
+                                                    <span className="vocabulary-inline" >
+                                                        {hint.vocabulary.map(({ word, meaning }, idx) => (
+                                                            <span key={`${word}-${idx}`} className="vocab-item" style={{display:'flex', gap: '0 6px'}}>
+                                                                <strong style={{ color: 'var(--color-green)' }}>{word}</strong>: {meaning}
+                                                            </span>
+                                                        ))}
+                                                    </span>
+                                                </div>
+                                            )}
+                                            {hint.grammar && (
+                                                <p className="hint-grammar">
+                                                     <i>{hint.grammar}</i>
+                                                </p>
+                                            )}
+                                            {(!Array.isArray(hint.vocabulary) || hint.vocabulary.length === 0) && !hint.grammar && (
+                                                <p className="hint-empty">Chưa có gợi ý phù hợp cho câu này.</p>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
                                 <p className="keyword">
                                     <strong>Từ khóa:</strong> <span className="highlight">{ex.englishWord}</span>
                                 </p>
@@ -146,9 +218,16 @@ const SentenceBuilding = () => {
                                 {result && (
                                     <div className={`feedback-section ${result.correct ? 'correct' : 'incorrect'}`}>
                                         {result.correct ? (
-                                            <p className="feedback-text success">
-                                                <strong>✓ Chính xác!</strong> {result.feedback}
-                                            </p>
+                                            <>
+                                                <p className="feedback-text success">
+                                                    <strong>✓ Chính xác!</strong> {result.feedback}
+                                                </p>
+                                                {result.explanation && (
+                                                    <p className="explanation-text">
+                                                        <strong>Giải thích:</strong> {result.explanation}
+                                                    </p>
+                                                )}
+                                            </>
                                         ) : (
                                             <>
                                                 <p className="feedback-text">

@@ -1,28 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FaExchangeAlt, FaBookOpen } from 'react-icons/fa';
 import Button from '../../../components/common/Button.jsx';
-import VocabularyPractice from './VocabularyPractice/VocabularyPractice.jsx';
 
-const VocabularyStep = ({ lesson, onStartPractice }) => {
-    const [isPracticing, setIsPracticing] = useState(false);
-
-    const handleStartVocabPractice = () => {
-        setIsPracticing(true);
-    };
-
-    const handleCompletePractice = () => {
-        setIsPracticing(false);
-    };
-
-    if (isPracticing) {
-        return (
-            <VocabularyPractice 
-                vocabulary={lesson.vocabulary}
-                onComplete={handleCompletePractice}
-            />
-        );
-    }
-
+const VocabularyStep = ({ lesson, onStartPractice, onStartVocabPractice }) => {
     return (
         <div className="practice-step vocab-step">
             <h2>Học Từ Vựng: {lesson.title}</h2>
@@ -36,8 +16,8 @@ const VocabularyStep = ({ lesson, onStartPractice }) => {
                 ))}
             </div>
             <div className="vocab-actions">
-                <Button onClick={handleStartVocabPractice}>
-                    <FaBookOpen /> Luyện từ vựng
+                <Button onClick={onStartVocabPractice}>
+                    <FaBookOpen /> Học từ vựng
                 </Button>
                 <Button onClick={onStartPractice}>
                     <FaExchangeAlt /> Bắt đầu luyện dịch

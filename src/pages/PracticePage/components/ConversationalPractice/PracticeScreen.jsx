@@ -18,7 +18,7 @@ const PracticeScreen = ({ settings, onBackToSettings }) => {
             <div className="practice-header-bar">
                 <div className="header-info">
                     <h2>
-                        <FaComments /> Luyện Giao Tiếp
+                        <FaComments /> Luyện Viết Câu Đơn
                     </h2>
                     <div className="filter-info">
                         <span className="filter-tag">Độ khó: {settings.difficulty === 'all' ? 'Tất cả' : settings.difficulty}</span>
@@ -31,7 +31,7 @@ const PracticeScreen = ({ settings, onBackToSettings }) => {
             </div>
 
             <p className="page-description">
-                Thực hành dịch các mẫu câu giao tiếp thông dụng từ Tiếng Việt sang Tiếng Anh và nhận phản hồi từ AI.
+                Thực hành viết câu đơn tiếng Anh từ câu tiếng Việt và nhận phản hồi từ AI.
             </p>
 
             {filteredSentences.length === 0 ? (

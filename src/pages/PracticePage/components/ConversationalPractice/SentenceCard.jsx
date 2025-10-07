@@ -1,12 +1,29 @@
 import React, { useState } from 'react';
-import { FaCheckCircle } from 'react-icons/fa';
-import { gradeConversationalTranslation } from '../../../../services/conversationalAIService';
+import { FaCheckCircle, FaLightbulb, FaSpinner } from 'react-icons/fa';
+import { gradeConversationalTranslation, getConversationalHint } from '../../../../services/conversationalAIService';
 import Button from '../../../../components/common/Button';
+
+const parseMarkdownBold = (text) => {
+    if (!text) return text;
+    
+    const parts = text.split(/(\*\*.*?\*\*)/g);
+    return parts.map((part, index) => {
+        if (part.startsWith('**') && part.endsWith('**')) {
+            const content = part.slice(2, -2);
+            return <strong key={index} className="markdown-bold">{content}</strong>;
+        }
+        return part;
+    });
+};
 
 const SentenceCard = ({ sentence, index, total }) => {
     const [userInput, setUserInput] = useState('');
     const [feedback, setFeedback] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [showHint, setShowHint] = useState(false);
+    const [hint, setHint] = useState(null);
+    const [hintError, setHintError] = useState(null);
+    const [isHintLoading, setIsHintLoading] = useState(false);
 
     const handleCheck = async () => {
         if (!userInput.trim()) return;
@@ -28,6 +45,24 @@ const SentenceCard = ({ sentence, index, total }) => {
         }
     };
 
+    const toggleHint = async () => {
+        const nextShowHint = !showHint;
+        setShowHint(nextShowHint);
+
+        if (nextShowHint && !hint && !isHintLoading) {
+            setIsHintLoading(true);
+            setHintError(null);
+            try {
+                const aiHint = await getConversationalHint(sentence.vietnamese);
+                setHint(aiHint);
+            } catch (error) {
+                setHintError(error.message || 'Không thể tải gợi ý.');
+            } finally {
+                setIsHintLoading(false);
+            }
+        }
+    };
+
     return (
         <div className="conversation-item">
             <div className="item-header">
@@ -38,7 +73,56 @@ const SentenceCard = ({ sentence, index, total }) => {
                 <span className="category-badge">{sentence.category}</span>
             </div>
             
-            <p className="vietnamese-text">{sentence.vietnamese}</p>
+            <div className="vietnamese-sentence-wrapper">
+                <p className="vietnamese-text">{sentence.vietnamese}</p>
+                <button
+                    className="hint-button"
+                    onClick={toggleHint}
+                    title="Xem gợi ý"
+                >
+                    <FaLightbulb />
+                </button>
+            </div>
+
+            {showHint && (
+                <div className="hint-section">
+                    <div className="hint-content">
+                        <strong>💡 Gợi ý từ AI:</strong>
+                        {isHintLoading && (
+                            <p className="hint-loading">
+                                <FaSpinner /> Đang lấy gợi ý...
+                            </p>
+                        )}
+                        {hintError && !isHintLoading && (
+                            <p className="hint-error">{hintError}</p>
+                        )}
+                        {hint && !isHintLoading && !hintError && (
+                            <>
+                                {Array.isArray(hint.vocabulary) && hint.vocabulary.length > 0 && (
+                                    <div className="hint-vocabulary">
+                                        <strong>� Từ vựng:</strong>
+                                        <ul>
+                                            {hint.vocabulary.map(({ word, meaning }, idx) => (
+                                                <li key={`${word}-${idx}`} style={{display:'flex', gap: '0 6px'}}>
+                                                    <strong>{word}</strong>: {meaning}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                                {hint.grammar && (
+                                    <p className="hint-grammar" style={{display:'flex', gap: '0 6px', fontSize:'16px'}}>
+                                        <i>{parseMarkdownBold(hint.grammar)}</i>
+                                    </p>
+                                )}
+                                {(!Array.isArray(hint.vocabulary) || hint.vocabulary.length === 0) && !hint.grammar && (
+                                    <p className="hint-empty">Chưa có gợi ý phù hợp cho câu này.</p>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </div>
+            )}
             
             <div className="answer-wrapper">
                 <input
@@ -60,16 +144,38 @@ const SentenceCard = ({ sentence, index, total }) => {
             {feedback && (
                 <div className={`feedback-bubble ${feedback.correct ? 'correct' : 'incorrect'}`}>
                     {feedback.correct ? (
-                        <p className="success-message">
-                            <strong>✓ Chính xác!</strong> {feedback.feedback}
-                        </p>
+                        <>
+                            <p className="success-message">
+                                <strong>✓ Chính xác!</strong> <span style={{ color: 'var(--color-green)' }}>{parseMarkdownBold(feedback.feedback)}</span>
+                            </p>
+                            {feedback.grammar && (
+                                <p className="grammar-explanation">
+                                    <strong>📚 Ngữ pháp:</strong> {parseMarkdownBold(feedback.grammar)}
+                                </p>
+                            )}
+                            {feedback.suggestion && (
+                                <p className="alternative-suggestion">
+                                    <strong>💬 Cách khác:</strong> {parseMarkdownBold(feedback.suggestion)}
+                                </p>
+                            )}
+                            {feedback.explanation && (
+                                <p className="explanation-text">
+                                    <strong>Giải thích:</strong> {parseMarkdownBold(feedback.explanation)}
+                                </p>
+                            )}
+                        </>
                     ) : (
                         <>
                             <p className="feedback-text">
-                                <strong>Nhận xét:</strong> {feedback.feedback}
+                                <strong>Nhận xét:</strong> {parseMarkdownBold(feedback.feedback)}
                             </p>
+                            {feedback.grammar && (
+                                <p className="grammar-explanation">
+                                    <strong>📚 Gợi ý Ngữ pháp:</strong> {parseMarkdownBold(feedback.grammar)}
+                                </p>
+                            )}
                             <p className="suggestion-text">
-                                <strong>Gợi ý:</strong> {feedback.suggestion}
+                                <strong>✏️ Gợi ý câu:</strong> {parseMarkdownBold(feedback.suggestion)}
                             </p>
                         </>
                     )}
