@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaCheckCircle, FaLightbulb, FaSpinner, FaMedal } from 'react-icons/fa'; 
 import { gradeConversationalTranslation, getConversationalHint } from '../../../../services/conversationalAIService';
 import Button from '../../../../components/common/Button';
+import { saveCorrectAnswer, getCorrectAnswerForSentence } from '../../../../utils/storageHelpers';
 
 const parseMarkdownBold = (text) => {
     if (!text) return text;
@@ -25,6 +26,14 @@ const SentenceCard = ({ sentence, index, total, isCompleted, onComplete }) => {
     const [hintError, setHintError] = useState(null);
     const [isHintLoading, setIsHintLoading] = useState(false);
 
+    // Load đáp án cũ khi component mount
+    useEffect(() => {
+        const savedAnswer = getCorrectAnswerForSentence(sentence.id);
+        if (savedAnswer) {
+            setUserInput(savedAnswer);
+        }
+    }, [sentence.id]);
+
     const handleCheck = async () => {
         if (!userInput.trim()) return;
         setIsLoading(true);
@@ -34,6 +43,9 @@ const SentenceCard = ({ sentence, index, total, isCompleted, onComplete }) => {
             setFeedback(result);
             
             if (result && result.correct) {
+                // Lưu đáp án đúng vào localStorage
+                saveCorrectAnswer(sentence, userInput);
+                
                 if (onComplete) {
                     onComplete();
                 }
