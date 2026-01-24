@@ -1,6 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 
-const apiKey = import.meta.env.VITE_GEMINI_API_KEY_2 || '';
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY || '';
 if (!apiKey) {
     console.error("Gemini API Key is not set.");
 }

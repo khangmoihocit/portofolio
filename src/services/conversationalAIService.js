@@ -1,6 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 
-const apiKey = import.meta.env.VITE_GEMINI_API_KEY_3 || '';
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY || '';
 
 if (!apiKey) {
     console.error("Gemini API Key for conversational service is not set.");
@@ -35,7 +35,7 @@ Yêu cầu:
 
     try {
         const response = await ai.models.generateContent({
-            model: "gemini-2.0-flash",
+            model: "gemini-2.5-flash-lite",
             contents: prompt,
         });
     const text = response.text.replace(/```json|```/g, '').trim();
@@ -45,6 +45,8 @@ Yêu cầu:
         throw new Error("AI đang bận, không thể chấm điểm lúc này. Vui lòng thử lại sau!");
     }
 };
+
+
 
 /**
  * Lấy gợi ý học tập cho câu hội thoại: từ vựng quan trọng và cấu trúc ngữ pháp.
