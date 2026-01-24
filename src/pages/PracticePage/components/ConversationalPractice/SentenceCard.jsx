@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FaCheckCircle, FaLightbulb, FaSpinner } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaCheckCircle, FaLightbulb, FaSpinner, FaMedal } from 'react-icons/fa'; 
 import { gradeConversationalTranslation, getConversationalHint } from '../../../../services/conversationalAIService';
 import Button from '../../../../components/common/Button';
 
@@ -16,7 +16,7 @@ const parseMarkdownBold = (text) => {
     });
 };
 
-const SentenceCard = ({ sentence, index, total }) => {
+const SentenceCard = ({ sentence, index, total, isCompleted, onComplete }) => {
     const [userInput, setUserInput] = useState('');
     const [feedback, setFeedback] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +32,12 @@ const SentenceCard = ({ sentence, index, total }) => {
         try {
             const result = await gradeConversationalTranslation(sentence.vietnamese, userInput);
             setFeedback(result);
+            
+            if (result && result.correct) {
+                if (onComplete) {
+                    onComplete();
+                }
+            }
         } catch (error) {
             setFeedback({ correct: false, feedback: 'Lỗi', suggestion: error.message });
         } finally {
@@ -64,27 +70,37 @@ const SentenceCard = ({ sentence, index, total }) => {
     };
 
     return (
-        <div className="conversation-item">
+        <div className={`conversation-item ${isCompleted ? 'completed-item' : ''}`}> 
             <div className="item-header">
                 <span className="item-number">Câu {index} / {total}</span>
                 <span className={`difficulty-badge ${sentence.difficulty.toLowerCase().replace(' ', '-')}`}>
                     {sentence.difficulty}
                 </span>
                 <span className="category-badge">{sentence.category}</span>
+                
+                {isCompleted && (
+                    <span className="completed-badge" style={{ 
+                        marginLeft: 'auto', 
+                        color: 'var(--color-green)', 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        gap: '5px',
+                        fontSize: '0.9rem',
+                        fontWeight: 'bold'
+                    }}>
+                        <FaMedal /> Đã hoàn thành
+                    </span>
+                )}
             </div>
             
             <div className="vietnamese-sentence-wrapper">
                 <p className="vietnamese-text">{sentence.vietnamese}</p>
-                <button
-                    className="hint-button"
-                    onClick={toggleHint}
-                    title="Xem gợi ý"
-                >
+                <button className="hint-button" onClick={toggleHint} title="Xem gợi ý">
                     <FaLightbulb />
                 </button>
             </div>
 
-            {showHint && (
+             {showHint && (
                 <div className="hint-section">
                     <div className="hint-content">
                         <strong>💡 Gợi ý từ AI:</strong>
@@ -100,7 +116,7 @@ const SentenceCard = ({ sentence, index, total }) => {
                             <>
                                 {Array.isArray(hint.vocabulary) && hint.vocabulary.length > 0 && (
                                     <div className="hint-vocabulary">
-                                        <strong>� Từ vựng:</strong>
+                                        <strong>📖 Từ vựng:</strong>
                                         <ul>
                                             {hint.vocabulary.map(({ word, meaning }, idx) => (
                                                 <li key={`${word}-${idx}`} style={{display:'flex', gap: '0 6px'}}>
@@ -123,7 +139,7 @@ const SentenceCard = ({ sentence, index, total }) => {
                     </div>
                 </div>
             )}
-            
+
             <div className="answer-wrapper">
                 <input
                     type="text"
@@ -132,12 +148,13 @@ const SentenceCard = ({ sentence, index, total }) => {
                     onKeyPress={handleKeyPress}
                     placeholder="Nhập câu tiếng Anh của bạn..."
                     disabled={isLoading}
+                    className={isCompleted && !userInput ? 'input-completed' : ''}
                 />
                 <Button onClick={handleCheck} disabled={isLoading || !userInput.trim()}>
                     {isLoading ? 'Đang kiểm tra...' : 'Kiểm tra'}
                 </Button>
-                {feedback?.correct && (
-                    <FaCheckCircle className="correct-icon" title="Chính xác!" />
+                {(feedback?.correct || (isCompleted && !feedback)) && (
+                    <FaCheckCircle className="correct-icon" title="Đã hoàn thành!" />
                 )}
             </div>
             

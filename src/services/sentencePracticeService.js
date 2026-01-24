@@ -1,6 +1,6 @@
 import { GoogleGenAI } from '@google/genai';
 
-const apiKey = import.meta.env.VITE_GEMINI_API_KEY_1 || '';
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY || '';
 
 if (!apiKey) {
     console.error("Gemini API Key is not set in environment variables.");
@@ -115,7 +115,7 @@ export const gradeUserAnswer = async (englishWord, vietnameseSentence, userAnswe
 
     try {
         const response = await ai.models.generateContent({
-            model: "gemini-2.0-flash",
+            model: "gemini-2.5-flash-lite",
             contents: prompt,
         });
         const text = response.text.replace(/```json|```/g, '').trim();
