@@ -7,7 +7,6 @@ const PERSONAL_INFO = {
     address: 'Mỹ Đức, Hà Nội, Việt Nam',
     freelance: 'Có sẵn',
     profession: 'Backend Developer / Frontend Developer',
-    university: 'Đại học Mở Hà Nội',
     major: 'Công nghệ thông tin',
     status: 'Sinh viên năm 3',
     skills: {
@@ -50,7 +49,7 @@ export function createSystemPrompt() {
 
         **BỐI CẢNH QUAN TRỌNG:**
         - **Thời gian hiện tại:** ${dateTimeString}.
-        - **Model:** Bạn đang hoạt động trên model gemini-2.5-flash.
+        - **Model:** Bạn đang hoạt động trên model gemini-1.5-flash.
 
         **VAI TRÒ CỦA BẠN:**
         1.  **Trợ lý của Khang:** Cung cấp thông tin chính xác về kỹ năng, dự án, học vấn và các dịch vụ mà Khang cung cấp dựa trên dữ liệu CONTEXT bên dưới.

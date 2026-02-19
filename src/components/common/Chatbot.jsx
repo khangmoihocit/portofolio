@@ -61,7 +61,9 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
         setRequestStartTime(Date.now());
 
         try {
+            console.log('[Chatbot] Sending message:', currentInput);
             const botResponseText = await getGeminiResponse(currentInput, messages);
+            console.log('[Chatbot] Received response, length:', botResponseText?.length);
             const responseTime = Date.now() - requestStartTime;
             setLastResponseTime(responseTime);
 
@@ -73,7 +75,11 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
             };
             setMessages(prev => [...prev, botMessage]);
         } catch (error) {
-            console.error('Lỗi sau nhiều lần thử lại:', error);
+            console.error('[Chatbot] Error details:', {
+                message: error.message,
+                stack: error.stack,
+                name: error.name
+            });
             const finalErrorMessage = {
                 id: Date.now() + 1,
                 sender: 'bot',
