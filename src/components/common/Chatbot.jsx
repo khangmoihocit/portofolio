@@ -42,12 +42,37 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
     const [showPerformancePanel, setShowPerformancePanel] = useState(false);
     const [requestStartTime, setRequestStartTime] = useState(null);
     const [lastResponseTime, setLastResponseTime] = useState(null);
+    const [typingMessageId, setTypingMessageId] = useState(null);
+    const [displayedText, setDisplayedText] = useState('');
     const messagesEndRef = useRef(null);
     const inputRef = useRef(null);
+    const typingIntervalRef = useRef(null);
     const { metrics, healthScore, trends, recommendations, isHealthy } = useLoadBalancerMonitor();
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    const typewriterEffect = (text, messageId) => {
+        // Clear any existing typing effect
+        if (typingIntervalRef.current) {
+            clearInterval(typingIntervalRef.current);
+        }
+
+        setTypingMessageId(messageId);
+        setDisplayedText('');
+        let currentIndex = 0;
+
+        typingIntervalRef.current = setInterval(() => {
+            if (currentIndex < text.length) {
+                setDisplayedText(text.substring(0, currentIndex + 1));
+                currentIndex++;
+            } else {
+                clearInterval(typingIntervalRef.current);
+                typingIntervalRef.current = null;
+                setTypingMessageId(null);
+            }
+        }, 10); // Speed: 10ms per character (adjust for faster/slower typing)
     };
 
     const handleSendMessage = async () => {
@@ -67,26 +92,41 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
             const responseTime = Date.now() - requestStartTime;
             setLastResponseTime(responseTime);
 
+            const botMessageId = Date.now() + 1;
+            const botText = botResponseText || 'Xin lỗi, tôi không thể trả lời câu hỏi này lúc này. Bạn có thể thử hỏi về kỹ năng, dự án, hoặc kinh nghiệm của Khang không? 😅';
+            
             const botMessage = {
-                id: Date.now() + 1,
+                id: botMessageId,
                 sender: 'bot',
-                text: botResponseText || 'Xin lỗi, tôi không thể trả lời câu hỏi này lúc này. Bạn có thể thử hỏi về kỹ năng, dự án, hoặc kinh nghiệm của Khang không? 😅',
+                text: botText,
                 responseTime
             };
+            
             setMessages(prev => [...prev, botMessage]);
+            
+            // Start typing effect for the bot message
+            typewriterEffect(botText, botMessageId);
         } catch (error) {
             console.error('[Chatbot] Error details:', {
                 message: error.message,
                 stack: error.stack,
                 name: error.name
             });
+            
+            const errorMessageId = Date.now() + 1;
+            const errorText = 'Rất tiếc, đã có lỗi xảy ra và không thể xử lý yêu cầu của bạn lúc này. Tin nhắn của bạn đã được khôi phục, bạn có thể thử gửi lại. 🙏';
+            
             const finalErrorMessage = {
-                id: Date.now() + 1,
+                id: errorMessageId,
                 sender: 'bot',
-                text: 'Rất tiếc, đã có lỗi xảy ra và không thể xử lý yêu cầu của bạn lúc này. Tin nhắn của bạn đã được khôi phục, bạn có thể thử gửi lại. 🙏',
+                text: errorText,
                 isError: true
             };
             setMessages(prev => [...prev, finalErrorMessage]);
+            
+            // Apply typing effect to error message too
+            typewriterEffect(errorText, errorMessageId);
+            
             setInputValue(currentInput); // Khôi phục lại tin nhắn của người dùng
         } finally {
             setIsLoading(false);
@@ -96,6 +136,14 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
     };
 
     const handleRefresh = () => {
+        // Clear typing effect
+        if (typingIntervalRef.current) {
+            clearInterval(typingIntervalRef.current);
+            typingIntervalRef.current = null;
+        }
+        setTypingMessageId(null);
+        setDisplayedText('');
+        
         setMessages(initialMessages);
         setInputValue('');
         setIsLoading(false);
@@ -139,7 +187,16 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
 
     useEffect(() => {
         scrollToBottom();
-    }, [messages]);
+    }, [messages, displayedText]);
+
+    // Cleanup typing effect on unmount
+    useEffect(() => {
+        return () => {
+            if (typingIntervalRef.current) {
+                clearInterval(typingIntervalRef.current);
+            }
+        };
+    }, []);
 
     return (
         <div className={`chatbot-widget ${isFullScreen ? 'chatbot-widget__fullscreen' : ''}`}>
@@ -244,11 +301,26 @@ const Chatbot = ({ handleClose, onFullScreenChange }) => {
 
             <main className='chatbot-messages'>
                 <p className='chatbot-messages__date'>{currentDate}</p>
-                {messages.map(msg => (
-                    <div key={msg.id} className={`message-bubble message-bubble--${msg.sender}`}>
-                        <div className='message-content' dangerouslySetInnerHTML={{ __html: msg.text.replace(/\n/g, '<br/>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>') }} />
-                    </div>
-                ))}
+                {messages.map(msg => {
+                    const isCurrentlyTyping = msg.id === typingMessageId;
+                    const textToDisplay = isCurrentlyTyping ? displayedText : msg.text;
+                    
+                    return (
+                        <div key={msg.id} className={`message-bubble message-bubble--${msg.sender}`}>
+                            <div className='message-content'>
+                                <span
+                                    dangerouslySetInnerHTML={{ 
+                                        __html: textToDisplay
+                                            .replace(/\n/g, '<br/>')
+                                            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                                            .replace(/\*(.*?)\*/g, '<em>$1</em>') 
+                                    }} 
+                                />
+                                {isCurrentlyTyping && <span className='typing-cursor'>▋</span>}
+                            </div>
+                        </div>
+                    );
+                })}
                 {isLoading && (
                     <div className='message-bubble message-bubble--bot is-typing'>
                         <span></span><span></span><span></span>
