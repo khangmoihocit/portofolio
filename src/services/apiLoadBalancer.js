@@ -138,6 +138,7 @@ class ApiLoadBalancer {
             this.recordSuccess(keyIndex, responseTime);
             request.resolve(response);
         } catch (error) {
+            console.error(`[API Error] Key ${keyIndex + 1} failed:`, error.message);
             const responseTime = Date.now() - startTime;
             this.recordFailure(keyIndex, error, responseTime);
             request.attempts++;
@@ -164,7 +165,7 @@ class ApiLoadBalancer {
         if (!apiKey) throw new Error(`API key không hợp lệ tại index ${keyIndex}`);
         const genAI = new GoogleGenerativeAI(apiKey);
         
-        const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash', systemInstruction: createSystemPrompt() });
+        const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash', systemInstruction: createSystemPrompt() });
 
         const firstUserMessageIndex = conversationHistory.findIndex(msg => msg.sender === 'user');
         const validHistorySlice = firstUserMessageIndex === -1 ? [] : conversationHistory.slice(firstUserMessageIndex);
