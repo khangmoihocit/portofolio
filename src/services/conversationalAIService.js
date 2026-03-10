@@ -1,18 +1,58 @@
 import { GoogleGenAI } from '@google/genai';
 
-const apiKey = import.meta.env.VITE_GEMINI_API_KEY || '';
+const apiKeys = [
+    import.meta.env.VITE_GEMINI_API_KEY,
+    import.meta.env.VITE_GEMINI_API_KEY_1,
+    import.meta.env.VITE_GEMINI_API_KEY_2,
+    import.meta.env.VITE_GEMINI_API_KEY_3
+].filter(key => key && key.trim() !== '');
 
-if (!apiKey) {
-    console.error("Gemini API Key for conversational service is not set.");
+if (apiKeys.length === 0) {
+    console.error("Gemini API Keys for conversational service are not set.");
 }
 
-const ai = new GoogleGenAI({ apiKey });
+const aiInstances = apiKeys.map(key => new GoogleGenAI({ apiKey: key }));
+
+let currentKeyIndex = 0;
+
+/**
+ * Hàm trợ giúp (Helper function) gọi Gemini API với cơ chế Fallback.
+ * Sẽ thử tối đa bằng số lượng API key đang có.
+ * @param {string} prompt - Nội dung prompt cần gửi
+ * @returns {Promise<string>} - Text phản hồi từ AI
+ */
+const callGeminiWithFallback = async (prompt) => {
+    const totalKeys = aiInstances.length;
+    if (totalKeys === 0) {
+        throw new Error("Không có API key nào khả dụng.");
+    }
+
+    let lastError = null;
+
+    // Vòng lặp để thử các key. Thử tối đa số lần bằng số lượng key.
+    for (let i = 0; i < totalKeys; i++) {
+        const ai = aiInstances[currentKeyIndex];
+        const keyIndexUsed = currentKeyIndex;
+
+        // Cập nhật index cho lần gọi sau (hoặc vòng lặp retry sau) để xoay vòng
+        currentKeyIndex = (currentKeyIndex + 1) % totalKeys;
+
+        try {
+            const response = await ai.models.generateContent({
+                model: "gemini-2.5-flash-lite",
+                contents: prompt,
+            });
+            return response.text;
+        } catch (error) {
+            lastError = error;
+        }
+    }
+
+    throw lastError;
+};
 
 /**
  * Đánh giá câu dịch của người dùng khi luyện viết câu đơn.
- * @param {string} vietnameseSentence - Câu tiếng Việt gốc.
- * @param {string} userAnswer - Câu trả lời tiếng Anh của người dùng.
- * @returns {Promise<{correct: boolean, feedback: string, grammar: string, suggestion: string, explanation?: string}>}
  */
 export const gradeConversationalTranslation = async (vietnameseSentence, userAnswer) => {
     const prompt = ` Bạn là một giáo viên tiếng Anh tỉ mỉ và chuyên sâu về ngữ pháp. Người dùng được cho câu tiếng Việt "${vietnameseSentence}". Họ đã viết câu tiếng Anh sau: "${userAnswer}".
@@ -34,24 +74,18 @@ Yêu cầu:
 `;
 
     try {
-        const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash-lite",
-            contents: prompt,
-        });
-    const text = response.text.replace(/```json|```/g, '').trim();
-    return JSON.parse(text);
+        // Dùng hàm helper thay vì gọi trực tiếp
+        const textResponse = await callGeminiWithFallback(prompt);
+        const text = textResponse.replace(/```json|```/g, '').trim();
+        return JSON.parse(text);
     } catch (error) {
         console.error("Error grading conversational answer:", error);
-        throw new Error("AI đang bận, không thể chấm điểm lúc này. Vui lòng thử lại sau!");
+        throw new Error("Hệ thống AI đang quá tải, vui lòng thử lại sau vài giây!");
     }
 };
 
-
-
 /**
  * Lấy gợi ý học tập cho câu hội thoại: từ vựng quan trọng và cấu trúc ngữ pháp.
- * @param {string} vietnameseSentence - Câu tiếng Việt gốc.
- * @returns {Promise<{vocabulary: Array<{word: string, meaning: string}>, grammar: string}>}
  */
 export const getConversationalHint = async (vietnameseSentence) => {
     const prompt = `
@@ -73,11 +107,8 @@ Yêu cầu:
 `;
 
     try {
-        const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash-lite",
-            contents: prompt,
-        });
-        const text = response.text.replace(/```json|```/g, '').trim();
+        const textResponse = await callGeminiWithFallback(prompt);
+        const text = textResponse.replace(/```json|```/g, '').trim();
         const parsed = JSON.parse(text);
 
         const vocabulary = Array.isArray(parsed.vocabulary)
@@ -95,6 +126,6 @@ Yêu cầu:
         };
     } catch (error) {
         console.error("Error fetching conversational hint:", error);
-        throw new Error("AI đang bận, không thể tạo gợi ý lúc này. Vui lòng thử lại sau!");
+        throw new Error("Hệ thống AI đang quá tải, không thể tạo gợi ý lúc này. Vui lòng thử lại sau vài giây!");
     }
 };
